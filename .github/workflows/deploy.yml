@@ -1,0 +1,43 @@
+name: Deploy to Hostinger VPS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH to VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          password: ${{ secrets.VPS_PASSWORD }}
+          port: 22
+          script: |
+            echo "🚀 Starting deployment on VPS..."
+            cd /var/www/pork-survey
+            
+            # Pull latest changes from GitHub
+            git fetch origin main
+            git reset --hard origin/main
+            
+            # Build React Frontend
+            echo "📦 Building Frontend..."
+            cd frontend
+            npm install
+            npm run build
+            
+            # Update Backend & Restart PM2
+            echo "⚙️ Updating Backend..."
+            cd ../backend
+            npm install
+            pm2 restart pork-survey-api || pm2 start server.js --name "pork-survey-api"
+            
+            echo "✅ Deployment Successful!"
