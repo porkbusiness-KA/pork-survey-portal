@@ -5,7 +5,11 @@ USE pork_survey_db;
 -- Table for Surveys
 CREATE TABLE IF NOT EXISTS surveys (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    country VARCHAR(100) DEFAULT 'India',
+    state VARCHAR(100) DEFAULT 'Karnataka',
     district VARCHAR(100) NOT NULL,
+    taluk VARCHAR(150) DEFAULT '',
+    village VARCHAR(255) DEFAULT '',
     place VARCHAR(255) NOT NULL,
     pincode VARCHAR(20) NOT NULL,
     shop_name VARCHAR(255) NOT NULL,
