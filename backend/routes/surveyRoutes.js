@@ -38,11 +38,13 @@ const upload = multer({
 });
 
 // API Routes
+router.get('/surveys/stats', surveyController.getSurveyStats);
+router.get('/stats', surveyController.getSurveyStats);
+router.get('/surveys/export', surveyController.exportCSV);
+router.get('/export', surveyController.exportCSV);
 router.post('/surveys', upload.array('images', 5), surveyController.createSurvey);
 router.get('/surveys', surveyController.getAllSurveys);
 router.get('/surveys/:id', surveyController.getSurveyById);
 router.delete('/surveys/:id', surveyController.deleteSurvey);
-router.get('/stats', surveyController.getSurveyStats);
-router.get('/export', surveyController.exportCSV);
 
 module.exports = router;
