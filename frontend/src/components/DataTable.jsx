@@ -14,6 +14,8 @@ export default function DataTable({ surveys, onSelectSurvey, onSurveyDeleted, on
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
+  const dynamicDistricts = Array.from(new Set(surveys.map(s => s.district).filter(Boolean))).sort();
+
   // Filter surveys
   const filteredSurveys = surveys.filter(item => {
     const matchesSearch = search.trim() === '' ||
@@ -22,6 +24,7 @@ export default function DataTable({ surveys, onSelectSurvey, onSurveyDeleted, on
       item.place?.toLowerCase().includes(search.toLowerCase()) ||
       item.taluk?.toLowerCase().includes(search.toLowerCase()) ||
       item.village?.toLowerCase().includes(search.toLowerCase()) ||
+      item.district?.toLowerCase().includes(search.toLowerCase()) ||
       item.pincode?.includes(search);
 
     const matchesDistrict = selectedDistrict === 'All' || item.district === selectedDistrict;
@@ -107,8 +110,8 @@ export default function DataTable({ surveys, onSelectSurvey, onSurveyDeleted, on
               className="form-select"
             >
               <option value="All">All Districts (ಎಲ್ಲಾ ಜಿಲ್ಲೆಗಳು)</option>
-              {DISTRICTS.map(d => (
-                <option key={d.id} value={d.id}>{d.en}</option>
+              {dynamicDistricts.map(d => (
+                <option key={d} value={d}>{d}</option>
               ))}
             </select>
           </div>

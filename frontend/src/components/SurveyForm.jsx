@@ -121,31 +121,21 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           const villageName = firstPO.Name || '';
           const areaNames = postOffices.map(po => po.Name);
 
-          // Map district to our dropdown list
-          let matchedDistrict = 'Other District';
-          const lower = distName.toLowerCase();
-          if (lower.includes('bangalore') || lower.includes('bengaluru')) {
-            matchedDistrict = lower.includes('rural') ? 'Bengaluru Rural' : 'Bengaluru Urban';
-          } else if (lower.includes('kolar')) {
-            matchedDistrict = 'Kolar District';
-          } else if (lower.includes('ramanagar')) {
-            matchedDistrict = 'Ramanagara District';
-          }
-
-          const combinedPlace = `${villageName}${talukName ? `, ${talukName} Taluk` : ''}`;
+          const exactDistrict = distName || 'Karnataka';
+          const combinedPlace = `${villageName}${talukName ? `, ${talukName} Taluk` : ''}${exactDistrict ? `, ${exactDistrict}` : ''}`;
 
           setPincodeAreas(areaNames);
-          setPincodeSuccess(`📍 Found: ${villageName} (Taluk: ${talukName || 'N/A'}, District: ${distName})`);
+          setPincodeSuccess(`📍 Found: ${villageName} | Taluk: ${talukName || 'N/A'} | District: ${exactDistrict} | State: ${stateName}`);
           setFormData(prev => ({
             ...prev,
             pincode: pin,
             country: countryName,
             state: stateName,
-            district: matchedDistrict,
+            district: exactDistrict,
             taluk: talukName,
             village: villageName,
             place: combinedPlace,
-            location_link: `https://maps.google.com/?q=${encodeURIComponent(`${villageName}, ${talukName ? `${talukName} Taluk, ` : ''}${distName}, ${stateName} ${pin}`)}`
+            location_link: `https://maps.google.com/?q=${encodeURIComponent(`${villageName}, ${talukName ? `${talukName} Taluk, ` : ''}${exactDistrict}, ${stateName} ${pin}`)}`
           }));
         } else {
           setPincodeSuccess(null);
@@ -463,22 +453,21 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
               />
             </div>
 
-            {/* DISTRICT SELECTOR */}
+            {/* DISTRICT (DYNAMIC AUTO-FILLED) */}
             <div className="form-group">
               <label className="form-label">
                 District <span className="required-star">*</span>
                 <span className="kannada-text" style={{ display: 'block' }}>(ಜಿಲ್ಲೆ)</span>
               </label>
-              <select
+              <input
+                type="text"
                 name="district"
-                value={formData.district}
+                value={formData.district || ''}
                 onChange={handleChange}
-                className="form-select"
-              >
-                {DISTRICTS.map(d => (
-                  <option key={d.id} value={d.id}>{d.en} - {d.kn}</option>
-                ))}
-              </select>
+                placeholder="e.g. Bangalore, Kolar, Ramanagar, Tumkur"
+                className="form-input"
+                required
+              />
             </div>
 
             {/* TALUK / BLOCK */}
