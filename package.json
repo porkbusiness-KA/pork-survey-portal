@@ -1,0 +1,11 @@
+{
+  "name": "pork-survey-portal-root",
+  "version": "1.0.0",
+  "description": "Pork Retail Shop Outlet Survey Portal - React & Express & MySQL",
+  "scripts": {
+    "start": "cmd /c \"cd backend && npm start\"",
+    "dev:backend": "cmd /c \"cd backend && npm start\"",
+    "dev:frontend": "cmd /c \"cd frontend && npm run dev\"",
+    "seed": "cmd /c \"cd backend && node seed.js\""
+  }
+}

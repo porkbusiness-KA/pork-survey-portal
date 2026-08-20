@@ -1,0 +1,250 @@
+import React from 'react';
+import {
+  X, MapPin, Store, User, Clock, Users, ShoppingBag,
+  DollarSign, CheckSquare, Award, Phone, ExternalLink,
+  Calendar, ShieldCheck, AlertTriangle, Image as ImageIcon
+} from 'lucide-react';
+
+export default function ShopDetailModal({ survey, onClose }) {
+  if (!survey) return null;
+
+  const holidays = Array.isArray(survey.holiday_days) ? survey.holiday_days : [];
+  const peakDays = Array.isArray(survey.peak_customer_days) ? survey.peak_customer_days : [];
+  const meatTypes = Array.isArray(survey.meat_types) ? survey.meat_types : [];
+  const processedConsumption = Array.isArray(survey.processed_meat_consumption) ? survey.processed_meat_consumption : [];
+  const masalas = Array.isArray(survey.masalas_available) ? survey.masalas_available : [];
+  const images = Array.isArray(survey.shop_images) ? survey.shop_images : [];
+
+  return (
+    <div style={{
+      position: 'fixed',
+      inset: 0,
+      background: 'rgba(0, 0, 0, 0.65)',
+      backdropFilter: 'blur(8px)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 100,
+      padding: '1.5rem'
+    }} onClick={onClose}>
+      
+      <div
+        className="glass-card animate-fade-in"
+        style={{
+          width: '100%',
+          maxWidth: '900px',
+          maxHeight: '90vh',
+          overflowY: 'auto',
+          padding: '2rem',
+          position: 'relative',
+          background: 'var(--modal-bg)',
+          border: '1px solid var(--border-color)',
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          style={{
+            position: 'absolute',
+            top: '1.25rem',
+            right: '1.25rem',
+            background: 'var(--bg-card-subtle)',
+            border: '1px solid var(--border-color)',
+            color: 'var(--text-main)',
+            borderRadius: '50%',
+            width: '36px',
+            height: '36px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer'
+          }}
+        >
+          <X size={20} />
+        </button>
+
+        {/* Modal Header */}
+        <div style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '1.25rem', marginBottom: '1.5rem' }}>
+          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '0.5rem' }}>
+            <span className="badge badge-primary">{survey.district}</span>
+            <span className="badge badge-emerald">Survey ID #{survey.id}</span>
+            <span className="badge badge-amber">★ {survey.cleanliness_rating}/5 Rating</span>
+          </div>
+
+          <h2 style={{ fontSize: '1.65rem', marginBottom: '0.35rem' }}>
+            {survey.shop_name}
+          </h2>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+            <MapPin size={16} color="#e11d48" />
+            <span>{survey.place}, Pincode: {survey.pincode}</span>
+          </div>
+        </div>
+
+        {/* 28 Survey Details Grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.5rem', marginBottom: '1.75rem' }}>
+          
+          {/* Group 1: Ownership & Experience */}
+          <div style={{ background: 'var(--bg-card-subtle)', padding: '1.25rem', borderRadius: '14px', border: '1px solid var(--border-color)' }}>
+            <h4 style={{ color: '#e11d48', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <User size={16} /> Owner & SPOC Details
+            </h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.88rem' }}>
+              <div><strong style={{ color: 'var(--text-muted)' }}>Shop Owner:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.owner_name}</span></div>
+              <div><strong style={{ color: 'var(--text-muted)' }}>SPOC Name:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.spoc_name || survey.owner_name}</span></div>
+              <div><strong style={{ color: 'var(--text-muted)' }}>SPOC Mobile:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.spoc_mobile || 'Not provided'}</span></div>
+              <div><strong style={{ color: 'var(--text-muted)' }}>Years in Operation:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.years_in_business || 0} years</span></div>
+            </div>
+          </div>
+
+          {/* Group 2: Timings & Operations */}
+          <div style={{ background: 'var(--bg-card-subtle)', padding: '1.25rem', borderRadius: '14px', border: '1px solid var(--border-color)' }}>
+            <h4 style={{ color: '#e11d48', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <Clock size={16} /> Timings & Holidays
+            </h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.88rem' }}>
+              <div><strong style={{ color: 'var(--text-muted)' }}>Opening Time:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.opening_time}</span></div>
+              <div><strong style={{ color: 'var(--text-muted)' }}>Closing Time:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.closing_time}</span></div>
+              <div>
+                <strong style={{ color: 'var(--text-muted)' }}>Weekly Holidays:</strong>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem', marginTop: '0.3rem' }}>
+                  {holidays.map((h, i) => (
+                    <span key={i} className="badge badge-gray" style={{ fontSize: '0.72rem' }}>{h}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Group 3: Workforce & Customers */}
+          <div style={{ background: 'var(--bg-card-subtle)', padding: '1.25rem', borderRadius: '14px', border: '1px solid var(--border-color)' }}>
+            <h4 style={{ color: '#e11d48', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <Users size={16} /> Staff & Customer Footfall
+            </h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.88rem' }}>
+              <div><strong style={{ color: 'var(--text-muted)' }}>Number of Workers:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.workers_count}</span></div>
+              <div><strong style={{ color: 'var(--text-muted)' }}>Daily Customer Footfall:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.daily_customers}</span></div>
+              <div><strong style={{ color: 'var(--text-muted)' }}>Customer Demographics:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.customer_type}</span></div>
+              <div>
+                <strong style={{ color: 'var(--text-muted)' }}>Peak Days:</strong>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem', marginTop: '0.3rem' }}>
+                  {peakDays.map((d, i) => (
+                    <span key={i} className="badge badge-indigo" style={{ fontSize: '0.72rem' }}>{d}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Group 4: Meat Sales & Pricing */}
+          <div style={{ background: 'var(--bg-card-subtle)', padding: '1.25rem', borderRadius: '14px', border: '1px solid var(--border-color)' }}>
+            <h4 style={{ color: '#e11d48', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <ShoppingBag size={16} /> Products, Rates & Sourcing
+            </h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.88rem' }}>
+              <div><strong style={{ color: 'var(--text-muted)' }}>Regular Meat Rate:</strong> <span style={{ color: '#059669', fontWeight: '700' }}>₹{survey.regular_meat_rate} / Kg</span></div>
+              <div><strong style={{ color: 'var(--text-muted)' }}>Average Daily Sale:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.average_daily_sale_kg} Kg/day</span></div>
+              <div><strong style={{ color: 'var(--text-muted)' }}>Procurement Source:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.procurement_source || 'Not specified'}</span></div>
+              <div>
+                <strong style={{ color: 'var(--text-muted)' }}>Meat Types Available:</strong>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem', marginTop: '0.3rem' }}>
+                  {meatTypes.map((m, i) => (
+                    <span key={i} className="badge badge-primary" style={{ fontSize: '0.72rem' }}>{m}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Group 5: Masalas & Processed Products */}
+          <div style={{ background: 'var(--bg-card-subtle)', padding: '1.25rem', borderRadius: '14px', border: '1px solid var(--border-color)' }}>
+            <h4 style={{ color: '#e11d48', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <Award size={16} /> Masalas & Processed Meat
+            </h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.88rem' }}>
+              <div>
+                <strong style={{ color: 'var(--text-muted)' }}>Pork Masalas Available:</strong>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem', marginTop: '0.3rem' }}>
+                  {masalas.map((masala, i) => (
+                    <span key={i} className="badge badge-amber" style={{ fontSize: '0.72rem' }}>{masala}</span>
+                  ))}
+                </div>
+              </div>
+              <div style={{ marginTop: '0.4rem' }}>
+                <strong style={{ color: 'var(--text-muted)' }}>Processed Meat Consumption:</strong>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem', marginTop: '0.3rem' }}>
+                  {processedConsumption.map((p, i) => (
+                    <span key={i} className="badge badge-emerald" style={{ fontSize: '0.72rem' }}>{p}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Group 6: BBMP Trade License & Cleanliness */}
+          <div style={{ background: 'var(--bg-card-subtle)', padding: '1.25rem', borderRadius: '14px', border: '1px solid var(--border-color)' }}>
+            <h4 style={{ color: '#e11d48', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <ShieldCheck size={16} /> Licensing & Hygiene
+            </h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.88rem' }}>
+              <div>
+                <strong style={{ color: 'var(--text-muted)' }}>BBMP Trade License:</strong>{' '}
+                <span style={{ color: survey.bbmp_license_issued === 'Yes' ? '#059669' : '#d97706', fontWeight: '700' }}>
+                  {survey.bbmp_license_issued}
+                </span>
+              </div>
+              <div><strong style={{ color: 'var(--text-muted)' }}>Issues in Procuring:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.bbmp_license_issues}</span></div>
+              {survey.bbmp_issue_reasons && (
+                <div><strong style={{ color: 'var(--text-muted)' }}>Reason:</strong> <span style={{ color: 'var(--text-main)' }}>{survey.bbmp_issue_reasons}</span></div>
+              )}
+              <div><strong style={{ color: 'var(--text-muted)' }}>Cleanliness Score:</strong> <span style={{ color: '#d97706', fontWeight: '700' }}>{'★'.repeat(survey.cleanliness_rating || 3)} ({survey.cleanliness_rating}/5)</span></div>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Uploaded Photos Section */}
+        {images.length > 0 && (
+          <div style={{ marginBottom: '1.75rem' }}>
+            <h4 style={{ color: 'var(--text-main)', fontSize: '1rem', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <ImageIcon size={18} color="#e11d48" /> Uploaded Shop Photos ({images.length})
+            </h4>
+            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+              {images.map((imgUrl, i) => (
+                <a key={i} href={imgUrl} target="_blank" rel="noreferrer" style={{ display: 'block', width: '120px', height: '100px', borderRadius: '10px', overflow: 'hidden', border: '1px solid var(--border-color)' }}>
+                  <img src={imgUrl} alt="Shop" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Location Link Action Button */}
+        {survey.location_link && (
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(225, 29, 72, 0.08)', padding: '1rem 1.25rem', borderRadius: '12px', border: '1px solid rgba(225, 29, 72, 0.2)', flexWrap: 'wrap', gap: '1rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <MapPin size={20} color="#e11d48" />
+              <div>
+                <div style={{ fontWeight: '700', color: 'var(--text-main)', fontSize: '0.95rem' }}>Google Maps Location Pin</div>
+                <div style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>{survey.location_link}</div>
+              </div>
+            </div>
+
+            <a
+              href={survey.location_link}
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-primary"
+              style={{ fontSize: '0.88rem' }}
+            >
+              <ExternalLink size={16} />
+              <span>Open in Google Maps</span>
+            </a>
+          </div>
+        )}
+
+      </div>
+    </div>
+  );
+}
