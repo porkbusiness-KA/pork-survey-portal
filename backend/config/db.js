@@ -21,7 +21,11 @@ async function initDatabase() {
     const createTableQuery = `
       CREATE TABLE IF NOT EXISTS surveys (
         id INT AUTO_INCREMENT PRIMARY KEY,
+        country VARCHAR(100) DEFAULT 'India',
+        state VARCHAR(100) DEFAULT 'Karnataka',
         district VARCHAR(100) NOT NULL,
+        taluk VARCHAR(150) DEFAULT '',
+        village VARCHAR(255) DEFAULT '',
         place VARCHAR(255) NOT NULL,
         pincode VARCHAR(20) NOT NULL,
         shop_name VARCHAR(255) NOT NULL,
@@ -60,6 +64,17 @@ async function initDatabase() {
     `;
 
     await connection.query(createTableQuery);
+
+    // Auto-migration for existing tables: add new columns if missing
+    try {
+      await connection.query(`ALTER TABLE surveys ADD COLUMN IF NOT EXISTS country VARCHAR(100) DEFAULT 'India'`);
+      await connection.query(`ALTER TABLE surveys ADD COLUMN IF NOT EXISTS state VARCHAR(100) DEFAULT 'Karnataka'`);
+      await connection.query(`ALTER TABLE surveys ADD COLUMN IF NOT EXISTS taluk VARCHAR(150) DEFAULT ''`);
+      await connection.query(`ALTER TABLE surveys ADD COLUMN IF NOT EXISTS village VARCHAR(255) DEFAULT ''`);
+    } catch (migErr) {
+      // Ignore if syntax or column exists
+    }
+
     console.log(' Surveys table verified/created successfully.');
     connection.release();
   } catch (error) {

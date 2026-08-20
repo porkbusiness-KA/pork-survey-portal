@@ -20,6 +20,8 @@ export default function DataTable({ surveys, onSelectSurvey, onSurveyDeleted, on
       item.shop_name?.toLowerCase().includes(search.toLowerCase()) ||
       item.owner_name?.toLowerCase().includes(search.toLowerCase()) ||
       item.place?.toLowerCase().includes(search.toLowerCase()) ||
+      item.taluk?.toLowerCase().includes(search.toLowerCase()) ||
+      item.village?.toLowerCase().includes(search.toLowerCase()) ||
       item.pincode?.includes(search);
 
     const matchesDistrict = selectedDistrict === 'All' || item.district === selectedDistrict;

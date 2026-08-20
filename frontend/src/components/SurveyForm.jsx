@@ -16,8 +16,12 @@ import { submitSurvey } from '../services/api';
 
 export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onSwitchToRecords }) {
   const initialFormState = {
+    country: 'India',
+    state: 'Karnataka',
     district: 'Bengaluru Urban',
-    place: '',
+    taluk: 'Bangalore North',
+    village: 'Shivajinagar',
+    place: 'Shivajinagar, Bangalore North',
     pincode: '',
     shop_name: '',
     owner_name: '',
@@ -64,7 +68,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
   const [successModalData, setSuccessModalData] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  // AUTO-FETCH LOCATION FROM PINCODE
+  // AUTO-FETCH FULL LOCATION HIERARCHY (Country, State, District, Taluk, Village)
   const handlePincodeLookup = async (code) => {
     const pin = (code || '').trim();
     if (pin.length !== 6 || !/^\d{6}$/.test(pin)) {
@@ -78,16 +82,24 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
     // 1. Check offline local database first for instant lookup
     if (PINCODE_DATABASE[pin]) {
       const entry = PINCODE_DATABASE[pin];
+      const talukName = entry.taluk || '';
+      const villageName = entry.village || entry.areas?.[0] || entry.place;
+      const combinedPlace = `${villageName}${talukName ? `, ${talukName} Taluk` : ''}`;
+
       setPincodeAreas(entry.areas || [entry.place]);
-      setPincodeSuccess(`📍 Found: ${entry.place}, ${entry.district}`);
+      setPincodeSuccess(`📍 Found: ${villageName} (Taluk: ${talukName || 'N/A'}, District: ${entry.district})`);
       setFormData(prev => ({
         ...prev,
         pincode: pin,
+        country: entry.country || 'India',
+        state: entry.state || 'Karnataka',
         district: entry.district,
-        place: prev.place || entry.place,
+        taluk: talukName,
+        village: villageName,
+        place: combinedPlace,
         latitude: entry.lat || prev.latitude,
         longitude: entry.lng || prev.longitude,
-        location_link: `https://maps.google.com/?q=${entry.lat ? `${entry.lat},${entry.lng}` : encodeURIComponent(entry.place + ', ' + entry.district)}`
+        location_link: `https://maps.google.com/?q=${entry.lat ? `${entry.lat},${entry.lng}` : encodeURIComponent(`${villageName}, ${talukName}, ${entry.district}, ${entry.state || 'Karnataka'} ${pin}`)}`
       }));
       setIsFetchingPincode(false);
       return;
@@ -104,6 +116,9 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           const firstPO = postOffices[0];
           const distName = firstPO.District || '';
           const stateName = firstPO.State || 'Karnataka';
+          const countryName = firstPO.Country || 'India';
+          const talukName = firstPO.Block && firstPO.Block !== 'NA' ? firstPO.Block : (firstPO.Division || '');
+          const villageName = firstPO.Name || '';
           const areaNames = postOffices.map(po => po.Name);
 
           // Map district to our dropdown list
@@ -117,14 +132,20 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
             matchedDistrict = 'Ramanagara District';
           }
 
+          const combinedPlace = `${villageName}${talukName ? `, ${talukName} Taluk` : ''}`;
+
           setPincodeAreas(areaNames);
-          setPincodeSuccess(`📍 Found: ${firstPO.Name}, ${distName}`);
+          setPincodeSuccess(`📍 Found: ${villageName} (Taluk: ${talukName || 'N/A'}, District: ${distName})`);
           setFormData(prev => ({
             ...prev,
             pincode: pin,
+            country: countryName,
+            state: stateName,
             district: matchedDistrict,
-            place: prev.place || firstPO.Name,
-            location_link: `https://maps.google.com/?q=${encodeURIComponent(firstPO.Name + ', ' + distName + ', ' + stateName + ' ' + pin)}`
+            taluk: talukName,
+            village: villageName,
+            place: combinedPlace,
+            location_link: `https://maps.google.com/?q=${encodeURIComponent(`${villageName}, ${talukName ? `${talukName} Taluk, ` : ''}${distName}, ${stateName} ${pin}`)}`
           }));
         } else {
           setPincodeSuccess(null);
@@ -151,11 +172,15 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
   };
 
   const handleSelectArea = (areaName) => {
-    setFormData(prev => ({
-      ...prev,
-      place: areaName,
-      location_link: `https://maps.google.com/?q=${encodeURIComponent(areaName + ', ' + prev.district + ' ' + prev.pincode)}`
-    }));
+    setFormData(prev => {
+      const combinedPlace = `${areaName}${prev.taluk ? `, ${prev.taluk} Taluk` : ''}`;
+      return {
+        ...prev,
+        village: areaName,
+        place: combinedPlace,
+        location_link: `https://maps.google.com/?q=${encodeURIComponent(`${areaName}, ${prev.taluk ? `${prev.taluk} Taluk, ` : ''}${prev.district}, ${prev.state} ${prev.pincode}`)}`
+      };
+    });
   };
 
   // Handle generic inputs
@@ -359,24 +384,24 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
       {/* Survey Form Card */}
       <form onSubmit={handleSubmit}>
         
-        {/* SECTION 1: District, Place & Pincode with Auto-Fetch */}
+        {/* SECTION 1: Complete Location Hierarchy (Country, State, District, Taluk, Village, Pincode) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
               <MapPin size={20} color="#e11d48" />
               <div>
-                <h2 style={{ fontSize: '1.2rem' }}>1. District, Place & Pincode</h2>
-                <p className="kannada-text">ಸ್ಥಳ ಮತ್ತು ಪಿನ್‌ಕೋಡ್ ಆಯ್ಕೆ ಮಾಡಿ</p>
+                <h2 style={{ fontSize: '1.2rem' }}>1. Location & Pincode Hierarchy</h2>
+                <p className="kannada-text">ದೇಶ, ರಾಜ್ಯ, ಜಿಲ್ಲೆ, ತಾಲ್ಲೂಕು, ಗ್ರಾಮ ಮತ್ತು ಪಿನ್‌ಕೋಡ್</p>
               </div>
             </div>
             <span className="badge badge-emerald" style={{ fontSize: '0.75rem' }}>
-              ⚡ Auto-detects from 6-digit Pincode
+              ⚡ Auto-detects Country, State, District, Taluk & Village from Pincode
             </span>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem' }}>
             
-            {/* PINCODE FIELD (WITH AUTO-DETECT) */}
+            {/* PINCODE FIELD (AUTO-LOOKUP) */}
             <div className="form-group">
               <label className="form-label">
                 Pincode <span className="required-star">*</span>
@@ -388,7 +413,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                   name="pincode"
                   value={formData.pincode}
                   onChange={handlePincodeInput}
-                  placeholder="Type 6 digits (e.g. 560051)"
+                  placeholder="Type 6 digits (e.g. 562123, 560051)"
                   maxLength="6"
                   className="form-input"
                   required
@@ -400,15 +425,49 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 )}
               </div>
               <small style={{ color: 'var(--text-muted)', fontSize: '0.76rem', marginTop: '0.35rem', display: 'block' }}>
-                💡 Typing 6 digits auto-fills District, Place & Google Map link!
+                💡 Typing 6 digits auto-fetches State, District, Taluk & Village!
               </small>
+            </div>
+
+            {/* COUNTRY */}
+            <div className="form-group">
+              <label className="form-label">
+                Country <span className="required-star">*</span>
+                <span className="kannada-text" style={{ display: 'block' }}>(ದೇಶ)</span>
+              </label>
+              <input
+                type="text"
+                name="country"
+                value={formData.country || 'India'}
+                onChange={handleChange}
+                placeholder="India"
+                className="form-input"
+                required
+              />
+            </div>
+
+            {/* STATE */}
+            <div className="form-group">
+              <label className="form-label">
+                State <span className="required-star">*</span>
+                <span className="kannada-text" style={{ display: 'block' }}>(ರಾಜ್ಯ)</span>
+              </label>
+              <input
+                type="text"
+                name="state"
+                value={formData.state || 'Karnataka'}
+                onChange={handleChange}
+                placeholder="Karnataka"
+                className="form-input"
+                required
+              />
             </div>
 
             {/* DISTRICT SELECTOR */}
             <div className="form-group">
               <label className="form-label">
-                Select District <span className="required-star">*</span>
-                <span className="kannada-text" style={{ display: 'block' }}>(ಜಿಲ್ಲೆಯನ್ನು ಆಯ್ಕೆ ಮಾಡಿ)</span>
+                District <span className="required-star">*</span>
+                <span className="kannada-text" style={{ display: 'block' }}>(ಜಿಲ್ಲೆ)</span>
               </label>
               <select
                 name="district"
@@ -422,32 +481,66 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
               </select>
             </div>
 
-            {/* PLACE / AREA NAME */}
+            {/* TALUK / BLOCK */}
             <div className="form-group">
               <label className="form-label">
-                Place / Area Name <span className="required-star">*</span>
-                <span className="kannada-text" style={{ display: 'block' }}>(ಸ್ಥಳದ ಹೆಸರು / ಏರಿಯಾ)</span>
+                Taluk / Block / Mandal <span className="required-star">*</span>
+                <span className="kannada-text" style={{ display: 'block' }}>(ತಾಲ್ಲೂಕು / ಬ್ಲಾಕ್)</span>
               </label>
               <input
                 type="text"
-                name="place"
-                value={formData.place}
+                name="taluk"
+                value={formData.taluk || ''}
                 onChange={handleChange}
-                placeholder="e.g. Shivajinagar, Indiranagar, Nelamangala"
+                placeholder="e.g. Nelamangala, Kolar, Bangalore North"
+                className="form-input"
+                required
+              />
+            </div>
+
+            {/* VILLAGE / TOWN / LOCALITY */}
+            <div className="form-group">
+              <label className="form-label">
+                Village / Town / Locality <span className="required-star">*</span>
+                <span className="kannada-text" style={{ display: 'block' }}>(ಗ್ರಾಮ / ಪಟ್ಟಣ / ಏರಿಯಾ)</span>
+              </label>
+              <input
+                type="text"
+                name="village"
+                value={formData.village || ''}
+                onChange={handleChange}
+                placeholder="e.g. Arasinakunte, Shivajinagar"
                 className="form-input"
                 required
               />
             </div>
           </div>
 
-          {/* PINCODE SUCCESS BANNER & AREA CHIPS */}
+          {/* COMBINED PLACE & ADDRESS */}
+          <div className="form-group" style={{ marginTop: '1rem' }}>
+            <label className="form-label">
+              Complete Shop Location / Address <span className="required-star">*</span>
+              <span className="kannada-text" style={{ display: 'block' }}>(ಸ್ಥಳದ ಸಂಪೂರ್ಣ ವಿಳಾಸ)</span>
+            </label>
+            <input
+              type="text"
+              name="place"
+              value={formData.place}
+              onChange={handleChange}
+              placeholder="e.g. Arasinakunte Village, Nelamangala Taluk, Bengaluru Rural"
+              className="form-input"
+              required
+            />
+          </div>
+
+          {/* PINCODE SUCCESS BANNER & VILLAGE / LOCALITY CHIPS */}
           {pincodeSuccess && (
             <div className="animate-fade-in" style={{
               background: 'rgba(16, 185, 129, 0.1)',
               border: '1px solid rgba(16, 185, 129, 0.3)',
               borderRadius: '12px',
               padding: '0.85rem 1rem',
-              marginTop: '0.5rem',
+              marginTop: '0.75rem',
               marginBottom: '0.5rem'
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#059669', fontWeight: '700', fontSize: '0.88rem' }}>
@@ -458,7 +551,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
               {pincodeAreas.length > 1 && (
                 <div style={{ marginTop: '0.6rem' }}>
                   <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', display: 'block', marginBottom: '0.35rem' }}>
-                    Select specific sub-locality under {formData.pincode}:
+                    🏘️ One-tap select village / sub-locality under {formData.pincode}:
                   </span>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
                     {pincodeAreas.map((area, idx) => (
@@ -472,12 +565,12 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                           fontSize: '0.78rem',
                           fontWeight: '600',
                           cursor: 'pointer',
-                          border: formData.place === area ? '1px solid #10b981' : '1px solid var(--border-color)',
-                          background: formData.place === area ? 'rgba(16, 185, 129, 0.2)' : 'var(--bg-card)',
-                          color: formData.place === area ? '#059669' : 'var(--text-main)'
+                          border: formData.village === area || formData.place.includes(area) ? '1px solid #10b981' : '1px solid var(--border-color)',
+                          background: formData.village === area || formData.place.includes(area) ? 'rgba(16, 185, 129, 0.2)' : 'var(--bg-card)',
+                          color: formData.village === area || formData.place.includes(area) ? '#059669' : 'var(--text-main)'
                         }}
                       >
-                        {formData.place === area ? '✓ ' : ''}{area}
+                        {formData.village === area || formData.place.includes(area) ? '✓ ' : ''}{area}
                       </button>
                     ))}
                   </div>

@@ -36,17 +36,21 @@ exports.createSurvey = async (req, res) => {
 
     const query = `
       INSERT INTO surveys (
-        district, place, pincode, shop_name, owner_name, years_in_business,
+        country, state, district, taluk, village, place, pincode, shop_name, owner_name, years_in_business,
         opening_time, closing_time, holiday_days, workers_count, daily_customers,
         peak_customer_days, regular_meat_rate, meat_types, processed_meat_consumption,
         average_daily_sale_kg, procurement_source, customer_type, masalas_available,
         bbmp_license_issued, bbmp_license_issues, bbmp_issue_reasons, cleanliness_rating,
         spoc_name, spoc_mobile, location_link, latitude, longitude, shop_images
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const values = [
+      body.country || 'India',
+      body.state || 'Karnataka',
       body.district || 'Bengaluru Urban',
+      body.taluk || '',
+      body.village || '',
       body.place || '',
       body.pincode || '',
       body.shop_name || '',

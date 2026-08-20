@@ -69,6 +69,8 @@ export default function ShopDetailModal({ survey, onClose }) {
         <div style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '1.25rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '0.5rem' }}>
             <span className="badge badge-primary">{survey.district}</span>
+            {survey.taluk && <span className="badge badge-indigo">Taluk: {survey.taluk}</span>}
+            {survey.village && <span className="badge badge-cyan">Village: {survey.village}</span>}
             <span className="badge badge-emerald">Survey ID #{survey.id}</span>
             <span className="badge badge-amber">★ {survey.cleanliness_rating}/5 Rating</span>
           </div>
@@ -76,9 +78,13 @@ export default function ShopDetailModal({ survey, onClose }) {
           <h2 style={{ fontSize: '1.65rem', marginBottom: '0.35rem' }}>
             {survey.shop_name}
           </h2>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--text-muted)', fontSize: '0.9rem', flexWrap: 'wrap' }}>
             <MapPin size={16} color="#e11d48" />
-            <span>{survey.place}, Pincode: {survey.pincode}</span>
+            <span>
+              {survey.place || [survey.village, survey.taluk, survey.district].filter(Boolean).join(', ')}
+              {survey.pincode ? ` — Pincode: ${survey.pincode}` : ''}
+              {survey.state ? ` (${survey.state}, ${survey.country || 'India'})` : ''}
+            </span>
           </div>
         </div>
 
