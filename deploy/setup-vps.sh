@@ -35,7 +35,7 @@ systemctl enable mysql
 
 # Configure MySQL
 mysql -u root <<EOF
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';
 CREATE DATABASE IF NOT EXISTS pork_survey_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 FLUSH PRIVILEGES;
 EOF
