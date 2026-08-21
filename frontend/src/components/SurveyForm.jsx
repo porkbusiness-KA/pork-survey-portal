@@ -1190,18 +1190,18 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           </div>
         </div>
 
-        {/* SECTION 6: Masala & BBMP Licensing (Q26, Q27, Q28, Q29) */}
+        {/* SECTION 6: Masala Availability (Q26) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
-            <FileCheck size={20} color="#e11d48" />
+            <Sparkles size={20} color="#e11d48" />
             <div>
               <h2 style={{ fontSize: '1.2rem' }}>{t.sec6Title}</h2>
               <p className="kannada-text">{t.sec6Sub}</p>
             </div>
           </div>
 
-          <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-            <label className="form-label" style={{ marginBottom: '0.5rem' }}>
+          <div className="form-group" style={{ margin: 0 }}>
+            <label className="form-label" style={{ marginBottom: '0.6rem' }}>
               {t.q26}
             </label>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '0.6rem' }}>
@@ -1233,9 +1233,20 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
               })}
             </div>
           </div>
+        </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginBottom: '1.25rem' }}>
-            <div className="form-group">
+        {/* SECTION 7: BBMP Trade Licensing (Q27, Q28, Q29) */}
+        <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
+            <FileCheck size={20} color="#e11d48" />
+            <div>
+              <h2 style={{ fontSize: '1.2rem' }}>{t.sec7Title}</h2>
+              <p className="kannada-text">{t.sec7Sub}</p>
+            </div>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginBottom: formData.bbmp_license_issues === 'Yes' ? '1.25rem' : '0' }}>
+            <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label">
                 {t.q27}
               </label>
@@ -1256,7 +1267,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
               </div>
             </div>
 
-            <div className="form-group">
+            <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label">
                 {t.q28}
               </label>
@@ -1279,7 +1290,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           </div>
 
           {formData.bbmp_license_issues === 'Yes' && (
-            <div className="form-group animate-fade-in">
+            <div className="form-group animate-fade-in" style={{ marginTop: '1.25rem', marginBottom: 0 }}>
               <label className="form-label">
                 {t.q29}
               </label>
@@ -1295,13 +1306,13 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           )}
         </div>
 
-        {/* SECTION 7: Cleanliness Rating (Q30) */}
+        {/* SECTION 8: Cleanliness Rating (Q30) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <Award size={20} color="#e11d48" />
             <div>
-              <h2 style={{ fontSize: '1.2rem' }}>{t.sec7Title}</h2>
-              <p className="kannada-text">{t.sec7Sub}</p>
+              <h2 style={{ fontSize: '1.2rem' }}>{t.sec8Title}</h2>
+              <p className="kannada-text">{t.sec8Sub}</p>
             </div>
           </div>
 
@@ -1345,13 +1356,13 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           </div>
         </div>
 
-        {/* SECTION 8: Shop Photos & Map Link (Q31, Q32) */}
+        {/* SECTION 9: Shop Photos & Map Link (Q31, Q32) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '2rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <ImageIcon size={20} color="#e11d48" />
             <div>
-              <h2 style={{ fontSize: '1.2rem' }}>{t.sec8Title}</h2>
-              <p className="kannada-text">{t.sec8Sub}</p>
+              <h2 style={{ fontSize: '1.2rem' }}>{t.sec9Title}</h2>
+              <p className="kannada-text">{t.sec9Sub}</p>
             </div>
           </div>
 
