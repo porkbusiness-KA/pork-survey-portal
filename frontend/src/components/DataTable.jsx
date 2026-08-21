@@ -21,6 +21,8 @@ export default function DataTable({ surveys, onSelectSurvey, onSurveyDeleted, on
     const matchesSearch = search.trim() === '' ||
       item.shop_name?.toLowerCase().includes(search.toLowerCase()) ||
       item.owner_name?.toLowerCase().includes(search.toLowerCase()) ||
+      item.owner_mobile?.includes(search) ||
+      item.spoc_mobile?.includes(search) ||
       item.place?.toLowerCase().includes(search.toLowerCase()) ||
       item.taluk?.toLowerCase().includes(search.toLowerCase()) ||
       item.village?.toLowerCase().includes(search.toLowerCase()) ||

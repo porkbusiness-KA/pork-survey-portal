@@ -36,13 +36,13 @@ exports.createSurvey = async (req, res) => {
 
     const query = `
       INSERT INTO surveys (
-        country, state, district, taluk, village, place, pincode, shop_name, owner_name, years_in_business,
+        country, state, district, taluk, village, place, pincode, shop_name, owner_name, owner_mobile, years_in_business,
         opening_time, closing_time, holiday_days, workers_count, daily_customers,
         peak_customer_days, regular_meat_rate, meat_types, processed_meat_consumption,
         average_daily_sale_kg, procurement_source, customer_type, masalas_available,
         bbmp_license_issued, bbmp_license_issues, bbmp_issue_reasons, cleanliness_rating,
         spoc_name, spoc_mobile, location_link, latitude, longitude, shop_images
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const values = [
@@ -55,6 +55,7 @@ exports.createSurvey = async (req, res) => {
       body.pincode || '',
       body.shop_name || '',
       body.owner_name || '',
+      body.owner_mobile || '',
       parseInt(body.years_in_business || 0, 10),
       body.opening_time || '',
       body.closing_time || '',
@@ -122,9 +123,9 @@ exports.getAllSurveys = async (req, res) => {
     }
 
     if (search) {
-      query += ' AND (shop_name LIKE ? OR owner_name LIKE ? OR place LIKE ? OR pincode LIKE ?)';
+      query += ' AND (shop_name LIKE ? OR owner_name LIKE ? OR owner_mobile LIKE ? OR spoc_mobile LIKE ? OR place LIKE ? OR pincode LIKE ?)';
       const searchPattern = `%${search}%`;
-      params.push(searchPattern, searchPattern, searchPattern, searchPattern);
+      params.push(searchPattern, searchPattern, searchPattern, searchPattern, searchPattern, searchPattern);
     }
 
     query += ' ORDER BY created_at DESC';
@@ -311,12 +312,12 @@ exports.exportCSV = async (req, res) => {
     const [rows] = await pool.query('SELECT * FROM surveys ORDER BY id ASC');
 
     const headers = [
-      'ID', 'District', 'Place', 'Pincode', 'Shop Name', 'Owner Name', 'Years in Business',
-      'Opening Time', 'Closing Time', 'Weekly Holidays', 'Workers Count', 'Daily Customers',
-      'Peak Customer Days', 'Regular Meat Rate (INR/Kg)', 'Meat Types Available',
-      'Processed Meat Consumption', 'Average Daily Sale (Kg)', 'Wholesale Meat Procured From',
-      'Customer Type', 'Pork Masalas Available', 'BBMP Trade License Issued',
-      'Issues in Procuring BBMP License', 'Reason for License Issues', 'Cleanliness Rating (1-5)',
+      'Survey ID', 'Country', 'State', 'District', 'Taluk', 'Village', 'Place', 'Pincode', 'Shop Name', 'Owner Name', 'Owner Mobile',
+      'Years in Business', 'Opening Time', 'Closing Time', 'Weekly Holidays',
+      'Workers Count', 'Daily Customers', 'Peak Days', 'Meat Rate (Rs/Kg)',
+      'Meat Types Sold', 'Processed Meat Consumption', 'Daily Sales (Kg)',
+      'Procurement Source', 'Customer Profile', 'Masalas Available',
+      'BBMP License Issued', 'BBMP Issues Faced', 'BBMP Issue Reasons', 'Cleanliness Rating (1-5)',
       'SPOC Name', 'SPOC Mobile Number', 'Shop Location Link', 'Latitude', 'Longitude', 'Submission Date'
     ];
 
@@ -332,11 +333,16 @@ exports.exportCSV = async (req, res) => {
     for (const r of rows) {
       csvRows.push([
         escapeCSV(r.id),
+        escapeCSV(r.country || 'India'),
+        escapeCSV(r.state || 'Karnataka'),
         escapeCSV(r.district),
+        escapeCSV(r.taluk || ''),
+        escapeCSV(r.village || ''),
         escapeCSV(r.place),
         escapeCSV(r.pincode),
         escapeCSV(r.shop_name),
         escapeCSV(r.owner_name),
+        escapeCSV(r.owner_mobile || ''),
         escapeCSV(r.years_in_business),
         escapeCSV(r.opening_time),
         escapeCSV(r.closing_time),

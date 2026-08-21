@@ -30,6 +30,7 @@ async function initDatabase() {
         pincode VARCHAR(20) NOT NULL,
         shop_name VARCHAR(255) NOT NULL,
         owner_name VARCHAR(255) NOT NULL,
+        owner_mobile VARCHAR(20) DEFAULT '',
         years_in_business INT DEFAULT 0,
         opening_time VARCHAR(50) NOT NULL,
         closing_time VARCHAR(50) NOT NULL,
@@ -65,15 +66,24 @@ async function initDatabase() {
 
     await connection.query(createTableQuery);
 
-    // Auto-migration for existing tables: add new columns if missing
-    try {
-      await connection.query(`ALTER TABLE surveys ADD COLUMN IF NOT EXISTS country VARCHAR(100) DEFAULT 'India'`);
-      await connection.query(`ALTER TABLE surveys ADD COLUMN IF NOT EXISTS state VARCHAR(100) DEFAULT 'Karnataka'`);
-      await connection.query(`ALTER TABLE surveys ADD COLUMN IF NOT EXISTS taluk VARCHAR(150) DEFAULT ''`);
-      await connection.query(`ALTER TABLE surveys ADD COLUMN IF NOT EXISTS village VARCHAR(255) DEFAULT ''`);
-    } catch (migErr) {
-      // Ignore if syntax or column exists
-    }
+    // Auto-migration helper for existing tables
+    const addColumnIfNotExists = async (columnName, columnDefinition) => {
+      try {
+        const [existing] = await connection.query(`SHOW COLUMNS FROM surveys LIKE ?`, [columnName]);
+        if (existing.length === 0) {
+          await connection.query(`ALTER TABLE surveys ADD COLUMN ${columnName} ${columnDefinition}`);
+          console.log(` Added column: ${columnName}`);
+        }
+      } catch (err) {
+        console.warn(`Column check warning for ${columnName}:`, err.message);
+      }
+    };
+
+    await addColumnIfNotExists('country', "VARCHAR(100) DEFAULT 'India'");
+    await addColumnIfNotExists('state', "VARCHAR(100) DEFAULT 'Karnataka'");
+    await addColumnIfNotExists('taluk', "VARCHAR(150) DEFAULT ''");
+    await addColumnIfNotExists('village', "VARCHAR(255) DEFAULT ''");
+    await addColumnIfNotExists('owner_mobile', "VARCHAR(20) DEFAULT ''");
 
     console.log(' Surveys table verified/created successfully.');
     connection.release();

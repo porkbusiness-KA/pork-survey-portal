@@ -25,6 +25,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
     pincode: '',
     shop_name: '',
     owner_name: '',
+    owner_mobile: '',
     years_in_business: '',
     opening_time: '08:00 AM',
     closing_time: '08:30 PM',
@@ -654,6 +655,23 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 placeholder="e.g. Francis Fernandes"
                 className="form-input"
                 required
+              />
+            </div>
+
+            {/* Owner's Mobile Number */}
+            <div className="form-group">
+              <label className="form-label">
+                Owner's Mobile Number
+                <span className="kannada-text" style={{ display: 'block' }}>(ಮಾಲೀಕರ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ)</span>
+              </label>
+              <input
+                type="tel"
+                name="owner_mobile"
+                value={formData.owner_mobile || ''}
+                onChange={handleChange}
+                placeholder="e.g. 9845012345"
+                maxLength="12"
+                className="form-input"
               />
             </div>
 
