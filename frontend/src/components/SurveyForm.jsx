@@ -185,6 +185,29 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
   // Toggle multi-select array values
   const handleMultiToggle = (field, item) => {
+    // Special logic for holiday_days: mutual exclusion for 'No holiday'
+    if (field === 'holiday_days') {
+      setFormData(prev => {
+        const currentList = prev[field] || [];
+        const NO_HOLIDAY = 'No holiday';
+        if (item === NO_HOLIDAY) {
+          // If selecting 'No holiday' → clear everything, set only 'No holiday'
+          if (currentList.includes(NO_HOLIDAY)) {
+            return { ...prev, [field]: [] }; // deselect No holiday
+          }
+          return { ...prev, [field]: [NO_HOLIDAY] };
+        } else {
+          // Selecting a specific day → remove 'No holiday' if present
+          const withoutNoHoliday = currentList.filter(x => x !== NO_HOLIDAY);
+          if (withoutNoHoliday.includes(item)) {
+            return { ...prev, [field]: withoutNoHoliday.filter(x => x !== item) };
+          }
+          return { ...prev, [field]: [...withoutNoHoliday, item] };
+        }
+      });
+      return;
+    }
+    // Default toggle for other fields
     setFormData(prev => {
       const currentList = prev[field] || [];
       if (currentList.includes(item)) {
@@ -757,32 +780,69 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
               10. On which day the shop will be holiday?
               <span className="kannada-text" style={{ display: 'block' }}>(ಯಾವ ದಿನ ಅಂಗಡಿಯನ್ನು ಮುಚ್ಚಲಾಗುತ್ತದೆ?)</span>
             </label>
+
+            {/* No holiday banner */}
+            {formData.holiday_days.includes('No holiday') && (
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: '0.5rem',
+                background: 'rgba(16,185,129,0.09)', border: '1px solid rgba(16,185,129,0.3)',
+                borderRadius: '10px', padding: '0.55rem 0.9rem', marginBottom: '0.75rem'
+              }}>
+                <span style={{ fontSize: '1rem' }}>🎉</span>
+                <span style={{ fontSize: '0.84rem', color: '#059669', fontWeight: '600' }}>
+                  Shop has no weekly holiday — open all days!
+                </span>
+                <span style={{ fontSize: '0.77rem', color: 'var(--text-muted)', marginLeft: 'auto' }}>
+                  Deselect &ldquo;No holiday&rdquo; to pick specific days
+                </span>
+              </div>
+            )}
+
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '0.6rem' }}>
               {HOLIDAY_OPTIONS.map(opt => {
+                const NO_HOLIDAY = 'No holiday';
+                const noHolidayActive = formData.holiday_days.includes(NO_HOLIDAY);
                 const isSelected = formData.holiday_days.includes(opt.id);
+                // Disable regular day options when 'No holiday' is selected
+                const isDisabled = noHolidayActive && opt.id !== NO_HOLIDAY;
+
                 return (
                   <label
                     key={opt.id}
+                    title={isDisabled ? 'Deselect "No holiday" first to pick specific days' : ''}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
                       gap: '0.5rem',
                       padding: '0.6rem 0.85rem',
                       borderRadius: '10px',
-                      background: isSelected ? 'rgba(225, 29, 72, 0.12)' : 'var(--bg-card-subtle)',
-                      border: isSelected ? '1px solid #e11d48' : '1px solid var(--border-color)',
-                      cursor: 'pointer',
-                      transition: 'all 0.15s ease'
+                      background: isSelected
+                        ? (opt.id === NO_HOLIDAY ? 'rgba(16,185,129,0.13)' : 'rgba(225,29,72,0.12)')
+                        : isDisabled ? 'rgba(0,0,0,0.04)' : 'var(--bg-card-subtle)',
+                      border: isSelected
+                        ? (opt.id === NO_HOLIDAY ? '1px solid #10b981' : '1px solid #e11d48')
+                        : '1px solid var(--border-color)',
+                      cursor: isDisabled ? 'not-allowed' : 'pointer',
+                      opacity: isDisabled ? 0.4 : 1,
+                      transition: 'all 0.15s ease',
+                      userSelect: 'none'
                     }}
                   >
                     <input
                       type="checkbox"
                       checked={isSelected}
-                      onChange={() => handleMultiToggle('holiday_days', opt.id)}
-                      style={{ accentColor: '#e11d48' }}
+                      disabled={isDisabled}
+                      onChange={() => !isDisabled && handleMultiToggle('holiday_days', opt.id)}
+                      style={{ accentColor: opt.id === NO_HOLIDAY ? '#10b981' : '#e11d48', cursor: isDisabled ? 'not-allowed' : 'pointer' }}
                     />
                     <div>
-                      <div style={{ fontSize: '0.9rem', color: isSelected ? '#e11d48' : 'var(--text-main)', fontWeight: isSelected ? '600' : 'normal' }}>{opt.en}</div>
+                      <div style={{
+                        fontSize: '0.9rem',
+                        color: isSelected
+                          ? (opt.id === NO_HOLIDAY ? '#059669' : '#e11d48')
+                          : isDisabled ? 'var(--text-dim)' : 'var(--text-main)',
+                        fontWeight: isSelected ? '600' : 'normal'
+                      }}>{opt.en}</div>
                       <div className="kannada-text" style={{ fontSize: '0.72rem' }}>{opt.kn}</div>
                     </div>
                   </label>
