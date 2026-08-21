@@ -1097,63 +1097,65 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           </div>
 
           {/* Q23: Processed Meat Products */}
-          <div className="form-group" style={{ marginBottom: '1.5rem', background: 'var(--bg-card-subtle)', padding: '1rem', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
-            <label className="form-label" style={{ marginBottom: '0.5rem' }}>
+          <div className="form-group" style={{ marginBottom: '1.5rem', background: 'var(--bg-card-subtle)', padding: '1.25rem', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
+            <label className="form-label" style={{ marginBottom: '0.75rem', fontWeight: '700' }}>
               {t.q23}
             </label>
             
-            <div style={{ marginBottom: '0.75rem' }}>
-              <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)', fontWeight: '600', display: 'block', marginBottom: '0.35rem' }}>{t.q23Volume}</span>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                {PROCESSED_VOLUME_OPTIONS.map(v => (
-                  <button
-                    type="button"
-                    key={v}
-                    onClick={() => setFormData(prev => ({ ...prev, processed_meat_volume: v }))}
-                    style={{
-                      padding: '0.35rem 0.8rem',
-                      borderRadius: '8px',
-                      fontSize: '0.82rem',
-                      fontWeight: '600',
-                      cursor: 'pointer',
-                      border: formData.processed_meat_volume === v ? '1px solid #e11d48' : '1px solid var(--border-color)',
-                      background: formData.processed_meat_volume === v ? 'rgba(225, 29, 72, 0.15)' : 'var(--bg-card)',
-                      color: formData.processed_meat_volume === v ? '#e11d48' : 'var(--text-main)'
-                    }}
-                  >
-                    {v}
-                  </button>
-                ))}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem' }}>
+              {/* Dropdown 1: Weekly Volume */}
+              <div>
+                <label className="form-label" style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '0.35rem' }}>
+                  {t.q23Volume}
+                </label>
+                <select
+                  name="processed_meat_volume"
+                  value={formData.processed_meat_volume}
+                  onChange={handleChange}
+                  className="form-select"
+                  style={{ fontSize: '0.92rem' }}
+                >
+                  {PROCESSED_VOLUME_OPTIONS.map(v => (
+                    <option key={v} value={v}>{v}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Dropdown 2: Product Variety */}
+              <div>
+                <label className="form-label" style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '0.35rem' }}>
+                  {t.q23Varieties}
+                </label>
+                <select
+                  name="processed_meat_product"
+                  value={Array.isArray(formData.processed_meat_products) ? (formData.processed_meat_products[0] || 'Ham') : formData.processed_meat_products}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setFormData(prev => ({ ...prev, processed_meat_products: [val] }));
+                  }}
+                  className="form-select"
+                  style={{ fontSize: '0.92rem' }}
+                >
+                  {PROCESSED_PRODUCT_TYPES.map(p => (
+                    <option key={p} value={p}>{p}</option>
+                  ))}
+                </select>
               </div>
             </div>
 
-            <div>
-              <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)', fontWeight: '600', display: 'block', marginBottom: '0.35rem' }}>{t.q23Varieties}</span>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                {PROCESSED_PRODUCT_TYPES.map(p => {
-                  const isSelected = formData.processed_meat_products.includes(p);
-                  return (
-                    <button
-                      type="button"
-                      key={p}
-                      onClick={() => handleMultiToggle('processed_meat_products', p)}
-                      style={{
-                        padding: '0.35rem 0.8rem',
-                        borderRadius: '8px',
-                        fontSize: '0.82rem',
-                        fontWeight: '600',
-                        cursor: 'pointer',
-                        border: isSelected ? '1px solid #059669' : '1px solid var(--border-color)',
-                        background: isSelected ? 'rgba(16, 185, 129, 0.15)' : 'var(--bg-card)',
-                        color: isSelected ? '#059669' : 'var(--text-main)'
-                      }}
-                    >
-                      {isSelected ? '✓ ' : '+ '}{p}
-                    </button>
-                  );
-                })}
+            {(Array.isArray(formData.processed_meat_products) ? formData.processed_meat_products.includes('Others') : formData.processed_meat_products === 'Others') && (
+              <div className="animate-fade-in" style={{ marginTop: '0.85rem' }}>
+                <input
+                  type="text"
+                  name="processed_meat_other"
+                  value={formData.processed_meat_other || ''}
+                  onChange={handleChange}
+                  placeholder={lang === 'kn' ? 'ಇತರ ಸಂಸ್ಕರಿಸಿದ ಮಾಂಸದ ವಿಧ ನಮೂದಿಸಿ...' : 'Specify other processed meat product...'}
+                  className="form-input"
+                  required
+                />
               </div>
-            </div>
+            )}
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
