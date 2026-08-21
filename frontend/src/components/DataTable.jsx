@@ -160,7 +160,7 @@ export default function DataTable({ surveys, onSelectSurvey, onSurveyDeleted, on
                 <th style={{ padding: '1rem', color: 'var(--text-muted)', fontWeight: '700' }}>Rate (₹/Kg)</th>
                 <th style={{ padding: '1rem', color: 'var(--text-muted)', fontWeight: '700' }}>Daily Sale (Kg)</th>
                 <th style={{ padding: '1rem', color: 'var(--text-muted)', fontWeight: '700' }}>BBMP License</th>
-                <th style={{ padding: '1rem', color: 'var(--text-muted)', fontWeight: '700' }}>Rating</th>
+                <th style={{ padding: '1rem', color: 'var(--text-muted)', fontWeight: '700' }}>Ratings (C / B)</th>
                 <th style={{ padding: '1rem', color: 'var(--text-muted)', fontWeight: '700', textAlign: 'right' }}>Actions</th>
               </tr>
             </thead>
@@ -224,9 +224,10 @@ export default function DataTable({ surveys, onSelectSurvey, onSurveyDeleted, on
                     </td>
 
                     <td style={{ padding: '1rem' }}>
-                      <span style={{ color: '#d97706', fontWeight: '700', fontSize: '0.9rem' }}>
-                        {'★'.repeat(item.cleanliness_rating || 3)}
-                      </span>
+                      <div style={{ color: '#d97706', fontWeight: '700', fontSize: '0.9rem', display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+                        <span>C: {'★'.repeat(item.cleanliness_rating || 3)}</span>
+                        <span>B: {'★'.repeat(item.behavior_rating || 4)}</span>
+                      </div>
                     </td>
 
                     <td style={{ padding: '1rem', textAlign: 'right' }}>

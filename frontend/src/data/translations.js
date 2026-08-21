@@ -26,9 +26,9 @@ export const TRANSLATIONS = {
     sec6Sub: 'Masala varieties sold or used in shop',
     sec7Title: '7. BBMP Trade License Status',
     sec7Sub: 'BBMP trade licensing and procurement issues',
-    sec8Title: '8. Cleanliness Rating',
-    sec8Sub: 'Hygiene & cleanliness star rating',
-    sec9Title: '9. Shop Photos & GPS Location Link',
+    sec8Title: '8. Cleanliness & Behavior Rating',
+    sec8Sub: 'Hygiene & attitude star rating',
+    sec9Title: '9. Shop Image & Location Link',
     sec9Sub: 'Photo uploads and map location link',
 
     // Questions
@@ -76,6 +76,7 @@ export const TRANSLATIONS = {
     q32GpsBtn: 'Get Current GPS Link',
     q32Locating: 'Locating...',
     q32Hint: 'Auto-generated when entering Pincode, or click "Get Current GPS Link" for exact live coordinates.',
+    q33: '33. Shopkeeper Behavior/Attitude Feedback (1 to 5 Stars)',
 
     // Buttons & Status
     submitBtn: 'Submit Survey Record',
@@ -121,9 +122,9 @@ export const TRANSLATIONS = {
     sec6Sub: 'ಅಂಗಡಿಯಲ್ಲಿ ಲಭ್ಯವಿರುವ ಮಸಾಲೆಗಳ ವಿವರ',
     sec7Title: '7. ಬಿಬಿಎಂಪಿ ವ್ಯಾಪಾರ ಪರವಾನಗಿ ಸ್ಥಿತಿ',
     sec7Sub: 'BBMP ಟ್ರೇಡ್ ಲೈಸೆನ್ಸ್ ಮತ್ತು ಪರವಾನಗಿ ಸಮಸ್ಯೆಗಳು',
-    sec8Title: '8. ಅಂಗಡಿಯ ಶುಚಿತ್ವದ ರೇಟಿಂಗ್',
-    sec8Sub: 'ಶುಚಿತ್ವದ ಸ್ಟಾರ್ ರೇಟಿಂಗ್ (1 ರಿಂದ 5)',
-    sec9Title: '9. ಅಂಗಡಿಯ ಚಿತ್ರಗಳು ಮತ್ತು GPS ನಕ್ಷೆಯ ಲಿಂಕ್',
+    sec8Title: '8. ಶುಚಿತ್ವ ಮತ್ತು ನಡವಳಿಕೆ ರೇಟಿಂಗ್',
+    sec8Sub: 'ನೈರ್ಮಲ್ಯ ಮತ್ತು ವರ್ತನೆ ಸ್ಟಾರ್ ರೇಟಿಂಗ್',
+    sec9Title: '9. ಅಂಗಡಿಯ ಚಿತ್ರ ಮತ್ತು GPS ನಕ್ಷೆಯ ಲಿಂಕ್',
     sec9Sub: 'ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮತ್ತು ಗೂಗಲ್ ಮ್ಯಾಪ್ ಲಿಂಕ್',
 
     // Questions
@@ -171,6 +172,7 @@ export const TRANSLATIONS = {
     q32GpsBtn: 'ಪ್ರಸ್ತುತ GPS ಲಿಂಕ್ ಪಡೆಯಿರಿ',
     q32Locating: 'ಸ್ಥಳ ಪಡೆಯಲಾಗುತ್ತಿದೆ...',
     q32Hint: 'ಪಿನ್‌ಕೋಡ್ ನಮೂದಿಸಿದಾಗ ಆಟೋ-ಜನರೇಟ್ ಆಗುತ್ತದೆ, ಅಥವಾ ನೇರ ಲೈವ್ GPS ಲಿಂಕ್ ಪಡೆಯಲು ಕ್ಲಿಕ್ ಮಾಡಿ.',
+    q33: '33. ಅಂಗಡಿಯವರ ನಡವಳಿಕೆ / ವರ್ತನೆ ರೇಟಿಂಗ್ (1 ರಿಂದ 5)',
 
     // Buttons & Status
     submitBtn: 'ಸಮೀಕ್ಷಾ ದಾಖಲೆಯನ್ನು ಸಲ್ಲಿಸಿ',
@@ -266,6 +268,7 @@ export const TRANSLATIONS = {
     q32GpsBtn: 'Get Current GPS Link',
     q32Locating: 'Locating...',
     q32Hint: 'Auto-generated when entering Pincode, or click "Get Current GPS Link" for exact live coordinates.',
+    q33: '33. Shopkeeper Behavior/Attitude Feedback (1 to 5 Stars) (ಅಂಗಡಿಯವರ ನಡವಳಿಕೆ / ವರ್ತನೆ ರೇಟಿಂಗ್)',
 
     // Buttons & Status
     submitBtn: 'Submit Survey Record (ಸಮೀಕ್ಷೆ ಸಲ್ಲಿಸಿ)',

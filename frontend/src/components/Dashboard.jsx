@@ -387,9 +387,10 @@ export default function Dashboard({ stats, surveys, onSelectSurvey, onRefresh, o
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.5rem', marginBottom: '0.5rem' }}>
                   <span className="badge badge-primary">{shop.district}</span>
-                  <span style={{ color: '#d97706', fontSize: '0.85rem', fontWeight: '700' }}>
-                    {'★'.repeat(shop.cleanliness_rating || 3)}
-                  </span>
+                  <div style={{ color: '#d97706', fontSize: '0.75rem', fontWeight: '700', display: 'flex', flexDirection: 'column', textAlign: 'right', gap: '0.15rem' }}>
+                    <span>C: {'★'.repeat(shop.cleanliness_rating || 3)}</span>
+                    <span>B: {'★'.repeat(shop.behavior_rating || 4)}</span>
+                  </div>
                 </div>
 
                 <h4 style={{ fontSize: '1.05rem', color: 'var(--text-main)', marginBottom: '0.2rem' }}>

@@ -72,7 +72,8 @@ export default function ShopDetailModal({ survey, onClose }) {
             {survey.taluk && <span className="badge badge-indigo">Taluk: {survey.taluk}</span>}
             {survey.village && <span className="badge badge-cyan">Village: {survey.village}</span>}
             <span className="badge badge-emerald">Survey ID #{survey.id}</span>
-            <span className="badge badge-amber">★ {survey.cleanliness_rating}/5 Rating</span>
+            <span className="badge badge-amber">★ Cleanliness: {survey.cleanliness_rating}/5</span>
+            <span className="badge badge-amber">★ Behavior: {survey.behavior_rating || 4}/5</span>
           </div>
 
           <h2 style={{ fontSize: '1.65rem', marginBottom: '0.35rem' }}>
@@ -206,6 +207,7 @@ export default function ShopDetailModal({ survey, onClose }) {
                 <div><strong style={{ color: 'var(--text-muted)' }}>Reason:</strong> <span style={{ color: 'var(--text-main)' }}>{survey.bbmp_issue_reasons}</span></div>
               )}
               <div><strong style={{ color: 'var(--text-muted)' }}>Cleanliness Score:</strong> <span style={{ color: '#d97706', fontWeight: '700' }}>{'★'.repeat(survey.cleanliness_rating || 3)} ({survey.cleanliness_rating}/5)</span></div>
+              <div><strong style={{ color: 'var(--text-muted)' }}>Behavior/Attitude Score:</strong> <span style={{ color: '#d97706', fontWeight: '700' }}>{'★'.repeat(survey.behavior_rating || 4)} ({survey.behavior_rating || 4}/5)</span></div>
             </div>
           </div>
 
