@@ -417,10 +417,10 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
             </span>
           </div>
 
-          {/* ROW 1: Pincode (full width, prominent) */}
+          {/* ROW 1: Pincode */}
           <div className="form-group" style={{ marginBottom: '1.25rem' }}>
             <label className="form-label" style={{ fontSize: '0.88rem', fontWeight: '700' }}>
-              Pincode <span className="required-star">*</span>
+              1. Pincode <span className="required-star">*</span>
               <span className="kannada-text" style={{ display: 'block', fontWeight: '400', fontSize: '0.78rem' }}>ಪಿನ್‌ಕೋಡ್ (6 ಸಂಖ್ಯೆಗಳು)</span>
             </label>
             <div style={{ position: 'relative', maxWidth: '360px' }}>
@@ -472,7 +472,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '1.25rem' }}>
             <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: '700' }}>
-                Country <span className="required-star">*</span>
+                2. Country <span className="required-star">*</span>
                 <span className="kannada-text" style={{ display: 'block', fontWeight: '400', fontSize: '0.77rem' }}>ದೇಶ</span>
               </label>
               <input
@@ -488,7 +488,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
             </div>
             <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: '700' }}>
-                State <span className="required-star">*</span>
+                3. State <span className="required-star">*</span>
                 <span className="kannada-text" style={{ display: 'block', fontWeight: '400', fontSize: '0.77rem' }}>ರಾಜ್ಯ</span>
               </label>
               <input
@@ -508,7 +508,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '1.25rem' }}>
             <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: '700' }}>
-                District <span className="required-star">*</span>
+                4. District <span className="required-star">*</span>
                 <span className="kannada-text" style={{ display: 'block', fontWeight: '400', fontSize: '0.77rem' }}>ಜಿಲ್ಲೆ</span>
               </label>
               <input
@@ -524,7 +524,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
             </div>
             <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: '700' }}>
-                Taluk / Block <span className="required-star">*</span>
+                5. Taluk / Block <span className="required-star">*</span>
                 <span className="kannada-text" style={{ display: 'block', fontWeight: '400', fontSize: '0.77rem' }}>ತಾಲ್ಲೂಕು</span>
               </label>
               <input
@@ -543,7 +543,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           {/* ROW 4: Village (with chips below) */}
           <div className="form-group" style={{ marginBottom: pincodeAreas.length > 1 ? '0.75rem' : '1.25rem' }}>
             <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: '700' }}>
-              Village / Town / Locality <span className="required-star">*</span>
+              6. Village / Town / Locality <span className="required-star">*</span>
               <span className="kannada-text" style={{ display: 'block', fontWeight: '400', fontSize: '0.77rem' }}>ಗ್ರಾಮ / ಪಟ್ಟಣ</span>
             </label>
             <input
@@ -599,7 +599,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           {/* ROW 5: Complete Address */}
           <div className="form-group" style={{ margin: 0 }}>
             <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: '700' }}>
-              Complete Shop Address <span className="required-star">*</span>
+              7. Complete Shop Address <span className="required-star">*</span>
               <span className="kannada-text" style={{ display: 'block', fontWeight: '400', fontSize: '0.77rem' }}>ಸ್ಥಳದ ಸಂಪೂರ್ಣ ವಿಳಾಸ</span>
             </label>
             <input
@@ -615,7 +615,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
         </div>
 
-        {/* SECTION 2: Shop & Owner Info (Q5, Q6, Q7, Q25, Q26) */}
+        {/* SECTION 2: Shop & Owner Info (Q8, Q9, Q10, Q11, Q12, Q13) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <Store size={20} color="#e11d48" />
@@ -628,7 +628,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
             <div className="form-group">
               <label className="form-label">
-                5. Name of Pork Shop <span className="required-star">*</span>
+                8. Name of Pork Shop <span className="required-star">*</span>
                 <span className="kannada-text" style={{ display: 'block' }}>(ಹಂದಿಮಾಂಸದ ಅಂಗಡಿಯ ಹೆಸರು)</span>
               </label>
               <input
@@ -644,7 +644,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
             <div className="form-group">
               <label className="form-label">
-                6. Shop's Owner Name <span className="required-star">*</span>
+                9. Shop's Owner Name <span className="required-star">*</span>
                 <span className="kannada-text" style={{ display: 'block' }}>(ಅಂಗಡಿಯ ಮಾಲೀಕರ ಹೆಸರು)</span>
               </label>
               <input
@@ -661,7 +661,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
             {/* Owner's Mobile Number */}
             <div className="form-group">
               <label className="form-label">
-                Owner's Mobile Number
+                10. Owner's Mobile Number
                 <span className="kannada-text" style={{ display: 'block' }}>(ಮಾಲೀಕರ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ)</span>
               </label>
               <input
@@ -677,7 +677,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
             <div className="form-group">
               <label className="form-label">
-                7. From how many years the shop is there?
+                11. From how many years the shop is there?
                 <span className="kannada-text" style={{ display: 'block' }}>(ಅಂಗಡಿ ಎಷ್ಟು ವರ್ಷದಿಂದ ಇದೆ?)</span>
               </label>
               <input
@@ -691,10 +691,10 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
               />
             </div>
 
-            {/* Q25: SPOC Name */}
+            {/* Q12: SPOC Name */}
             <div className="form-group">
               <label className="form-label">
-                25. Name of SPOC of shop <span className="required-star">*</span>
+                12. Name of SPOC of shop <span className="required-star">*</span>
                 <span className="kannada-text" style={{ display: 'block' }}>(ಸಂಪರ್ಕಿಸಬೇಕಾದ ವ್ಯಕ್ತಿಯ ಹೆಸರು)</span>
               </label>
               <div style={{ marginBottom: '0.5rem' }}>
@@ -730,10 +730,10 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
               )}
             </div>
 
-            {/* Q26: SPOC Mobile */}
+            {/* Q13: SPOC Mobile */}
             <div className="form-group">
               <label className="form-label">
-                26. Mobile number of SPOC
+                13. Mobile number of SPOC
                 <span className="kannada-text" style={{ display: 'block' }}>(ಸಂಪರ್ಕಿಸಬೇಕಾದ ವ್ಯಕ್ತಿಯ ದೂರವಾಣಿ ಸಂಖ್ಯೆ)</span>
               </label>
               <input
@@ -749,7 +749,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           </div>
         </div>
 
-        {/* SECTION 3: Timings & Weekly Holidays (Q8, Q9, Q10) */}
+        {/* SECTION 3: Timings & Weekly Holidays (Q14, Q15, Q16) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <Clock size={20} color="#e11d48" />
@@ -762,7 +762,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem', marginBottom: '1.5rem' }}>
             <div className="form-group">
               <label className="form-label">
-                8. Opening Time of Shop <span className="required-star">*</span>
+                14. Opening Time of Shop <span className="required-star">*</span>
                 <span className="kannada-text" style={{ display: 'block' }}>(ಅಂಗಡಿ ತೆರೆಯುವ ಸಮಯ)</span>
               </label>
               <input
@@ -778,7 +778,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
             <div className="form-group">
               <label className="form-label">
-                9. Closing Time of Shop <span className="required-star">*</span>
+                15. Closing Time of Shop <span className="required-star">*</span>
                 <span className="kannada-text" style={{ display: 'block' }}>(ಅಂಗಡಿ ಮುಚ್ಚುವ ಸಮಯ)</span>
               </label>
               <input
@@ -795,7 +795,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
           <div className="form-group">
             <label className="form-label" style={{ marginBottom: '0.6rem' }}>
-              10. On which day the shop will be holiday?
+              16. On which day the shop will be holiday?
               <span className="kannada-text" style={{ display: 'block' }}>(ಯಾವ ದಿನ ಅಂಗಡಿಯನ್ನು ಮುಚ್ಚಲಾಗುತ್ತದೆ?)</span>
             </label>
 
@@ -870,7 +870,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           </div>
         </div>
 
-        {/* SECTION 4: Operations & Customer Footfall (Q11, Q12, Q13) */}
+        {/* SECTION 4: Operations & Customer Footfall (Q17, Q18, Q19) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <Users size={20} color="#e11d48" />
@@ -883,7 +883,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginBottom: '1.25rem' }}>
             <div className="form-group">
               <label className="form-label">
-                11. Number of Workers in Shop <span className="required-star">*</span>
+                17. Number of Workers in Shop <span className="required-star">*</span>
                 <span className="kannada-text" style={{ display: 'block' }}>(ಅಂಗಡಿಯಲ್ಲಿರುವ ಕಾರ್ಮಿಕರ ಸಂಖ್ಯೆ)</span>
               </label>
               <select
@@ -911,7 +911,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
             <div className="form-group">
               <label className="form-label">
-                12. Daily Customer Visits
+                18. Daily Customer Visits
                 <span className="kannada-text" style={{ display: 'block' }}>(ದೈನಂದಿನ ಆಧಾರದಲ್ಲಿ ಎಷ್ಟು ಗ್ರಾಹಕರು ಭೇಟಿ ನೀಡುತ್ತಾರೆ?)</span>
               </label>
               <select
@@ -929,7 +929,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
           <div className="form-group">
             <label className="form-label" style={{ marginBottom: '0.6rem' }}>
-              13. On which day customers visit most to shop?
+              19. On which day customers visit most to shop?
               <span className="kannada-text" style={{ display: 'block' }}>(ಯಾವ ದಿನ ಗ್ರಾಹಕರು ಅಂಗಡಿಗೆ ಹೆಚ್ಚು ಭೇಟಿ ನೀಡುತ್ತಾರೆ?)</span>
             </label>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '0.6rem' }}>
@@ -966,7 +966,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           </div>
         </div>
 
-        {/* SECTION 5: Meat Products & Sales (Q14, Q15, Q16, Q17, Q18, Q19) */}
+        {/* SECTION 5: Meat Products & Sales (Q20, Q21, Q22, Q23, Q24, Q25) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <ShoppingBag size={20} color="#e11d48" />
@@ -979,7 +979,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginBottom: '1.25rem' }}>
             <div className="form-group">
               <label className="form-label">
-                14. Regular Meat Rate (₹ per Kg) <span className="required-star">*</span>
+                20. Regular Meat Rate (₹ per Kg) <span className="required-star">*</span>
                 <span className="kannada-text" style={{ display: 'block' }}>(ಪ್ರತಿ ಕೆಜಿಗೆ ಸಾಮಾನ್ಯ ಮಾಂಸದ ದರ ಎಷ್ಟು?)</span>
               </label>
               <div style={{ position: 'relative' }}>
@@ -999,7 +999,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
             <div className="form-group">
               <label className="form-label">
-                17. Average Daily Meat Sale (Kg/day)
+                21. Average Daily Meat Sale (Kg/day)
                 <span className="kannada-text" style={{ display: 'block' }}>(ದಿನಕ್ಕೆ ಸರಾಸರಿ ಮಾಂಸ ಮಾರಾಟ ಕೆಜಿಯಲ್ಲಿ)</span>
               </label>
               <input
@@ -1013,10 +1013,10 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
             </div>
           </div>
 
-          {/* Q15: Meat Types */}
+          {/* Q22: Meat Types */}
           <div className="form-group" style={{ marginBottom: '1.5rem' }}>
             <label className="form-label" style={{ marginBottom: '0.6rem' }}>
-              15. What types of meat available in shop? <span className="required-star">*</span>
+              22. What types of meat available in shop? <span className="required-star">*</span>
               <span className="kannada-text" style={{ display: 'block' }}>(ಅಂಗಡಿಯಲ್ಲಿ ಲಭ್ಯವಿರುವ ಮಾಂಸದ ವಿಧಗಳು?)</span>
             </label>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '0.6rem' }}>
@@ -1052,10 +1052,10 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
             </div>
           </div>
 
-          {/* Q16: Processed Meat Products */}
+          {/* Q23: Processed Meat Products */}
           <div className="form-group" style={{ marginBottom: '1.5rem', background: 'var(--bg-card-subtle)', padding: '1rem', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
             <label className="form-label" style={{ marginBottom: '0.5rem' }}>
-              16. Processed Meat Products Consumption in a Week
+              23. Processed Meat Products Consumption in a Week
               <span className="kannada-text" style={{ display: 'block' }}>(ಒಂದು ವಾರದಲ್ಲಿ ಸಂಸ್ಕರಿಸಿದ ಮಾಂಸ ಉತ್ಪನ್ನಗಳ ಬಳಕೆ?)</span>
             </label>
             
@@ -1116,7 +1116,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
             <div className="form-group">
               <label className="form-label">
-                18. Wholesale Meat Procurement Source
+                24. Wholesale Meat Procurement Source
                 <span className="kannada-text" style={{ display: 'block' }}>(ಮೂಲ ಅಥವಾ ಸಗಟು ಮಾಂಸವನ್ನು ಎಲ್ಲಿಂದ ತರಲಾಗುತ್ತದೆ?)</span>
               </label>
               <input
@@ -1131,7 +1131,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
             <div className="form-group">
               <label className="form-label">
-                19. Type of Customers Visiting Shop
+                25. Type of Customers Visiting Shop
                 <span className="kannada-text" style={{ display: 'block' }}>(ಅಂಗಡಿಗೆ ಭೇಟಿ ನೀಡುವ ಗ್ರಾಹಕರ ಪ್ರಕಾರ?)</span>
               </label>
               <select
@@ -1148,7 +1148,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           </div>
         </div>
 
-        {/* SECTION 6: Masala & BBMP Licensing (Q20, Q21, Q22, Q23) */}
+        {/* SECTION 6: Masala & BBMP Licensing (Q26, Q27, Q28, Q29) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <FileCheck size={20} color="#e11d48" />
@@ -1160,7 +1160,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
           <div className="form-group" style={{ marginBottom: '1.5rem' }}>
             <label className="form-label" style={{ marginBottom: '0.5rem' }}>
-              20. What Pork masalas are available in shop?
+              26. What Pork masalas are available in shop?
               <span className="kannada-text" style={{ display: 'block' }}>(ಅಂಗಡಿಯಲ್ಲಿ ಯಾವ ಹಂದಿಯ ಮಸಾಲಾಗಳು ಲಭ್ಯವಿದೆಯೇ?)</span>
             </label>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '0.6rem' }}>
@@ -1199,7 +1199,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginBottom: '1.25rem' }}>
             <div className="form-group">
               <label className="form-label">
-                21. Is BBMP Trade License Issued?
+                27. Is BBMP Trade License Issued?
                 <span className="kannada-text" style={{ display: 'block' }}>(ಅಂಗಡಿಗೆ ಬಿಬಿಎಂಪಿ ವ್ಯಾಪಾರ ಪರವಾನಗಿ ನೀಡಲಾಗಿದೆಯೇ?)</span>
               </label>
               <div style={{ display: 'flex', gap: '1rem', marginTop: '0.4rem' }}>
@@ -1221,7 +1221,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
             <div className="form-group">
               <label className="form-label">
-                22. Facing Issues in Procuring BBMP License?
+                28. Facing Issues in Procuring BBMP License?
                 <span className="kannada-text" style={{ display: 'block' }}>(ಬಿಬಿಎಂಪಿ ಪರವಾನಗಿ ಪಡೆಯುವಲ್ಲಿ ಸಮಸ್ಯೆಗಳಿವೆಯೇ?)</span>
               </label>
               <div style={{ display: 'flex', gap: '1rem', marginTop: '0.4rem' }}>
@@ -1245,7 +1245,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           {formData.bbmp_license_issues === 'Yes' && (
             <div className="form-group animate-fade-in">
               <label className="form-label">
-                23. Reason for issues faced in procuring BBMP license
+                29. Reason for issues faced in procuring BBMP license
                 <span className="kannada-text" style={{ display: 'block' }}>(ಪರವಾನಗಿ ಪಡೆಯುವಲ್ಲಿ ಎದುರಿಸುತ್ತಿರುವ ಸಮಸ್ಯೆಗಳಿಗೆ ಕಾರಣವೇನು?)</span>
               </label>
               <textarea
@@ -1260,7 +1260,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           )}
         </div>
 
-        {/* SECTION 7: Cleanliness Rating (Q24) */}
+        {/* SECTION 7: Cleanliness Rating (Q30) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <Award size={20} color="#e11d48" />
@@ -1272,7 +1272,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
           <div className="form-group">
             <label className="form-label">
-              24. Provide the rating on the cleanliness of pork shop (1 to 5 Stars)
+              30. Provide the rating on the cleanliness of pork shop (1 to 5 Stars)
               <span className="kannada-text" style={{ display: 'block' }}>(ಹಂದಿಮಾಂಸದ ಅಂಗಡಿಯ ಶುಚಿತ್ವದ ಮೇಲೆ ರೇಟಿಂಗ್ ಒದಗಿಸಿ)</span>
             </label>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginTop: '0.4rem' }}>
@@ -1311,7 +1311,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           </div>
         </div>
 
-        {/* SECTION 8: Shop Photos & Map Link (Q27, Q28) */}
+        {/* SECTION 8: Shop Photos & Map Link (Q31, Q32) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '2rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <ImageIcon size={20} color="#e11d48" />
@@ -1323,7 +1323,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
           <div className="form-group" style={{ marginBottom: '1.5rem' }}>
             <label className="form-label">
-              27. Image of Shop (Upload up to 5 photos)
+              31. Image of Shop (Upload up to 5 photos)
               <span className="kannada-text" style={{ display: 'block' }}>(ಅಂಗಡಿಯ ಚಿತ್ರ - ಗರಿಷ್ಠ 5 ಫೋಟೋಗಳು)</span>
             </label>
 
@@ -1388,7 +1388,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
           <div className="form-group">
             <label className="form-label">
-              28. Address of the shop (LINKS OF LOCATION ONLY) <span className="required-star">*</span>
+              32. Address of the shop (LINKS OF LOCATION ONLY) <span className="required-star">*</span>
               <span className="kannada-text" style={{ display: 'block' }}>(ಅಂಗಡಿಯ ವಿಳಾಸ - ಸ್ಥಳದ ಲಿಂಕ್‌ಗಳು ಮಾತ್ರ)</span>
             </label>
             
