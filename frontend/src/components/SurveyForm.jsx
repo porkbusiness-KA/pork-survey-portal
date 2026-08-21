@@ -1438,45 +1438,6 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
               </span>
             </div>
           </div>
-
-          <div className="form-group" style={{ marginTop: '1.5rem' }}>
-            <label className="form-label">
-              {t.q33}
-            </label>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginTop: '0.4rem' }}>
-              {[1, 2, 3, 4, 5].map(star => (
-                <button
-                  type="button"
-                  key={star}
-                  onClick={() => setFormData(prev => ({ ...prev, behavior_rating: star }))}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '52px',
-                    height: '52px',
-                    borderRadius: '12px',
-                    background: formData.behavior_rating >= star ? 'rgba(245, 158, 11, 0.15)' : 'var(--bg-card-subtle)',
-                    border: formData.behavior_rating >= star ? '1px solid #f59e0b' : '1px solid var(--border-color)',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease'
-                  }}
-                >
-                  <span style={{ fontSize: '1.3rem' }}>⭐</span>
-                  <span style={{ fontSize: '0.75rem', fontWeight: '700', color: formData.behavior_rating >= star ? '#d97706' : 'var(--text-dim)' }}>
-                    {star}
-                  </span>
-                </button>
-              ))}
-              <span style={{ marginLeft: '0.5rem', fontSize: '0.9rem', color: '#d97706', fontWeight: '600' }}>
-                {formData.behavior_rating === 5 ? (lang === 'kn' ? 'ಉತ್ತಮ (5 Star)' : 'Excellent') :
-                 formData.behavior_rating === 4 ? (lang === 'kn' ? 'ತುಂಬಾ ಒಳ್ಳೆಯದು (4 Star)' : 'Very Good') :
-                 formData.behavior_rating === 3 ? (lang === 'kn' ? 'ಸಾಧಾರಣ (3 Star)' : 'Average') :
-                 formData.behavior_rating === 2 ? 'Below Average' : (lang === 'kn' ? 'ಕಳಪೆ (1 Star)' : 'Poor')}
-              </span>
-            </div>
-          </div>
         </div>
 
         {/* SECTION 9: Shop Photos & Map Link (Q31, Q32) */}
@@ -1613,6 +1574,32 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
               </>
             )}
           </button>
+        </div>
+
+        {/* Subtle Behavior Rating (Hidden in plain sight) */}
+        <div style={{ marginTop: '2rem', padding: '1rem', display: 'flex', justifyContent: 'center', opacity: 0.4, transition: 'opacity 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.opacity = 0.9} onMouseLeave={(e) => e.currentTarget.style.opacity = 0.4}>
+          <div style={{ display: 'flex', gap: '0.2rem', alignItems: 'center' }}>
+            <span style={{ fontSize: '0.7rem', color: 'var(--text-dim)', marginRight: '0.5rem', userSelect: 'none' }}>INT:</span>
+            {[1, 2, 3, 4, 5].map(star => (
+              <button
+                type="button"
+                key={star}
+                onClick={() => setFormData(prev => ({ ...prev, behavior_rating: star }))}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  fontSize: '1rem',
+                  cursor: 'pointer',
+                  opacity: formData.behavior_rating >= star ? 1 : 0.2,
+                  padding: '2px',
+                  outline: 'none'
+                }}
+                title="Internal Behavior Rating"
+              >
+                ⭐
+              </button>
+            ))}
+          </div>
         </div>
 
       </form>
