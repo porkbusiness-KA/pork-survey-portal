@@ -1202,36 +1202,38 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
           <div className="form-group" style={{ margin: 0 }}>
             <label className="form-label" style={{ marginBottom: '0.6rem' }}>
-              {t.q26}
+              {t.q26} <span className="required-star">*</span>
             </label>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '0.6rem' }}>
-              {MASALA_OPTIONS.map(m => {
-                const isSelected = formData.masalas_available.includes(m.id);
-                return (
-                  <label
-                    key={m.id}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.6rem',
-                      padding: '0.65rem 0.85rem',
-                      borderRadius: '10px',
-                      background: isSelected ? 'rgba(225, 29, 72, 0.12)' : 'var(--bg-card-subtle)',
-                      border: isSelected ? '1px solid #e11d48' : '1px solid var(--border-color)',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={isSelected}
-                      onChange={() => handleMultiToggle('masalas_available', m.id)}
-                      style={{ accentColor: '#e11d48' }}
-                    />
-                    <div>{renderOptLabel(m)}</div>
-                  </label>
-                );
-              })}
-            </div>
+            <select
+              name="masalas_available"
+              value={Array.isArray(formData.masalas_available) ? (formData.masalas_available[0] || 'Both Chandrakala and Jeevith masala') : formData.masalas_available}
+              onChange={(e) => {
+                const val = e.target.value;
+                setFormData(prev => ({ ...prev, masalas_available: [val] }));
+              }}
+              className="form-select"
+              style={{ fontSize: '0.95rem' }}
+            >
+              {MASALA_OPTIONS.map(m => (
+                <option key={m.id} value={m.id}>
+                  {lang === 'en' ? m.en : lang === 'kn' ? m.kn : `${m.en} (${m.kn})`}
+                </option>
+              ))}
+            </select>
+
+            {(Array.isArray(formData.masalas_available) ? formData.masalas_available.includes('Other') : formData.masalas_available === 'Other') && (
+              <div className="animate-fade-in" style={{ marginTop: '0.85rem' }}>
+                <input
+                  type="text"
+                  name="masala_other"
+                  value={formData.masala_other || ''}
+                  onChange={handleChange}
+                  placeholder={lang === 'kn' ? 'ಇತರ ಮಸಾಲಾ ಬ್ರಾಂಡ್‌ಗಳ ಹೆಸರು ನಮೂದಿಸಿ...' : 'Specify other masala brand name...'}
+                  className="form-input"
+                  required
+                />
+              </div>
+            )}
           </div>
         </div>
 

@@ -83,8 +83,9 @@ export const CUSTOMER_TYPE_OPTIONS = [
 ];
 
 export const MASALA_OPTIONS = [
-  { id: 'Chandrakala masala', en: 'Chandrakala masala', kn: 'ಚಂದ್ರಕಲಾ ಮಸಾಲಾ' },
-  { id: 'Jeevith masala', en: 'Jeevith masala', kn: 'ಜೀವಿತ ಮಸಾಲಾ' },
-  { id: 'Both Chandrakala and Jeevith masala', en: 'Both Chandrakala and Jeevith masala', kn: 'ಚಂದ್ರಕಲಾ ಮತ್ತು ಜೀವಿತ ಎರಡೂ' },
-  { id: 'Other', en: 'Other', kn: 'ಇತರ ಮಸಾಲಾ' }
+  { id: 'Both Chandrakala and Jeevith masala', en: 'Both Chandrakala and Jeevith masala', kn: 'ಚಂದ್ರಕಲಾ ಮತ್ತು ಜೀವಿತ ಎರಡೂ ಮಸಾಲಾಗಳು' },
+  { id: 'Chandrakala masala', en: 'Chandrakala masala only', kn: 'ಚಂದ್ರಕಲಾ ಮಸಾಲಾ ಮಾತ್ರ' },
+  { id: 'Jeevith masala', en: 'Jeevith masala only', kn: 'ಜೀವಿತ ಮಸಾಲಾ ಮಾತ್ರ' },
+  { id: 'Other', en: 'Other masala brands', kn: 'ಇತರ ಮಸಾಲಾ ಬ್ರಾಂಡ್‌ಗಳು' },
+  { id: 'None', en: 'None / No masalas sold', kn: 'ಯಾವುದೇ ಮಸಾಲಾ ಲಭ್ಯವಿಲ್ಲ' }
 ];
