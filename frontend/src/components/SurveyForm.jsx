@@ -1457,12 +1457,18 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 <button
                   type="button"
                   onClick={() => {
-                    // Create a fresh input each click to ensure camera app opens directly
                     const camInput = document.createElement('input');
                     camInput.type = 'file';
                     camInput.accept = 'image/*';
-                    camInput.capture = 'environment';
-                    camInput.onchange = handleImageChange;
+                    // setAttribute is more reliable than .capture = across all browsers/iOS
+                    camInput.setAttribute('capture', 'environment');
+                    camInput.style.display = 'none';
+                    // Appending to body is required for iOS Safari to work
+                    document.body.appendChild(camInput);
+                    camInput.onchange = (e) => {
+                      handleImageChange(e);
+                      document.body.removeChild(camInput);
+                    };
                     camInput.click();
                   }}
                   style={{
