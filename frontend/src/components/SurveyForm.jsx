@@ -1454,15 +1454,27 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 }}>
                   📁 {t.q31UploadHint}
                 </label>
-                <label htmlFor="shop-camera-input" style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
-                  cursor: 'pointer', padding: '0.55rem 1.1rem',
-                  background: 'rgba(16,185,129,0.1)', border: '1px solid #10b981',
-                  borderRadius: '10px', fontWeight: '600', fontSize: '0.85rem',
-                  color: '#10b981', transition: 'all 0.2s'
-                }}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    // Create a fresh input each click to ensure camera app opens directly
+                    const camInput = document.createElement('input');
+                    camInput.type = 'file';
+                    camInput.accept = 'image/*';
+                    camInput.capture = 'environment';
+                    camInput.onchange = handleImageChange;
+                    camInput.click();
+                  }}
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
+                    cursor: 'pointer', padding: '0.55rem 1.1rem',
+                    background: 'rgba(16,185,129,0.1)', border: '1px solid #10b981',
+                    borderRadius: '10px', fontWeight: '600', fontSize: '0.85rem',
+                    color: '#10b981', transition: 'all 0.2s'
+                  }}
+                >
                   📷 {t.q31CameraBtn}
-                </label>
+                </button>
               </div>
 
               <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.75rem' }}>
