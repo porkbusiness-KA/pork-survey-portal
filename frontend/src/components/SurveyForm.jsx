@@ -42,7 +42,8 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
     meat_types: ['Fresh meat (Pork)'],
     meat_types_other: '',
     processed_meat_volume: '<1 Kg',
-    processed_meat_products: [],
+    processed_meat_volume_other: '',
+    processed_meat_products: ['Ham'],
     processed_meat_other: '',
     average_daily_sale_kg: '50',
     procurement_source: '',
@@ -301,8 +302,12 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
       const data = new FormData();
       const effectiveSpocName = formData.spoc_same_as_owner ? formData.owner_name : (formData.spoc_name || formData.owner_name);
       
+      const effectiveProcessedVolume = formData.processed_meat_volume === 'Other'
+        ? (formData.processed_meat_volume_other ? `${formData.processed_meat_volume_other} Kg` : 'Other')
+        : formData.processed_meat_volume;
+
       const combinedProcessed = [
-        formData.processed_meat_volume,
+        effectiveProcessedVolume,
         ...formData.processed_meat_products,
         formData.processed_meat_other
       ].filter(Boolean);
@@ -1119,6 +1124,20 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                     <option key={v} value={v}>{v}</option>
                   ))}
                 </select>
+
+                {formData.processed_meat_volume === 'Other' && (
+                  <div className="animate-fade-in" style={{ marginTop: '0.65rem' }}>
+                    <input
+                      type="text"
+                      name="processed_meat_volume_other"
+                      value={formData.processed_meat_volume_other || ''}
+                      onChange={handleChange}
+                      placeholder={lang === 'kn' ? 'ಉದಾಹರಣೆಗೆ: 15 ಕೆಜಿ ಅಥವಾ 25 ಕೆಜಿ' : 'e.g. 15 Kg or 25 Kg'}
+                      className="form-input"
+                      required
+                    />
+                  </div>
+                )}
               </div>
 
               {/* Dropdown 2: Product Variety */}
@@ -1140,22 +1159,22 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                     <option key={p} value={p}>{p}</option>
                   ))}
                 </select>
+
+                {(Array.isArray(formData.processed_meat_products) ? formData.processed_meat_products.includes('Others') : formData.processed_meat_products === 'Others') && (
+                  <div className="animate-fade-in" style={{ marginTop: '0.65rem' }}>
+                    <input
+                      type="text"
+                      name="processed_meat_other"
+                      value={formData.processed_meat_other || ''}
+                      onChange={handleChange}
+                      placeholder={lang === 'kn' ? 'ಇತರ ಸಂಸ್ಕರಿಸಿದ ಮಾಂಸದ ವಿಧ ನಮೂದಿಸಿ...' : 'Specify other processed meat product...'}
+                      className="form-input"
+                      required
+                    />
+                  </div>
+                )}
               </div>
             </div>
-
-            {(Array.isArray(formData.processed_meat_products) ? formData.processed_meat_products.includes('Others') : formData.processed_meat_products === 'Others') && (
-              <div className="animate-fade-in" style={{ marginTop: '0.85rem' }}>
-                <input
-                  type="text"
-                  name="processed_meat_other"
-                  value={formData.processed_meat_other || ''}
-                  onChange={handleChange}
-                  placeholder={lang === 'kn' ? 'ಇತರ ಸಂಸ್ಕರಿಸಿದ ಮಾಂಸದ ವಿಧ ನಮೂದಿಸಿ...' : 'Specify other processed meat product...'}
-                  className="form-input"
-                  required
-                />
-              </div>
-            )}
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
