@@ -47,6 +47,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
     average_daily_sale_kg: '50',
     procurement_source: '',
     customer_type: 'Both localities and non-Localities',
+    has_masalas: 'Yes',
     masalas_available: ['Both Chandrakala and Jeevith masala'],
     masala_other: '',
     bbmp_license_issued: 'No',
@@ -1200,41 +1201,100 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
             </div>
           </div>
 
-          <div className="form-group" style={{ margin: 0 }}>
-            <label className="form-label" style={{ marginBottom: '0.6rem' }}>
+          {/* STEP 1: Are masalas sold? (Yes / No) */}
+          <div className="form-group" style={{ marginBottom: formData.has_masalas === 'Yes' ? '1.25rem' : '0' }}>
+            <label className="form-label" style={{ marginBottom: '0.5rem' }}>
               {t.q26} <span className="required-star">*</span>
             </label>
-            <select
-              name="masalas_available"
-              value={Array.isArray(formData.masalas_available) ? (formData.masalas_available[0] || 'Both Chandrakala and Jeevith masala') : formData.masalas_available}
-              onChange={(e) => {
-                const val = e.target.value;
-                setFormData(prev => ({ ...prev, masalas_available: [val] }));
-              }}
-              className="form-select"
-              style={{ fontSize: '0.95rem' }}
-            >
-              {MASALA_OPTIONS.map(m => (
-                <option key={m.id} value={m.id}>
-                  {lang === 'en' ? m.en : lang === 'kn' ? m.kn : `${m.en} (${m.kn})`}
-                </option>
+            <div style={{ display: 'flex', gap: '1.5rem', marginTop: '0.4rem' }}>
+              {['Yes', 'No'].map(val => (
+                <label key={val} style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', cursor: 'pointer', color: 'var(--text-main)', fontSize: '0.95rem', fontWeight: '500' }}>
+                  <input
+                    type="radio"
+                    name="has_masalas"
+                    value={val}
+                    checked={formData.has_masalas === val}
+                    onChange={(e) => {
+                      const v = e.target.value;
+                      setFormData(prev => ({
+                        ...prev,
+                        has_masalas: v,
+                        masalas_available: v === 'Yes'
+                          ? (prev.masalas_available && prev.masalas_available[0] === 'None' ? ['Both Chandrakala and Jeevith masala'] : prev.masalas_available)
+                          : ['None']
+                      }));
+                    }}
+                    style={{ accentColor: '#e11d48' }}
+                  />
+                  <span>{val === 'Yes' ? (lang === 'kn' ? 'ಹೌದು' : lang === 'both' ? 'Yes (ಹೌದು)' : 'Yes') : (lang === 'kn' ? 'ಇಲ್ಲ' : lang === 'both' ? 'No (ಇಲ್ಲ)' : 'No')}</span>
+                </label>
               ))}
-            </select>
-
-            {(Array.isArray(formData.masalas_available) ? formData.masalas_available.includes('Other') : formData.masalas_available === 'Other') && (
-              <div className="animate-fade-in" style={{ marginTop: '0.85rem' }}>
-                <input
-                  type="text"
-                  name="masala_other"
-                  value={formData.masala_other || ''}
-                  onChange={handleChange}
-                  placeholder={lang === 'kn' ? 'ಇತರ ಮಸಾಲಾ ಬ್ರಾಂಡ್‌ಗಳ ಹೆಸರು ನಮೂದಿಸಿ...' : 'Specify other masala brand name...'}
-                  className="form-input"
-                  required
-                />
-              </div>
-            )}
+            </div>
           </div>
+
+          {/* STEP 2: If Yes, show dropdown for masala brands */}
+          {formData.has_masalas === 'Yes' && (
+            <div className="form-group animate-fade-in" style={{
+              background: 'var(--bg-card-subtle)',
+              border: '1px solid var(--border-color)',
+              borderRadius: '12px',
+              padding: '1.15rem',
+              margin: 0
+            }}>
+              <label className="form-label" style={{ marginBottom: '0.5rem' }}>
+                {t.q26Brand} <span className="required-star">*</span>
+              </label>
+              <select
+                name="masalas_available"
+                value={Array.isArray(formData.masalas_available) ? (formData.masalas_available[0] || 'Both Chandrakala and Jeevith masala') : formData.masalas_available}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  setFormData(prev => ({ ...prev, masalas_available: [val] }));
+                }}
+                className="form-select"
+                style={{ fontSize: '0.95rem' }}
+              >
+                {MASALA_OPTIONS.map(m => (
+                  <option key={m.id} value={m.id}>
+                    {lang === 'en' ? m.en : lang === 'kn' ? m.kn : `${m.en} (${m.kn})`}
+                  </option>
+                ))}
+              </select>
+
+              {(Array.isArray(formData.masalas_available) ? formData.masalas_available.includes('Other') : formData.masalas_available === 'Other') && (
+                <div className="animate-fade-in" style={{ marginTop: '0.85rem' }}>
+                  <input
+                    type="text"
+                    name="masala_other"
+                    value={formData.masala_other || ''}
+                    onChange={handleChange}
+                    placeholder={lang === 'kn' ? 'ಇತರ ಮಸಾಲಾ ಬ್ರಾಂಡ್‌ಗಳ ಹೆಸರು ನಮೂದಿಸಿ...' : 'Specify other masala brand name...'}
+                    className="form-input"
+                    required
+                  />
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* If No, helpful confirmation banner */}
+          {formData.has_masalas === 'No' && (
+            <div className="animate-fade-in" style={{
+              marginTop: '0.85rem',
+              padding: '0.6rem 0.9rem',
+              borderRadius: '8px',
+              background: 'rgba(16, 185, 129, 0.08)',
+              border: '1px solid rgba(16, 185, 129, 0.25)',
+              color: '#059669',
+              fontSize: '0.84rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}>
+              <CheckCircle2 size={16} />
+              <span>{lang === 'kn' ? 'ಈ ಅಂಗಡಿಯಲ್ಲಿ ಯಾವುದೇ ಹಂದಿ ಮಸಾಲಾಗಳು ಲಭ್ಯವಿಲ್ಲ / ಮಾರಾಟ ಮಾಡುವುದಿಲ್ಲ.' : 'No pork masalas are sold in this shop.'}</span>
+            </div>
+          )}
         </div>
 
         {/* SECTION 7: BBMP Trade Licensing (Q27, Q28, Q29) */}
