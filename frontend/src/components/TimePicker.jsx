@@ -25,8 +25,10 @@ export default function TimePicker({ name, value, onChange, required = false }) 
   const [minute, setMinute] = useState(initM);
   const [ampm, setAmpm] = useState(initAmpm);
   const [open, setOpen] = useState(false);
+  const [openUp, setOpenUp] = useState(false);
 
   const pickerRef = useRef(null);
+  const triggerRef = useRef(null);
 
   // Sync inward prop changes
   useEffect(() => {
@@ -42,6 +44,18 @@ export default function TimePicker({ name, value, onChange, required = false }) 
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
   }, []);
+
+  // When opening, decide if dropdown should flip upward
+  const handleToggle = () => {
+    if (!open && triggerRef.current) {
+      const rect = triggerRef.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const spaceAbove = rect.top;
+      // Open upward if there is not enough space below (< 340px) and more space above
+      setOpenUp(spaceBelow < 340 && spaceAbove > spaceBelow);
+    }
+    setOpen(o => !o);
+  };
 
   // Convert to 24h and emit change
   const emit = (h, m, ap) => {
@@ -76,7 +90,8 @@ export default function TimePicker({ name, value, onChange, required = false }) 
     <div ref={pickerRef} style={{ position: 'relative', userSelect: 'none' }}>
       {/* Trigger Input */}
       <div
-        onClick={() => setOpen(o => !o)}
+        ref={triggerRef}
+        onClick={handleToggle}
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -119,13 +134,18 @@ export default function TimePicker({ name, value, onChange, required = false }) 
       {open && (
         <div style={{
           position: 'absolute',
-          top: 'calc(100% + 8px)',
+          ...(openUp
+            ? { bottom: 'calc(100% + 8px)', top: 'auto' }
+            : { top: 'calc(100% + 8px)', bottom: 'auto' }
+          ),
           left: 0,
-          zIndex: 200,
+          zIndex: 40,
           background: 'var(--bg-card)',
           border: '1.5px solid rgba(225,29,72,0.3)',
           borderRadius: '16px',
-          boxShadow: '0 20px 40px rgba(0,0,0,0.35)',
+          boxShadow: openUp
+            ? '0 -12px 40px rgba(0,0,0,0.3)'
+            : '0 20px 40px rgba(0,0,0,0.35)',
           padding: '1.25rem',
           minWidth: '280px',
           backdropFilter: 'blur(12px)'
