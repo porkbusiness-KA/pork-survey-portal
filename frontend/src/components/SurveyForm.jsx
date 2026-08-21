@@ -16,12 +16,12 @@ import { submitSurvey } from '../services/api';
 
 export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onSwitchToRecords }) {
   const initialFormState = {
-    country: 'India',
-    state: 'Karnataka',
-    district: 'Bengaluru Urban',
-    taluk: 'Bangalore North',
-    village: 'Shivajinagar',
-    place: 'Shivajinagar, Bangalore North',
+    country: '',
+    state: '',
+    district: '',
+    taluk: '',
+    village: '',
+    place: '',
     pincode: '',
     shop_name: '',
     owner_name: '',
@@ -374,142 +374,209 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
       {/* Survey Form Card */}
       <form onSubmit={handleSubmit}>
         
-        {/* SECTION 1: Complete Location Hierarchy (Country, State, District, Taluk, Village, Pincode) */}
+        {/* SECTION 1: Complete Location Hierarchy */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-              <MapPin size={20} color="#e11d48" />
+
+          {/* Section Header */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1.5rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.85rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+              <div style={{ background: 'rgba(225,29,72,0.12)', borderRadius: '10px', padding: '0.45rem' }}>
+                <MapPin size={20} color="#e11d48" />
+              </div>
               <div>
-                <h2 style={{ fontSize: '1.2rem' }}>1. Location & Pincode Hierarchy</h2>
-                <p className="kannada-text">ದೇಶ, ರಾಜ್ಯ, ಜಿಲ್ಲೆ, ತಾಲ್ಲೂಕು, ಗ್ರಾಮ ಮತ್ತು ಪಿನ್‌ಕೋಡ್</p>
+                <h2 style={{ fontSize: '1.15rem', fontWeight: '700', margin: 0 }}>1. Location Details</h2>
+                <p className="kannada-text" style={{ fontSize: '0.82rem', margin: '0.1rem 0 0', color: 'var(--text-muted)' }}>ದೇಶ · ರಾಜ್ಯ · ಜಿಲ್ಲೆ · ತಾಲ್ಲೂಕು · ಗ್ರಾಮ</p>
               </div>
             </div>
-            <span className="badge badge-emerald" style={{ fontSize: '0.75rem' }}>
-              ⚡ Auto-detects Country, State, District, Taluk & Village from Pincode
+            <span style={{ fontSize: '0.72rem', background: 'rgba(16,185,129,0.12)', color: '#059669', border: '1px solid rgba(16,185,129,0.25)', borderRadius: '20px', padding: '0.3rem 0.75rem', fontWeight: '600' }}>
+              ⚡ Type Pincode → Auto-fills all fields
             </span>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem' }}>
-            
-            {/* PINCODE FIELD (AUTO-LOOKUP) */}
-            <div className="form-group">
-              <label className="form-label">
-                Pincode <span className="required-star">*</span>
-                <span className="kannada-text" style={{ display: 'block' }}>(ಪಿನ್‌ಕೋಡ್ - 6 ಸಂಖ್ಯೆಗಳು)</span>
-              </label>
-              <div style={{ position: 'relative' }}>
-                <input
-                  type="text"
-                  name="pincode"
-                  value={formData.pincode}
-                  onChange={handlePincodeInput}
-                  placeholder="Type 6 digits (e.g. 562123, 560051)"
-                  maxLength="6"
-                  className="form-input"
-                  required
-                />
-                {isFetchingPincode && (
-                  <span style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', color: '#e11d48' }}>
-                    <Loader2 size={18} className="pulse-glow" />
-                  </span>
-                )}
-              </div>
-              <small style={{ color: 'var(--text-muted)', fontSize: '0.76rem', marginTop: '0.35rem', display: 'block' }}>
-                💡 Typing 6 digits auto-fetches State, District, Taluk & Village!
-              </small>
+          {/* ROW 1: Pincode (full width, prominent) */}
+          <div className="form-group" style={{ marginBottom: '1.25rem' }}>
+            <label className="form-label" style={{ fontSize: '0.88rem', fontWeight: '700' }}>
+              Pincode <span className="required-star">*</span>
+              <span className="kannada-text" style={{ display: 'block', fontWeight: '400', fontSize: '0.78rem' }}>ಪಿನ್‌ಕೋಡ್ (6 ಸಂಖ್ಯೆಗಳು)</span>
+            </label>
+            <div style={{ position: 'relative', maxWidth: '360px' }}>
+              <input
+                type="text"
+                name="pincode"
+                value={formData.pincode}
+                onChange={handlePincodeInput}
+                placeholder="Enter 6-digit pincode (e.g. 562123)"
+                maxLength="6"
+                className="form-input"
+                style={{ letterSpacing: '0.15em', fontWeight: '600', fontSize: '1rem' }}
+                required
+              />
+              {isFetchingPincode && (
+                <span style={{ position: 'absolute', right: '14px', top: '50%', transform: 'translateY(-50%)', color: '#e11d48' }}>
+                  <Loader2 size={18} className="pulse-glow" />
+                </span>
+              )}
+              {!isFetchingPincode && formData.country && (
+                <span style={{ position: 'absolute', right: '14px', top: '50%', transform: 'translateY(-50%)', color: '#059669' }}>
+                  <CheckCircle2 size={18} />
+                </span>
+              )}
             </div>
+            <small style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginTop: '0.3rem', display: 'block' }}>
+              💡 All location fields below are auto‑filled once you enter a valid pincode
+            </small>
+          </div>
 
-            {/* COUNTRY */}
-            <div className="form-group">
-              <label className="form-label">
+          {/* PINCODE RESULT BANNER */}
+          {pincodeSuccess && (
+            <div className="animate-fade-in" style={{
+              background: 'rgba(16,185,129,0.08)',
+              border: '1px solid rgba(16,185,129,0.28)',
+              borderRadius: '10px',
+              padding: '0.7rem 1rem',
+              marginBottom: '1.25rem',
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: '0.5rem'
+            }}>
+              <CheckCircle2 size={16} style={{ color: '#059669', flexShrink: 0, marginTop: '2px' }} />
+              <span style={{ color: '#059669', fontWeight: '600', fontSize: '0.84rem', lineHeight: '1.5' }}>{pincodeSuccess}</span>
+            </div>
+          )}
+
+          {/* ROW 2: Country | State */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '1.25rem' }}>
+            <div className="form-group" style={{ margin: 0 }}>
+              <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: '700' }}>
                 Country <span className="required-star">*</span>
-                <span className="kannada-text" style={{ display: 'block' }}>(ದೇಶ)</span>
+                <span className="kannada-text" style={{ display: 'block', fontWeight: '400', fontSize: '0.77rem' }}>ದೇಶ</span>
               </label>
               <input
                 type="text"
                 name="country"
-                value={formData.country || 'India'}
+                value={formData.country}
                 onChange={handleChange}
-                placeholder="India"
+                placeholder="Auto-filled from pincode"
                 className="form-input"
+                style={{ background: formData.country ? '' : 'rgba(var(--bg-card-rgb, 18,18,26), 0.5)' }}
                 required
               />
             </div>
-
-            {/* STATE */}
-            <div className="form-group">
-              <label className="form-label">
+            <div className="form-group" style={{ margin: 0 }}>
+              <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: '700' }}>
                 State <span className="required-star">*</span>
-                <span className="kannada-text" style={{ display: 'block' }}>(ರಾಜ್ಯ)</span>
+                <span className="kannada-text" style={{ display: 'block', fontWeight: '400', fontSize: '0.77rem' }}>ರಾಜ್ಯ</span>
               </label>
               <input
                 type="text"
                 name="state"
-                value={formData.state || 'Karnataka'}
+                value={formData.state}
                 onChange={handleChange}
-                placeholder="Karnataka"
+                placeholder="Auto-filled from pincode"
                 className="form-input"
-                required
-              />
-            </div>
-
-            {/* DISTRICT (DYNAMIC AUTO-FILLED) */}
-            <div className="form-group">
-              <label className="form-label">
-                District <span className="required-star">*</span>
-                <span className="kannada-text" style={{ display: 'block' }}>(ಜಿಲ್ಲೆ)</span>
-              </label>
-              <input
-                type="text"
-                name="district"
-                value={formData.district || ''}
-                onChange={handleChange}
-                placeholder="e.g. Bangalore, Kolar, Ramanagar, Tumkur"
-                className="form-input"
-                required
-              />
-            </div>
-
-            {/* TALUK / BLOCK */}
-            <div className="form-group">
-              <label className="form-label">
-                Taluk / Block / Mandal <span className="required-star">*</span>
-                <span className="kannada-text" style={{ display: 'block' }}>(ತಾಲ್ಲೂಕು / ಬ್ಲಾಕ್)</span>
-              </label>
-              <input
-                type="text"
-                name="taluk"
-                value={formData.taluk || ''}
-                onChange={handleChange}
-                placeholder="e.g. Nelamangala, Kolar, Bangalore North"
-                className="form-input"
-                required
-              />
-            </div>
-
-            {/* VILLAGE / TOWN / LOCALITY */}
-            <div className="form-group">
-              <label className="form-label">
-                Village / Town / Locality <span className="required-star">*</span>
-                <span className="kannada-text" style={{ display: 'block' }}>(ಗ್ರಾಮ / ಪಟ್ಟಣ / ಏರಿಯಾ)</span>
-              </label>
-              <input
-                type="text"
-                name="village"
-                value={formData.village || ''}
-                onChange={handleChange}
-                placeholder="e.g. Arasinakunte, Shivajinagar"
-                className="form-input"
+                style={{ background: formData.state ? '' : 'rgba(var(--bg-card-rgb, 18,18,26), 0.5)' }}
                 required
               />
             </div>
           </div>
 
-          {/* COMBINED PLACE & ADDRESS */}
-          <div className="form-group" style={{ marginTop: '1rem' }}>
-            <label className="form-label">
-              Complete Shop Location / Address <span className="required-star">*</span>
-              <span className="kannada-text" style={{ display: 'block' }}>(ಸ್ಥಳದ ಸಂಪೂರ್ಣ ವಿಳಾಸ)</span>
+          {/* ROW 3: District | Taluk */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '1.25rem' }}>
+            <div className="form-group" style={{ margin: 0 }}>
+              <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: '700' }}>
+                District <span className="required-star">*</span>
+                <span className="kannada-text" style={{ display: 'block', fontWeight: '400', fontSize: '0.77rem' }}>ಜಿಲ್ಲೆ</span>
+              </label>
+              <input
+                type="text"
+                name="district"
+                value={formData.district}
+                onChange={handleChange}
+                placeholder="Auto-filled from pincode"
+                className="form-input"
+                style={{ background: formData.district ? '' : 'rgba(var(--bg-card-rgb, 18,18,26), 0.5)' }}
+                required
+              />
+            </div>
+            <div className="form-group" style={{ margin: 0 }}>
+              <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: '700' }}>
+                Taluk / Block <span className="required-star">*</span>
+                <span className="kannada-text" style={{ display: 'block', fontWeight: '400', fontSize: '0.77rem' }}>ತಾಲ್ಲೂಕು</span>
+              </label>
+              <input
+                type="text"
+                name="taluk"
+                value={formData.taluk}
+                onChange={handleChange}
+                placeholder="Auto-filled from pincode"
+                className="form-input"
+                style={{ background: formData.taluk ? '' : 'rgba(var(--bg-card-rgb, 18,18,26), 0.5)' }}
+                required
+              />
+            </div>
+          </div>
+
+          {/* ROW 4: Village (with chips below) */}
+          <div className="form-group" style={{ marginBottom: pincodeAreas.length > 1 ? '0.75rem' : '1.25rem' }}>
+            <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: '700' }}>
+              Village / Town / Locality <span className="required-star">*</span>
+              <span className="kannada-text" style={{ display: 'block', fontWeight: '400', fontSize: '0.77rem' }}>ಗ್ರಾಮ / ಪಟ್ಟಣ</span>
+            </label>
+            <input
+              type="text"
+              name="village"
+              value={formData.village}
+              onChange={handleChange}
+              placeholder="Auto-filled · or tap a chip below to select"
+              className="form-input"
+              style={{ background: formData.village ? '' : 'rgba(var(--bg-card-rgb, 18,18,26), 0.5)' }}
+              required
+            />
+          </div>
+
+          {/* VILLAGE CHIPS */}
+          {pincodeAreas.length > 1 && (
+            <div style={{ marginBottom: '1.25rem' }}>
+              <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.5rem', fontWeight: '500' }}>
+                🏘️ Select your village / locality — {pincodeAreas.length} found under pincode {formData.pincode}:
+              </p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.45rem' }}>
+                {pincodeAreas.map((area, idx) => {
+                  const isSelected = formData.village === area;
+                  return (
+                    <button
+                      type="button"
+                      key={idx}
+                      onClick={() => handleSelectArea(area)}
+                      style={{
+                        padding: '0.3rem 0.8rem',
+                        borderRadius: '20px',
+                        fontSize: '0.78rem',
+                        fontWeight: isSelected ? '700' : '500',
+                        cursor: 'pointer',
+                        transition: 'all 0.18s ease',
+                        border: isSelected ? '1.5px solid #10b981' : '1.5px solid var(--border-color)',
+                        background: isSelected ? 'rgba(16,185,129,0.18)' : 'transparent',
+                        color: isSelected ? '#059669' : 'var(--text-muted)',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.3rem'
+                      }}
+                    >
+                      {isSelected && <CheckCircle2 size={12} />}
+                      {area}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* ROW 5: Complete Address */}
+          <div className="form-group" style={{ margin: 0 }}>
+            <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: '700' }}>
+              Complete Shop Address <span className="required-star">*</span>
+              <span className="kannada-text" style={{ display: 'block', fontWeight: '400', fontSize: '0.77rem' }}>ಸ್ಥಳದ ಸಂಪೂರ್ಣ ವಿಳಾಸ</span>
             </label>
             <input
               type="text"
@@ -521,52 +588,6 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
               required
             />
           </div>
-
-          {/* PINCODE SUCCESS BANNER & VILLAGE / LOCALITY CHIPS */}
-          {pincodeSuccess && (
-            <div className="animate-fade-in" style={{
-              background: 'rgba(16, 185, 129, 0.1)',
-              border: '1px solid rgba(16, 185, 129, 0.3)',
-              borderRadius: '12px',
-              padding: '0.85rem 1rem',
-              marginTop: '0.75rem',
-              marginBottom: '0.5rem'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#059669', fontWeight: '700', fontSize: '0.88rem' }}>
-                <CheckCircle2 size={16} />
-                <span>{pincodeSuccess}</span>
-              </div>
-
-              {pincodeAreas.length > 1 && (
-                <div style={{ marginTop: '0.6rem' }}>
-                  <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', display: 'block', marginBottom: '0.35rem' }}>
-                    🏘️ One-tap select village / sub-locality under {formData.pincode}:
-                  </span>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
-                    {pincodeAreas.map((area, idx) => (
-                      <button
-                        type="button"
-                        key={idx}
-                        onClick={() => handleSelectArea(area)}
-                        style={{
-                          padding: '0.25rem 0.65rem',
-                          borderRadius: '8px',
-                          fontSize: '0.78rem',
-                          fontWeight: '600',
-                          cursor: 'pointer',
-                          border: formData.village === area || formData.place.includes(area) ? '1px solid #10b981' : '1px solid var(--border-color)',
-                          background: formData.village === area || formData.place.includes(area) ? 'rgba(16, 185, 129, 0.2)' : 'var(--bg-card)',
-                          color: formData.village === area || formData.place.includes(area) ? '#059669' : 'var(--text-main)'
-                        }}
-                      >
-                        {formData.village === area || formData.place.includes(area) ? '✓ ' : ''}{area}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
 
         </div>
 
