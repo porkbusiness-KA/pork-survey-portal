@@ -13,6 +13,7 @@ import {
   CUSTOMER_TYPE_OPTIONS, MASALA_OPTIONS
 } from '../data/surveyQuestions';
 import { TRANSLATIONS } from '../data/translations';
+import TimePicker from './TimePicker';
 import { submitSurvey } from '../services/api';
 
 export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onSwitchToRecords, lang = 'en', onSetLang }) {
@@ -829,75 +830,31 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.25rem', marginBottom: '1.5rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem', marginBottom: '1.5rem' }}>
             {/* Opening Time */}
             <div className="form-group">
-              <label className="form-label">
+              <label className="form-label" style={{ marginBottom: '0.5rem', display: 'block' }}>
                 {t.q14} <span className="required-star">*</span>
               </label>
-              <div style={{ position: 'relative' }}>
-                <span style={{
-                  position: 'absolute', left: '0.9rem', top: '50%',
-                  transform: 'translateY(-50%)', color: '#e11d48', pointerEvents: 'none', zIndex: 1
-                }}>
-                  <Clock size={17} />
-                </span>
-                <input
-                  type="time"
-                  name="opening_time"
-                  value={formData.opening_time}
-                  onChange={handleChange}
-                  className="form-input"
-                  style={{
-                    paddingLeft: '2.5rem',
-                    cursor: 'pointer',
-                    fontSize: '1rem',
-                    fontWeight: '600',
-                    letterSpacing: '0.05em'
-                  }}
-                  required
-                />
-              </div>
-              {formData.opening_time && (
-                <small style={{ color: '#059669', fontSize: '0.78rem', marginTop: '0.3rem', display: 'block', fontWeight: '600' }}>
-                  🕐 {new Date(`1970-01-01T${formData.opening_time}`).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}
-                </small>
-              )}
+              <TimePicker
+                name="opening_time"
+                value={formData.opening_time}
+                onChange={handleChange}
+                required
+              />
             </div>
 
             {/* Closing Time */}
             <div className="form-group">
-              <label className="form-label">
+              <label className="form-label" style={{ marginBottom: '0.5rem', display: 'block' }}>
                 {t.q15} <span className="required-star">*</span>
               </label>
-              <div style={{ position: 'relative' }}>
-                <span style={{
-                  position: 'absolute', left: '0.9rem', top: '50%',
-                  transform: 'translateY(-50%)', color: '#e11d48', pointerEvents: 'none', zIndex: 1
-                }}>
-                  <Clock size={17} />
-                </span>
-                <input
-                  type="time"
-                  name="closing_time"
-                  value={formData.closing_time}
-                  onChange={handleChange}
-                  className="form-input"
-                  style={{
-                    paddingLeft: '2.5rem',
-                    cursor: 'pointer',
-                    fontSize: '1rem',
-                    fontWeight: '600',
-                    letterSpacing: '0.05em'
-                  }}
-                  required
-                />
-              </div>
-              {formData.closing_time && (
-                <small style={{ color: '#059669', fontSize: '0.78rem', marginTop: '0.3rem', display: 'block', fontWeight: '600' }}>
-                  🕐 {new Date(`1970-01-01T${formData.closing_time}`).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}
-                </small>
-              )}
+              <TimePicker
+                name="closing_time"
+                value={formData.closing_time}
+                onChange={handleChange}
+                required
+              />
             </div>
           </div>
 
