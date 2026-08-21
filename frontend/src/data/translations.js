@@ -26,10 +26,8 @@ export const TRANSLATIONS = {
     sec6Sub: 'Masala varieties sold or used in shop',
     sec7Title: '7. BBMP Trade License Status',
     sec7Sub: 'BBMP trade licensing and procurement issues',
-    sec8Title: '8. Cleanliness & Behavior Rating',
-    sec8Sub: 'Hygiene & attitude star rating',
-    sec9Title: '9. Shop Image & Location Link',
-    sec9Sub: 'Photo uploads and map location link',
+    sec8Title: '8. Shop Image & Location Link',
+    sec8Sub: 'Photo uploads and map location link',
 
     // Questions
     q1: '1. Pincode',
@@ -122,10 +120,8 @@ export const TRANSLATIONS = {
     sec6Sub: 'ಅಂಗಡಿಯಲ್ಲಿ ಲಭ್ಯವಿರುವ ಮಸಾಲೆಗಳ ವಿವರ',
     sec7Title: '7. ಬಿಬಿಎಂಪಿ ವ್ಯಾಪಾರ ಪರವಾನಗಿ ಸ್ಥಿತಿ',
     sec7Sub: 'BBMP ಟ್ರೇಡ್ ಲೈಸೆನ್ಸ್ ಮತ್ತು ಪರವಾನಗಿ ಸಮಸ್ಯೆಗಳು',
-    sec8Title: '8. ಶುಚಿತ್ವ ಮತ್ತು ನಡವಳಿಕೆ ರೇಟಿಂಗ್',
-    sec8Sub: 'ನೈರ್ಮಲ್ಯ ಮತ್ತು ವರ್ತನೆ ಸ್ಟಾರ್ ರೇಟಿಂಗ್',
-    sec9Title: '9. ಅಂಗಡಿಯ ಚಿತ್ರ ಮತ್ತು GPS ನಕ್ಷೆಯ ಲಿಂಕ್',
-    sec9Sub: 'ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮತ್ತು ಗೂಗಲ್ ಮ್ಯಾಪ್ ಲಿಂಕ್',
+    sec8Title: '8. ಅಂಗಡಿಯ ಚಿತ್ರ ಮತ್ತು GPS ನಕ್ಷೆಯ ಲಿಂಕ್',
+    sec8Sub: 'ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮತ್ತು ಗೂಗಲ್ ಮ್ಯಾಪ್ ಲಿಂಕ್',
 
     // Questions
     q1: '1. ಪಿನ್‌ಕೋಡ್ (6 ಸಂಖ್ಯೆಗಳು)',
@@ -218,10 +214,8 @@ export const TRANSLATIONS = {
     sec6Sub: 'ಅಂಗಡಿಯಲ್ಲಿ ಲಭ್ಯವಿರುವ ಹಂದಿ ಮಸಾಲಾಗಳ ವಿವರ',
     sec7Title: '7. BBMP Trade License Status (ಬಿಬಿಎಂಪಿ ಪರವಾನಗಿ)',
     sec7Sub: 'ಬಿಬಿಎಂಪಿ ವ್ಯಾಪಾರ ಪರವಾನಗಿ ಮತ್ತು ಸಮಸ್ಯೆಗಳ ವಿವರ',
-    sec8Title: '8. Cleanliness Rating (ಶುಚಿತ್ವದ ರೇಟಿಂಗ್)',
-    sec8Sub: 'ಅಂಗಡಿಯ ಶುಚಿತ್ವದ ರೇಟಿಂಗ್ (1-5 Stars)',
-    sec9Title: '9. Shop Photos & GPS Location Link (ಚಿತ್ರಗಳು & ನಕ್ಷೆ)',
-    sec9Sub: 'ಅಂಗಡಿಯ ಚಿತ್ರಗಳು ಮತ್ತು ನಕ್ಷೆಯ ಲಿಂಕ್',
+    sec8Title: '8. Shop Image & Location (ಅಂಗಡಿಯ ಚಿತ್ರ ಮತ್ತು ಸ್ಥಳ)',
+    sec8Sub: 'Photo uploads and map location link (ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮತ್ತು ಮ್ಯಾಪ್ ಲಿಂಕ್)',
 
     // Questions
     q1: '1. Pincode (ಪಿನ್‌ಕೋಡ್ - 6 ಸಂಖ್ಯೆಗಳು)',
