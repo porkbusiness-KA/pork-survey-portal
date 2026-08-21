@@ -1529,7 +1529,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
         {/* Subtle Ratings (Hidden in plain sight) */}
         <div style={{ marginTop: '2rem', padding: '1rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', opacity: 0.4, transition: 'opacity 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.opacity = 0.9} onMouseLeave={(e) => e.currentTarget.style.opacity = 0.4}>
           <div style={{ display: 'flex', gap: '0.2rem', alignItems: 'center' }}>
-            <span style={{ fontSize: '0.7rem', color: 'var(--text-dim)', marginRight: '0.5rem', userSelect: 'none', width: '25px' }}>INT1:</span>
+            <span style={{ fontSize: '0.7rem', color: 'var(--text-dim)', marginRight: '0.5rem', userSelect: 'none', width: '45px', textAlign: 'right' }}>Clean:</span>
             {[1, 2, 3, 4, 5].map(star => (
               <button
                 type="button"
@@ -1544,14 +1544,14 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                   padding: '2px',
                   outline: 'none'
                 }}
-                title="Internal Cleanliness Rating"
+                title="Cleanliness Rating"
               >
                 ⭐
               </button>
             ))}
           </div>
           <div style={{ display: 'flex', gap: '0.2rem', alignItems: 'center' }}>
-            <span style={{ fontSize: '0.7rem', color: 'var(--text-dim)', marginRight: '0.5rem', userSelect: 'none', width: '25px' }}>INT2:</span>
+            <span style={{ fontSize: '0.7rem', color: 'var(--text-dim)', marginRight: '0.5rem', userSelect: 'none', width: '45px', textAlign: 'right' }}>Behavior:</span>
             {[1, 2, 3, 4, 5].map(star => (
               <button
                 type="button"
@@ -1566,7 +1566,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                   padding: '2px',
                   outline: 'none'
                 }}
-                title="Internal Behavior Rating"
+                title="Behavior Rating"
               >
                 ⭐
               </button>
