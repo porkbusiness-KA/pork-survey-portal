@@ -54,8 +54,8 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
     bbmp_license_issued: 'No',
     bbmp_license_issues: 'No',
     bbmp_issue_reasons: '',
-    cleanliness_rating: 4,
-    behavior_rating: 4,
+    cleanliness_rating: 0,
+    behavior_rating: 0,
     spoc_same_as_owner: true,
     spoc_name: '',
     spoc_mobile: '',
@@ -282,6 +282,16 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
     setErrorMessage(null);
 
     // Validation
+    if (!formData.cleanliness_rating || formData.cleanliness_rating === 0) {
+      setErrorMessage('Please provide the Cleanliness rating (Internal rating at the bottom of the form).');
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      return;
+    }
+    if (!formData.behavior_rating || formData.behavior_rating === 0) {
+      setErrorMessage('Please provide the Behavior rating (Internal rating at the bottom of the form).');
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      return;
+    }
     if (!formData.shop_name.trim()) {
       setErrorMessage('Please enter the name of the pork shop (ಹಂದಿಮಾಂಸದ ಅಂಗಡಿಯ ಹೆಸರು).');
       window.scrollTo({ top: 200, behavior: 'smooth' });
