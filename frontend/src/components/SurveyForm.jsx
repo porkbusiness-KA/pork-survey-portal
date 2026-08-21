@@ -591,13 +591,13 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
         </div>
 
-        {/* SECTION 2: Shop & Owner Info (Q5, Q6, Q7) */}
+        {/* SECTION 2: Shop & Owner Info (Q5, Q6, Q7, Q25, Q26) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <Store size={20} color="#e11d48" />
             <div>
               <h2 style={{ fontSize: '1.2rem' }}>2. Shop & Owner Details</h2>
-              <p className="kannada-text">ಅಂಗಡಿ ಮತ್ತು ಮಾಲೀಕರ ವಿವರಗಳು</p>
+              <p className="kannada-text">ಅಂಗಡಿ, ಮಾಲೀಕರ ಮತ್ತು ಸಂಪರ್ಕ ವ್ಯಕ್ತಿಯ ವಿವರಗಳು</p>
             </div>
           </div>
 
@@ -646,6 +646,62 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 onChange={handleChange}
                 placeholder="e.g. 10"
                 min="0"
+                className="form-input"
+              />
+            </div>
+
+            {/* Q25: SPOC Name */}
+            <div className="form-group">
+              <label className="form-label">
+                25. Name of SPOC of shop <span className="required-star">*</span>
+                <span className="kannada-text" style={{ display: 'block' }}>(ಸಂಪರ್ಕಿಸಬೇಕಾದ ವ್ಯಕ್ತಿಯ ಹೆಸರು)</span>
+              </label>
+              <div style={{ marginBottom: '0.5rem' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem', cursor: 'pointer', color: 'var(--text-muted)' }}>
+                  <input
+                    type="checkbox"
+                    name="spoc_same_as_owner"
+                    checked={formData.spoc_same_as_owner}
+                    onChange={handleChange}
+                    style={{ accentColor: '#e11d48' }}
+                  />
+                  <span>Same as owner's name (ಮಾಲೀಕರ ಹೆಸರೇ SPOC)</span>
+                </label>
+              </div>
+              {!formData.spoc_same_as_owner ? (
+                <input
+                  type="text"
+                  name="spoc_name"
+                  value={formData.spoc_name}
+                  onChange={handleChange}
+                  placeholder="Enter SPOC full name"
+                  className="form-input"
+                  required={!formData.spoc_same_as_owner}
+                />
+              ) : (
+                <input
+                  type="text"
+                  value={formData.owner_name ? `${formData.owner_name} (Owner)` : '(Will mirror Owner Name)'}
+                  className="form-input"
+                  disabled
+                  style={{ opacity: 0.75, background: 'var(--bg-card-subtle)' }}
+                />
+              )}
+            </div>
+
+            {/* Q26: SPOC Mobile */}
+            <div className="form-group">
+              <label className="form-label">
+                26. Mobile number of SPOC
+                <span className="kannada-text" style={{ display: 'block' }}>(ಸಂಪರ್ಕಿಸಬೇಕಾದ ವ್ಯಕ್ತಿಯ ದೂರವಾಣಿ ಸಂಖ್ಯೆ)</span>
+              </label>
+              <input
+                type="tel"
+                name="spoc_mobile"
+                value={formData.spoc_mobile}
+                onChange={handleChange}
+                placeholder="e.g. 9845012345"
+                maxLength="12"
                 className="form-input"
               />
             </div>
@@ -1126,17 +1182,17 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           )}
         </div>
 
-        {/* SECTION 7: Cleanliness & SPOC Details (Q24, Q25, Q26) */}
+        {/* SECTION 7: Cleanliness Rating (Q24) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <Award size={20} color="#e11d48" />
             <div>
-              <h2 style={{ fontSize: '1.2rem' }}>7. Cleanliness Rating & SPOC Contact</h2>
-              <p className="kannada-text">ಶುಚಿತ್ವದ ರೇಟಿಂಗ್ ಮತ್ತು ಸಂಪರ್ಕ ವ್ಯಕ್ತಿಯ ವಿವರ</p>
+              <h2 style={{ fontSize: '1.2rem' }}>7. Cleanliness Rating</h2>
+              <p className="kannada-text">ಅಂಗಡಿಯ ಶುಚಿತ್ವದ ರೇಟಿಂಗ್</p>
             </div>
           </div>
 
-          <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+          <div className="form-group">
             <label className="form-label">
               24. Provide the rating on the cleanliness of pork shop (1 to 5 Stars)
               <span className="kannada-text" style={{ display: 'block' }}>(ಹಂದಿಮಾಂಸದ ಅಂಗಡಿಯ ಶುಚಿತ್ವದ ಮೇಲೆ ರೇಟಿಂಗ್ ಒದಗಿಸಿ)</span>
@@ -1173,64 +1229,6 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                  formData.cleanliness_rating === 3 ? 'Average (ಸಾಧಾರಣ)' :
                  formData.cleanliness_rating === 2 ? 'Below Average' : 'Poor (ಕಳಪೆ)'}
               </span>
-            </div>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
-            <div className="form-group">
-              <label className="form-label">
-                25. Name of SPOC of shop <span className="required-star">*</span>
-                <span className="kannada-text" style={{ display: 'block' }}>(ಸಂಪರ್ಕಿಸಬೇಕಾದ ವ್ಯಕ್ತಿಯ ಹೆಸರು)</span>
-              </label>
-              
-              <div style={{ marginBottom: '0.5rem' }}>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem', cursor: 'pointer', color: 'var(--text-muted)' }}>
-                  <input
-                    type="checkbox"
-                    name="spoc_same_as_owner"
-                    checked={formData.spoc_same_as_owner}
-                    onChange={handleChange}
-                    style={{ accentColor: '#e11d48' }}
-                  />
-                  <span>Same as owner's name (ಮಾಲೀಕರ ಹೆಸರೇ SPOC)</span>
-                </label>
-              </div>
-
-              {!formData.spoc_same_as_owner ? (
-                <input
-                  type="text"
-                  name="spoc_name"
-                  value={formData.spoc_name}
-                  onChange={handleChange}
-                  placeholder="Enter SPOC full name"
-                  className="form-input"
-                  required={!formData.spoc_same_as_owner}
-                />
-              ) : (
-                <input
-                  type="text"
-                  value={formData.owner_name ? `${formData.owner_name} (Owner)` : '(Will mirror Owner Name)'}
-                  className="form-input"
-                  disabled
-                  style={{ opacity: 0.75, background: 'var(--bg-card-subtle)' }}
-                />
-              )}
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">
-                26. Mobile number of SPOC
-                <span className="kannada-text" style={{ display: 'block' }}>(ಸಂಪರ್ಕಿಸಬೇಕಾದ ವ್ಯಕ್ತಿಯ ದೂರವಾಣಿ ಸಂಖ್ಯೆ)</span>
-              </label>
-              <input
-                type="tel"
-                name="spoc_mobile"
-                value={formData.spoc_mobile}
-                onChange={handleChange}
-                placeholder="e.g. 9845012345"
-                maxLength="12"
-                className="form-input"
-              />
             </div>
           </div>
         </div>
