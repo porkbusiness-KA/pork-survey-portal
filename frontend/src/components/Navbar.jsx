@@ -35,7 +35,7 @@ export default function Navbar({ activeTab, setActiveTab, totalCount = 0, theme 
             height: '40px',
             minWidth: '40px',
             borderRadius: '12px',
-            background: 'linear-gradient(135deg, #f43f5e 0%, #be123c 100%)',
+            background: 'linear-gradient(135deg, #f59e0b 0%, #b45309 100%)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -82,7 +82,7 @@ export default function Navbar({ activeTab, setActiveTab, totalCount = 0, theme 
                 borderRadius: '8px',
                 border: 'none',
                 cursor: 'pointer',
-                background: lang === 'en' ? '#e11d48' : 'transparent',
+                background: lang === 'en' ? '#d97706' : 'transparent',
                 color: lang === 'en' ? '#fff' : 'var(--text-muted)',
                 transition: 'all 0.18s ease'
               }}
@@ -101,7 +101,7 @@ export default function Navbar({ activeTab, setActiveTab, totalCount = 0, theme 
                 borderRadius: '8px',
                 border: 'none',
                 cursor: 'pointer',
-                background: lang === 'kn' ? '#e11d48' : 'transparent',
+                background: lang === 'kn' ? '#d97706' : 'transparent',
                 color: lang === 'kn' ? '#fff' : 'var(--text-muted)',
                 transition: 'all 0.18s ease'
               }}
@@ -120,7 +120,7 @@ export default function Navbar({ activeTab, setActiveTab, totalCount = 0, theme 
                 borderRadius: '8px',
                 border: 'none',
                 cursor: 'pointer',
-                background: lang === 'both' ? '#e11d48' : 'transparent',
+                background: lang === 'both' ? '#d97706' : 'transparent',
                 color: lang === 'both' ? '#fff' : 'var(--text-muted)',
                 transition: 'all 0.18s ease'
               }}
@@ -197,9 +197,9 @@ export default function Navbar({ activeTab, setActiveTab, totalCount = 0, theme 
                 fontSize: '0.82rem',
                 borderRadius: '9px',
                 border: 'none',
-                background: activeTab === 'form' ? 'linear-gradient(135deg, #f43f5e 0%, #e11d48 100%)' : 'transparent',
+                background: activeTab === 'form' ? 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)' : 'transparent',
                 color: activeTab === 'form' ? '#fff' : 'var(--text-muted)',
-                boxShadow: activeTab === 'form' ? '0 4px 10px rgba(225, 29, 72, 0.25)' : 'none',
+                boxShadow: activeTab === 'form' ? '0 4px 10px rgba(217, 119, 6, 0.25)' : 'none',
                 cursor: 'pointer',
                 whiteSpace: 'nowrap'
               }}
@@ -216,9 +216,9 @@ export default function Navbar({ activeTab, setActiveTab, totalCount = 0, theme 
                 fontSize: '0.82rem',
                 borderRadius: '9px',
                 border: 'none',
-                background: activeTab === 'dashboard' ? 'linear-gradient(135deg, #f43f5e 0%, #e11d48 100%)' : 'transparent',
+                background: activeTab === 'dashboard' ? 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)' : 'transparent',
                 color: activeTab === 'dashboard' ? '#fff' : 'var(--text-muted)',
-                boxShadow: activeTab === 'dashboard' ? '0 4px 10px rgba(225, 29, 72, 0.25)' : 'none',
+                boxShadow: activeTab === 'dashboard' ? '0 4px 10px rgba(217, 119, 6, 0.25)' : 'none',
                 cursor: 'pointer',
                 whiteSpace: 'nowrap'
               }}
@@ -235,9 +235,9 @@ export default function Navbar({ activeTab, setActiveTab, totalCount = 0, theme 
                 fontSize: '0.82rem',
                 borderRadius: '9px',
                 border: 'none',
-                background: activeTab === 'records' ? 'linear-gradient(135deg, #f43f5e 0%, #e11d48 100%)' : 'transparent',
+                background: activeTab === 'records' ? 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)' : 'transparent',
                 color: activeTab === 'records' ? '#fff' : 'var(--text-muted)',
-                boxShadow: activeTab === 'records' ? '0 4px 10px rgba(225, 29, 72, 0.25)' : 'none',
+                boxShadow: activeTab === 'records' ? '0 4px 10px rgba(217, 119, 6, 0.25)' : 'none',
                 cursor: 'pointer',
                 whiteSpace: 'nowrap'
               }}

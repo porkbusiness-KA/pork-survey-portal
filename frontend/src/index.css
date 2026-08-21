@@ -12,12 +12,12 @@
   --bg-input: #ffffff;
   --border-color: #e2e8f0;
   --border-subtle: #edf2f7;
-  --border-focus: #e11d48;
+  --border-focus: #d97706;
 
-  --primary: #e11d48;
-  --primary-glow: rgba(225, 29, 72, 0.18);
-  --primary-hover: #be123c;
-  --primary-light: #fff1f2;
+  --primary: #d97706;
+  --primary-glow: rgba(217, 119, 6, 0.25);
+  --primary-hover: #b45309;
+  --primary-light: #fffbeb;
 
   --accent-emerald: #059669;
   --accent-amber: #d97706;
@@ -36,9 +36,9 @@
 
   --shadow-card: 0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
   --shadow-hover: 0 12px 28px -4px rgba(15, 23, 42, 0.1);
-  --shadow-glow: 0 0 25px rgba(225, 29, 72, 0.2);
+  --shadow-glow: 0 0 25px rgba(217, 119, 6, 0.25);
 
-  --banner-bg: linear-gradient(135deg, #fff1f2 0%, #ffffff 100%);
+  --banner-bg: linear-gradient(135deg, #fffbeb 0%, #ffffff 100%);
   --modal-bg: #ffffff;
 }
 
@@ -52,12 +52,12 @@
   --bg-input: #131b2e;
   --border-color: rgba(255, 255, 255, 0.08);
   --border-subtle: rgba(255, 255, 255, 0.04);
-  --border-focus: #e11d48;
+  --border-focus: #d97706;
 
-  --primary: #e11d48;
-  --primary-glow: rgba(225, 29, 72, 0.25);
-  --primary-hover: #be123c;
-  --primary-light: #ffe4e6;
+  --primary: #d97706;
+  --primary-glow: rgba(217, 119, 6, 0.3);
+  --primary-hover: #b45309;
+  --primary-light: #fffbeb;
 
   --accent-emerald: #10b981;
   --accent-amber: #f59e0b;
@@ -159,13 +159,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
   color: #ffffff;
   box-shadow: 0 4px 14px 0 var(--primary-glow);
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
   transform: translateY(-1px);
   box-shadow: 0 6px 20px 0 var(--primary-glow);
 }
@@ -213,7 +213,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .glass-card:hover {
-  border-color: rgba(225, 29, 72, 0.3);
+  border-color: rgba(217, 119, 6, 0.3);
   box-shadow: var(--shadow-hover);
 }
 
@@ -269,9 +269,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .badge-primary {
-  background: rgba(225, 29, 72, 0.1);
-  color: #e11d48;
-  border: 1px solid rgba(225, 29, 72, 0.25);
+  background: rgba(217, 119, 6, 0.1);
+  color: #d97706;
+  border: 1px solid rgba(217, 119, 6, 0.25);
 }
 
 .badge-emerald {

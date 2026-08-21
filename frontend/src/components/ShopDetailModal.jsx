@@ -79,7 +79,7 @@ export default function ShopDetailModal({ survey, onClose }) {
             {survey.shop_name}
           </h2>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--text-muted)', fontSize: '0.9rem', flexWrap: 'wrap' }}>
-            <MapPin size={16} color="#e11d48" />
+            <MapPin size={16} color="#d97706" />
             <span>
               {survey.place || [survey.village, survey.taluk, survey.district].filter(Boolean).join(', ')}
               {survey.pincode ? ` — Pincode: ${survey.pincode}` : ''}
@@ -93,7 +93,7 @@ export default function ShopDetailModal({ survey, onClose }) {
           
           {/* Group 1: Ownership & Experience */}
           <div style={{ background: 'var(--bg-card-subtle)', padding: '1.25rem', borderRadius: '14px', border: '1px solid var(--border-color)' }}>
-            <h4 style={{ color: '#e11d48', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <h4 style={{ color: '#d97706', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
               <User size={16} /> Owner & SPOC Details
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.88rem' }}>
@@ -107,7 +107,7 @@ export default function ShopDetailModal({ survey, onClose }) {
 
           {/* Group 2: Timings & Operations */}
           <div style={{ background: 'var(--bg-card-subtle)', padding: '1.25rem', borderRadius: '14px', border: '1px solid var(--border-color)' }}>
-            <h4 style={{ color: '#e11d48', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <h4 style={{ color: '#d97706', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
               <Clock size={16} /> Timings & Holidays
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.88rem' }}>
@@ -126,7 +126,7 @@ export default function ShopDetailModal({ survey, onClose }) {
 
           {/* Group 3: Workforce & Customers */}
           <div style={{ background: 'var(--bg-card-subtle)', padding: '1.25rem', borderRadius: '14px', border: '1px solid var(--border-color)' }}>
-            <h4 style={{ color: '#e11d48', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <h4 style={{ color: '#d97706', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
               <Users size={16} /> Staff & Customer Footfall
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.88rem' }}>
@@ -146,7 +146,7 @@ export default function ShopDetailModal({ survey, onClose }) {
 
           {/* Group 4: Meat Sales & Pricing */}
           <div style={{ background: 'var(--bg-card-subtle)', padding: '1.25rem', borderRadius: '14px', border: '1px solid var(--border-color)' }}>
-            <h4 style={{ color: '#e11d48', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <h4 style={{ color: '#d97706', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
               <ShoppingBag size={16} /> Products, Rates & Sourcing
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.88rem' }}>
@@ -166,7 +166,7 @@ export default function ShopDetailModal({ survey, onClose }) {
 
           {/* Group 5: Masalas & Processed Products */}
           <div style={{ background: 'var(--bg-card-subtle)', padding: '1.25rem', borderRadius: '14px', border: '1px solid var(--border-color)' }}>
-            <h4 style={{ color: '#e11d48', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <h4 style={{ color: '#d97706', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
               <Award size={16} /> Masalas & Processed Meat
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.88rem' }}>
@@ -191,7 +191,7 @@ export default function ShopDetailModal({ survey, onClose }) {
 
           {/* Group 6: BBMP Trade License & Cleanliness */}
           <div style={{ background: 'var(--bg-card-subtle)', padding: '1.25rem', borderRadius: '14px', border: '1px solid var(--border-color)' }}>
-            <h4 style={{ color: '#e11d48', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <h4 style={{ color: '#d97706', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
               <ShieldCheck size={16} /> Licensing & Hygiene
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.88rem' }}>
@@ -215,7 +215,7 @@ export default function ShopDetailModal({ survey, onClose }) {
         {images.length > 0 && (
           <div style={{ marginBottom: '1.75rem' }}>
             <h4 style={{ color: 'var(--text-main)', fontSize: '1rem', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <ImageIcon size={18} color="#e11d48" /> Uploaded Shop Photos ({images.length})
+              <ImageIcon size={18} color="#d97706" /> Uploaded Shop Photos ({images.length})
             </h4>
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
               {images.map((imgUrl, i) => (
@@ -229,9 +229,9 @@ export default function ShopDetailModal({ survey, onClose }) {
 
         {/* Location Link Action Button */}
         {survey.location_link && (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(225, 29, 72, 0.08)', padding: '1rem 1.25rem', borderRadius: '12px', border: '1px solid rgba(225, 29, 72, 0.2)', flexWrap: 'wrap', gap: '1rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(225, 29, 72, 0.08)', padding: '1rem 1.25rem', borderRadius: '12px', border: '1px solid rgba(217, 119, 6, 0.2)', flexWrap: 'wrap', gap: '1rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <MapPin size={20} color="#e11d48" />
+              <MapPin size={20} color="#d97706" />
               <div>
                 <div style={{ fontWeight: '700', color: 'var(--text-main)', fontSize: '0.95rem' }}>Google Maps Location Pin</div>
                 <div style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>{survey.location_link}</div>

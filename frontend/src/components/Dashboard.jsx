@@ -84,7 +84,7 @@ export default function Dashboard({ stats, surveys, onSelectSurvey, onRefresh, o
         marginBottom: '2rem'
       }}>
         {/* KPI 1 */}
-        <div className="glass-card" style={{ padding: '1.5rem', borderTop: '4px solid #e11d48' }}>
+        <div className="glass-card" style={{ padding: '1.5rem', borderTop: '4px solid #d97706' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <div>
               <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: '600', textTransform: 'uppercase' }}>
@@ -97,7 +97,7 @@ export default function Dashboard({ stats, surveys, onSelectSurvey, onRefresh, o
                 {totalSurveys}
               </div>
             </div>
-            <div style={{ padding: '0.75rem', borderRadius: '12px', background: 'rgba(225, 29, 72, 0.12)', color: '#e11d48' }}>
+            <div style={{ padding: '0.75rem', borderRadius: '12px', background: 'rgba(225, 29, 72, 0.12)', color: '#d97706' }}>
               <Store size={26} />
             </div>
           </div>
@@ -205,7 +205,7 @@ export default function Dashboard({ stats, surveys, onSelectSurvey, onRefresh, o
         {/* Chart 1: District Distribution */}
         <div className="glass-card" style={{ padding: '1.75rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.5rem' }}>
-            <MapPin size={20} color="#e11d48" />
+            <MapPin size={20} color="#d97706" />
             <div>
               <h3 style={{ fontSize: '1.1rem' }}>Geographic District Distribution</h3>
               <p className="kannada-text" style={{ fontSize: '0.75rem' }}>ಜಿಲ್ಲಾವಾರು ಅಂಗಡಿಗಳ ಹಂಚಿಕೆ</p>
@@ -219,13 +219,13 @@ export default function Dashboard({ stats, surveys, onSelectSurvey, onRefresh, o
                 <div key={district}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem', marginBottom: '0.35rem' }}>
                     <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{district}</span>
-                    <span style={{ color: '#e11d48', fontWeight: '700' }}>{count} outlets ({pct}%)</span>
+                    <span style={{ color: '#d97706', fontWeight: '700' }}>{count} outlets ({pct}%)</span>
                   </div>
                   <div style={{ width: '100%', height: '10px', background: 'var(--bg-card-subtle)', borderRadius: '9999px', overflow: 'hidden', border: '1px solid var(--border-subtle)' }}>
                     <div style={{
                       width: `${pct}%`,
                       height: '100%',
-                      background: 'linear-gradient(90deg, #f43f5e 0%, #be123c 100%)',
+                      background: 'linear-gradient(90deg, #f59e0b 0%, #b45309 100%)',
                       borderRadius: '9999px',
                       transition: 'width 0.8s ease'
                     }}></div>
@@ -302,7 +302,7 @@ export default function Dashboard({ stats, surveys, onSelectSurvey, onRefresh, o
                     <div style={{
                       width: '100%',
                       height: `${Math.max(12, heightPct)}%`,
-                      background: day === 'Sunday' || day === 'Saturday' ? 'linear-gradient(180deg, #f43f5e 0%, #be123c 100%)' : 'linear-gradient(180deg, #818cf8 0%, #4f46e5 100%)',
+                      background: day === 'Sunday' || day === 'Saturday' ? 'linear-gradient(180deg, #f59e0b 0%, #b45309 100%)' : 'linear-gradient(180deg, #818cf8 0%, #4f46e5 100%)',
                       borderRadius: '4px 4px 0 0'
                     }}></div>
                   </div>
@@ -376,7 +376,7 @@ export default function Dashboard({ stats, surveys, onSelectSurvey, onRefresh, o
                 justifyContent: 'space-between'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = '#e11d48';
+                e.currentTarget.style.borderColor = '#d97706';
                 e.currentTarget.style.transform = 'translateY(-2px)';
               }}
               onMouseLeave={(e) => {
@@ -404,7 +404,7 @@ export default function Dashboard({ stats, surveys, onSelectSurvey, onRefresh, o
                 <div style={{ fontSize: '0.9rem', fontWeight: '700', color: '#059669' }}>
                   ₹{shop.regular_meat_rate}/Kg
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', fontSize: '0.82rem', color: '#e11d48', fontWeight: '600' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', fontSize: '0.82rem', color: '#d97706', fontWeight: '600' }}>
                   <span>View Details</span>
                   <ArrowUpRight size={14} />
                 </div>

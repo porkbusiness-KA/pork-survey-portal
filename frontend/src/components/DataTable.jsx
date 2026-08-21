@@ -184,14 +184,14 @@ export default function DataTable({ surveys, onSelectSurvey, onSurveyDeleted, on
                     onMouseEnter={(e) => e.currentTarget.style.background = 'var(--bg-card-hover)'}
                     onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                   >
-                    <td style={{ padding: '1rem', fontWeight: '700', color: '#e11d48' }}>
+                    <td style={{ padding: '1rem', fontWeight: '700', color: '#d97706' }}>
                       #{item.id}
                     </td>
 
                     <td style={{ padding: '1rem' }}>
                       <div style={{ fontWeight: '700', color: 'var(--text-main)', fontSize: '0.95rem' }}>{item.shop_name}</div>
                       <div style={{ color: 'var(--text-muted)', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '0.3rem', marginTop: '2px' }}>
-                        <MapPin size={12} color="#e11d48" />
+                        <MapPin size={12} color="#d97706" />
                         <span>{item.place} ({item.pincode}) • <strong style={{ color: 'var(--text-main)' }}>{item.district}</strong></span>
                       </div>
                     </td>

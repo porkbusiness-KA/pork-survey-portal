@@ -377,7 +377,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
       <div className="glass-card" style={{
         padding: '2rem',
         marginBottom: '2rem',
-        borderLeft: '5px solid #e11d48',
+        borderLeft: '5px solid #d97706',
         background: 'var(--banner-bg)'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
@@ -415,7 +415,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                     borderRadius: '8px',
                     border: 'none',
                     cursor: 'pointer',
-                    background: lang === 'en' ? '#e11d48' : 'transparent',
+                    background: lang === 'en' ? '#d97706' : 'transparent',
                     color: lang === 'en' ? '#fff' : 'var(--text-muted)'
                   }}
                 >
@@ -431,7 +431,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                     borderRadius: '8px',
                     border: 'none',
                     cursor: 'pointer',
-                    background: lang === 'kn' ? '#e11d48' : 'transparent',
+                    background: lang === 'kn' ? '#d97706' : 'transparent',
                     color: lang === 'kn' ? '#fff' : 'var(--text-muted)'
                   }}
                 >
@@ -447,7 +447,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                     borderRadius: '8px',
                     border: 'none',
                     cursor: 'pointer',
-                    background: lang === 'both' ? '#e11d48' : 'transparent',
+                    background: lang === 'both' ? '#d97706' : 'transparent',
                     color: lang === 'both' ? '#fff' : 'var(--text-muted)'
                   }}
                 >
@@ -495,7 +495,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1.5rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.85rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
               <div style={{ background: 'rgba(225,29,72,0.12)', borderRadius: '10px', padding: '0.45rem' }}>
-                <MapPin size={20} color="#e11d48" />
+                <MapPin size={20} color="#d97706" />
               </div>
               <div>
                 <h2 style={{ fontSize: '1.15rem', fontWeight: '700', margin: 0 }}>{t.sec1Title}</h2>
@@ -525,7 +525,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 required
               />
               {isFetchingPincode && (
-                <span style={{ position: 'absolute', right: '14px', top: '50%', transform: 'translateY(-50%)', color: '#e11d48' }}>
+                <span style={{ position: 'absolute', right: '14px', top: '50%', transform: 'translateY(-50%)', color: '#d97706' }}>
                   <Loader2 size={18} className="pulse-glow" />
                 </span>
               )}
@@ -701,7 +701,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
         {/* SECTION 2: Shop & Owner Info (Q8, Q9, Q10, Q11, Q12, Q13) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
-            <Store size={20} color="#e11d48" />
+            <Store size={20} color="#d97706" />
             <div>
               <h2 style={{ fontSize: '1.2rem' }}>{t.sec2Title}</h2>
               <p className="kannada-text">{t.sec2Sub}</p>
@@ -782,7 +782,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                     name="spoc_same_as_owner"
                     checked={formData.spoc_same_as_owner}
                     onChange={handleChange}
-                    style={{ accentColor: '#e11d48' }}
+                    style={{ accentColor: '#d97706' }}
                   />
                   <span>{t.q12SameAsOwner}</span>
                 </label>
@@ -829,7 +829,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
         {/* SECTION 3: Timings & Weekly Holidays (Q14, Q15, Q16) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
-            <Clock size={20} color="#e11d48" />
+            <Clock size={20} color="#d97706" />
             <div>
               <h2 style={{ fontSize: '1.2rem' }}>{t.sec3Title}</h2>
               <p className="kannada-text">{t.sec3Sub}</p>
@@ -908,7 +908,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                         ? (opt.id === NO_HOLIDAY ? 'rgba(16,185,129,0.13)' : 'rgba(225,29,72,0.12)')
                         : isDisabled ? 'rgba(0,0,0,0.04)' : 'var(--bg-card-subtle)',
                       border: isSelected
-                        ? (opt.id === NO_HOLIDAY ? '1px solid #10b981' : '1px solid #e11d48')
+                        ? (opt.id === NO_HOLIDAY ? '1px solid #10b981' : '1px solid #d97706')
                         : '1px solid var(--border-color)',
                       cursor: isDisabled ? 'not-allowed' : 'pointer',
                       opacity: isDisabled ? 0.4 : 1,
@@ -921,7 +921,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                       checked={isSelected}
                       disabled={isDisabled}
                       onChange={() => !isDisabled && handleMultiToggle('holiday_days', opt.id)}
-                      style={{ accentColor: opt.id === NO_HOLIDAY ? '#10b981' : '#e11d48', cursor: isDisabled ? 'not-allowed' : 'pointer' }}
+                      style={{ accentColor: opt.id === NO_HOLIDAY ? '#10b981' : '#d97706', cursor: isDisabled ? 'not-allowed' : 'pointer' }}
                     />
                     <div>{renderOptLabel(opt)}</div>
                   </label>
@@ -934,7 +934,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
         {/* SECTION 4: Operations & Customer Footfall (Q17, Q18, Q19) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
-            <Users size={20} color="#e11d48" />
+            <Users size={20} color="#d97706" />
             <div>
               <h2 style={{ fontSize: '1.2rem' }}>{t.sec4Title}</h2>
               <p className="kannada-text">{t.sec4Sub}</p>
@@ -1003,7 +1003,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                       padding: '0.6rem 0.85rem',
                       borderRadius: '10px',
                       background: isSelected ? 'rgba(225, 29, 72, 0.12)' : 'var(--bg-card-subtle)',
-                      border: isSelected ? '1px solid #e11d48' : '1px solid var(--border-color)',
+                      border: isSelected ? '1px solid #d97706' : '1px solid var(--border-color)',
                       cursor: 'pointer'
                     }}
                   >
@@ -1011,7 +1011,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                       type="checkbox"
                       checked={isSelected}
                       onChange={() => handleMultiToggle('peak_customer_days', p.id)}
-                      style={{ accentColor: '#e11d48' }}
+                      style={{ accentColor: '#d97706' }}
                     />
                     <div>{renderOptLabel(p)}</div>
                   </label>
@@ -1024,7 +1024,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
         {/* SECTION 5: Meat Products & Sales (Q20, Q21, Q22, Q23, Q24, Q25) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
-            <ShoppingBag size={20} color="#e11d48" />
+            <ShoppingBag size={20} color="#d97706" />
             <div>
               <h2 style={{ fontSize: '1.2rem' }}>{t.sec5Title}</h2>
               <p className="kannada-text">{t.sec5Sub}</p>
@@ -1084,7 +1084,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                       padding: '0.65rem 0.85rem',
                       borderRadius: '10px',
                       background: isSelected ? 'rgba(225, 29, 72, 0.12)' : 'var(--bg-card-subtle)',
-                      border: isSelected ? '1px solid #e11d48' : '1px solid var(--border-color)',
+                      border: isSelected ? '1px solid #d97706' : '1px solid var(--border-color)',
                       cursor: 'pointer'
                     }}
                   >
@@ -1092,7 +1092,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                       type="checkbox"
                       checked={isSelected}
                       onChange={() => handleMultiToggle('meat_types', m.id)}
-                      style={{ accentColor: '#e11d48' }}
+                      style={{ accentColor: '#d97706' }}
                     />
                     <div>{renderOptLabel(m)}</div>
                   </label>
@@ -1215,7 +1215,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
         {/* SECTION 6: Masala Availability (Q26) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
-            <Sparkles size={20} color="#e11d48" />
+            <Sparkles size={20} color="#d97706" />
             <div>
               <h2 style={{ fontSize: '1.2rem' }}>{t.sec6Title}</h2>
               <p className="kannada-text">{t.sec6Sub}</p>
@@ -1245,7 +1245,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                           : ['None']
                       }));
                     }}
-                    style={{ accentColor: '#e11d48' }}
+                    style={{ accentColor: '#d97706' }}
                   />
                   <span>{val === 'Yes' ? (lang === 'kn' ? 'ಹೌದು' : lang === 'both' ? 'Yes (ಹೌದು)' : 'Yes') : (lang === 'kn' ? 'ಇಲ್ಲ' : lang === 'both' ? 'No (ಇಲ್ಲ)' : 'No')}</span>
                 </label>
@@ -1321,7 +1321,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
         {/* SECTION 7: BBMP Trade Licensing (Q27, Q28, Q29) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
-            <FileCheck size={20} color="#e11d48" />
+            <FileCheck size={20} color="#d97706" />
             <div>
               <h2 style={{ fontSize: '1.2rem' }}>{t.sec7Title}</h2>
               <p className="kannada-text">{t.sec7Sub}</p>
@@ -1342,7 +1342,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                       value={val}
                       checked={formData.bbmp_license_issued === val}
                       onChange={handleChange}
-                      style={{ accentColor: '#e11d48' }}
+                      style={{ accentColor: '#d97706' }}
                     />
                     <span>{val === 'Yes' ? (lang === 'kn' ? 'ಹೌದು' : lang === 'both' ? 'Yes (ಹೌದು)' : 'Yes') : (lang === 'kn' ? 'ಇಲ್ಲ' : lang === 'both' ? 'No (ಇಲ್ಲ)' : 'No')}</span>
                   </label>
@@ -1363,7 +1363,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                       value={val}
                       checked={formData.bbmp_license_issues === val}
                       onChange={handleChange}
-                      style={{ accentColor: '#e11d48' }}
+                      style={{ accentColor: '#d97706' }}
                     />
                     <span>{val === 'Yes' ? (lang === 'kn' ? 'ಹೌದು' : lang === 'both' ? 'Yes (ಹೌದು)' : 'Yes') : (lang === 'kn' ? 'ಇಲ್ಲ' : lang === 'both' ? 'No (ಇಲ್ಲ)' : 'No')}</span>
                   </label>
@@ -1392,7 +1392,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
         {/* SECTION 8: Cleanliness Rating (Q30) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
-            <Award size={20} color="#e11d48" />
+            <Award size={20} color="#d97706" />
             <div>
               <h2 style={{ fontSize: '1.2rem' }}>{t.sec8Title}</h2>
               <p className="kannada-text">{t.sec8Sub}</p>
@@ -1442,7 +1442,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
         {/* SECTION 9: Shop Photos & Map Link (Q31, Q32) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '2rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
-            <ImageIcon size={20} color="#e11d48" />
+            <ImageIcon size={20} color="#d97706" />
             <div>
               <h2 style={{ fontSize: '1.2rem' }}>{t.sec9Title}</h2>
               <p className="kannada-text">{t.sec9Sub}</p>
@@ -1471,7 +1471,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 style={{ display: 'none' }}
               />
               <label htmlFor="shop-image-input" style={{ cursor: 'pointer' }}>
-                <ImageIcon size={36} color="#e11d48" style={{ marginBottom: '0.5rem' }} />
+                <ImageIcon size={36} color="#d97706" style={{ marginBottom: '0.5rem' }} />
                 <div style={{ fontWeight: '600', color: 'var(--text-main)', fontSize: '0.95rem' }}>
                   {t.q31UploadHint}
                 </div>
@@ -1535,9 +1535,9 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 onClick={handleFetchLocation}
                 disabled={isLocating}
                 className="btn btn-secondary"
-                style={{ whiteSpace: 'nowrap', borderColor: '#e11d48' }}
+                style={{ whiteSpace: 'nowrap', borderColor: '#d97706' }}
               >
-                <Navigation size={16} color="#e11d48" />
+                <Navigation size={16} color="#d97706" />
                 <span>{isLocating ? t.q32Locating : t.q32GpsBtn}</span>
               </button>
             </div>
@@ -1660,7 +1660,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
                 <span style={{ color: 'var(--text-muted)' }}>Survey Record ID:</span>
-                <span style={{ fontWeight: '800', color: '#e11d48' }}>#{successModalData.surveyId}</span>
+                <span style={{ fontWeight: '800', color: '#d97706' }}>#{successModalData.surveyId}</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
                 <span style={{ color: 'var(--text-muted)' }}>Shop Name:</span>

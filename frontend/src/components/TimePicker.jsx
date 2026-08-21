@@ -98,7 +98,7 @@ export default function TimePicker({ name, value, onChange, required = false }) 
           gap: '0.75rem',
           padding: '0.65rem 1rem',
           borderRadius: '10px',
-          border: open ? '1.5px solid #e11d48' : '1.5px solid var(--border-color)',
+          border: open ? '1.5px solid #d97706' : '1.5px solid var(--border-color)',
           background: 'var(--bg-card-subtle)',
           cursor: 'pointer',
           transition: 'all 0.18s ease',
@@ -106,7 +106,7 @@ export default function TimePicker({ name, value, onChange, required = false }) 
           minHeight: '46px'
         }}
       >
-        <Clock size={18} color="#e11d48" style={{ flexShrink: 0 }} />
+        <Clock size={18} color="#d97706" style={{ flexShrink: 0 }} />
         <span style={{
           fontSize: '1.05rem',
           fontWeight: '700',
@@ -122,7 +122,7 @@ export default function TimePicker({ name, value, onChange, required = false }) 
           padding: '0.2rem 0.55rem',
           borderRadius: '20px',
           background: open ? 'rgba(225,29,72,0.12)' : 'var(--bg-card)',
-          color: open ? '#e11d48' : 'var(--text-muted)',
+          color: open ? '#d97706' : 'var(--text-muted)',
           border: '1px solid var(--border-color)',
           transition: 'all 0.15s ease'
         }}>
@@ -157,19 +157,19 @@ export default function TimePicker({ name, value, onChange, required = false }) 
             borderBottom: '1px solid var(--border-color)'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <Clock size={15} color="#e11d48" />
+              <Clock size={15} color="#d97706" />
               <span style={{ fontSize: '0.82rem', fontWeight: '700', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                 Select Time
               </span>
             </div>
             <div style={{
               background: 'rgba(225,29,72,0.1)',
-              border: '1px solid rgba(225,29,72,0.25)',
+              border: '1px solid rgba(217, 119, 6, 0.25)',
               borderRadius: '8px',
               padding: '0.25rem 0.7rem',
               fontSize: '1rem',
               fontWeight: '800',
-              color: '#e11d48',
+              color: '#d97706',
               letterSpacing: '0.05em'
             }}>
               {String(hour).padStart(2,'0')} : {String(minute).padStart(2,'0')} {ampm}
@@ -193,7 +193,7 @@ export default function TimePicker({ name, value, onChange, required = false }) 
                 background: 'rgba(225,29,72,0.08)',
                 borderRadius: '10px',
                 padding: '0.4rem 0',
-                border: '1px solid rgba(225,29,72,0.2)'
+                border: '1px solid rgba(217, 119, 6, 0.2)'
               }}>
                 {String(hour).padStart(2, '0')}
               </div>
@@ -210,10 +210,10 @@ export default function TimePicker({ name, value, onChange, required = false }) 
                     onClick={() => { setHour(h); emit(h, minute, ampm); }}
                     style={{
                       ...quickBtn,
-                      background: hour === h ? '#e11d48' : 'var(--bg-card-subtle)',
+                      background: hour === h ? '#d97706' : 'var(--bg-card-subtle)',
                       color: hour === h ? '#fff' : 'var(--text-main)',
                       fontWeight: hour === h ? '700' : '500',
-                      border: hour === h ? '1px solid #e11d48' : '1px solid var(--border-color)'
+                      border: hour === h ? '1px solid #d97706' : '1px solid var(--border-color)'
                     }}
                   >
                     {String(h).padStart(2,'0')}
@@ -239,7 +239,7 @@ export default function TimePicker({ name, value, onChange, required = false }) 
                 background: 'rgba(225,29,72,0.08)',
                 borderRadius: '10px',
                 padding: '0.4rem 0',
-                border: '1px solid rgba(225,29,72,0.2)'
+                border: '1px solid rgba(217, 119, 6, 0.2)'
               }}>
                 {String(minute).padStart(2, '0')}
               </div>
@@ -256,10 +256,10 @@ export default function TimePicker({ name, value, onChange, required = false }) 
                     onClick={() => { setMinute(m); emit(hour, m, ampm); }}
                     style={{
                       ...quickBtn,
-                      background: minute === m ? '#e11d48' : 'var(--bg-card-subtle)',
+                      background: minute === m ? '#d97706' : 'var(--bg-card-subtle)',
                       color: minute === m ? '#fff' : 'var(--text-main)',
                       fontWeight: minute === m ? '700' : '500',
-                      border: minute === m ? '1px solid #e11d48' : '1px solid var(--border-color)'
+                      border: minute === m ? '1px solid #d97706' : '1px solid var(--border-color)'
                     }}
                   >
                     {String(m).padStart(2,'0')}
@@ -285,8 +285,8 @@ export default function TimePicker({ name, value, onChange, required = false }) 
                     fontSize: '0.95rem',
                     fontWeight: '800',
                     cursor: 'pointer',
-                    border: ampm === ap ? '1.5px solid #e11d48' : '1.5px solid var(--border-color)',
-                    background: ampm === ap ? '#e11d48' : 'var(--bg-card-subtle)',
+                    border: ampm === ap ? '1.5px solid #d97706' : '1.5px solid var(--border-color)',
+                    background: ampm === ap ? '#d97706' : 'var(--bg-card-subtle)',
                     color: ampm === ap ? '#fff' : 'var(--text-muted)',
                     transition: 'all 0.15s ease',
                     letterSpacing: '0.04em'
@@ -311,7 +311,7 @@ export default function TimePicker({ name, value, onChange, required = false }) 
               fontWeight: '700',
               cursor: 'pointer',
               border: 'none',
-              background: 'linear-gradient(135deg, #e11d48, #be123c)',
+              background: 'linear-gradient(135deg, #d97706, #b45309)',
               color: '#fff',
               letterSpacing: '0.04em',
               boxShadow: '0 4px 14px rgba(225,29,72,0.35)',
