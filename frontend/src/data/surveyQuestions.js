@@ -72,7 +72,7 @@ export const MEAT_TYPES_OPTIONS = [
   { id: 'Other', en: 'Other', kn: 'ಇತರ' }
 ];
 
-export const PROCESSED_VOLUME_OPTIONS = ['<1 Kg', '<3 Kg', '<5 Kg', '>5 Kg', '>10 Kg', 'None', 'Other'];
+export const PROCESSED_VOLUME_OPTIONS = ['<1 Kg', '<3 Kg', '<5 Kg', '>5 Kg', '>10 Kg', 'Other'];
 
 export const PROCESSED_PRODUCT_TYPES = [
   'Ham',
@@ -82,8 +82,7 @@ export const PROCESSED_PRODUCT_TYPES = [
   'Sausage',
   'Ham & Bacon',
   'All Varieties (Ham, Bacon, Salami, Pepperoni, Sausage)',
-  'Others',
-  'None'
+  'Others'
 ];
 
 export const CUSTOMER_TYPE_OPTIONS = [
