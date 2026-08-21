@@ -1421,8 +1421,8 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
               padding: '1.5rem',
               textAlign: 'center',
               background: 'var(--bg-card-subtle)',
-              cursor: 'pointer'
             }}>
+              {/* Hidden file inputs */}
               <input
                 type="file"
                 id="shop-image-input"
@@ -1431,15 +1431,43 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 onChange={handleImageChange}
                 style={{ display: 'none' }}
               />
-              <label htmlFor="shop-image-input" style={{ cursor: 'pointer' }}>
-                <ImageIcon size={36} color="#d97706" style={{ marginBottom: '0.5rem' }} />
-                <div style={{ fontWeight: '600', color: 'var(--text-main)', fontSize: '0.95rem' }}>
-                  {t.q31UploadHint}
-                </div>
-                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                  {t.q31UploadSub}
-                </div>
-              </label>
+              <input
+                type="file"
+                id="shop-camera-input"
+                accept="image/*"
+                capture="environment"
+                onChange={handleImageChange}
+                style={{ display: 'none' }}
+              />
+
+              {/* Icon */}
+              <ImageIcon size={36} color="#d97706" style={{ marginBottom: '0.75rem' }} />
+
+              {/* Two buttons */}
+              <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap', marginTop: '0.5rem' }}>
+                <label htmlFor="shop-image-input" style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
+                  cursor: 'pointer', padding: '0.55rem 1.1rem',
+                  background: 'rgba(217,119,6,0.12)', border: '1px solid #d97706',
+                  borderRadius: '10px', fontWeight: '600', fontSize: '0.85rem',
+                  color: '#d97706', transition: 'all 0.2s'
+                }}>
+                  📁 {t.q31UploadHint}
+                </label>
+                <label htmlFor="shop-camera-input" style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
+                  cursor: 'pointer', padding: '0.55rem 1.1rem',
+                  background: 'rgba(16,185,129,0.1)', border: '1px solid #10b981',
+                  borderRadius: '10px', fontWeight: '600', fontSize: '0.85rem',
+                  color: '#10b981', transition: 'all 0.2s'
+                }}>
+                  📷 {t.q31CameraBtn}
+                </label>
+              </div>
+
+              <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.75rem' }}>
+                {t.q31UploadSub}
+              </div>
             </div>
 
             {previewUrls.length > 0 && (
