@@ -1,10 +1,13 @@
 import React from 'react';
 import {
   ClipboardList, LayoutDashboard, Database, PlusCircle,
-  Sun, Moon, ShieldCheck
+  Sun, Moon, ShieldCheck, Globe
 } from 'lucide-react';
+import { TRANSLATIONS } from '../data/translations';
 
-export default function Navbar({ activeTab, setActiveTab, totalCount = 0, theme = 'light', onToggleTheme }) {
+export default function Navbar({ activeTab, setActiveTab, totalCount = 0, theme = 'light', onToggleTheme, lang = 'en', onSetLang }) {
+  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
+
   return (
     <header style={{
       borderBottom: '1px solid var(--border-color)',
@@ -46,18 +49,87 @@ export default function Navbar({ activeTab, setActiveTab, totalCount = 0, theme 
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
               <span style={{ fontSize: '1.1rem', fontWeight: '800', letterSpacing: '-0.02em', color: 'var(--text-main)' }}>
-                Pork Survey Portal
+                {t.appTitle}
               </span>
-              <span className="badge badge-primary" style={{ padding: '0.15rem 0.5rem', fontSize: '0.7rem' }}>Karnataka</span>
+              <span className="badge badge-primary" style={{ padding: '0.15rem 0.5rem', fontSize: '0.7rem' }}>{t.stateBadge}</span>
             </div>
             <div className="kannada-text" style={{ fontSize: '0.72rem', lineHeight: '1.2' }}>
-              ಹಂದಿಮಾಂಸದ ಚಿಲ್ಲರೆ ಮಾರಾಟ ಅಂಗಡಿಗಳ ಸಮೀಕ್ಷಾ ಪೋರ್ಟಲ್
+              {t.appSubtitle}
             </div>
           </div>
         </div>
 
-        {/* Right Section: Theme Toggle & DB Badge */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginLeft: 'auto' }}>
+        {/* Right Section: Language Switcher, Theme Toggle & DB Badge */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginLeft: 'auto', flexWrap: 'wrap' }}>
+          
+          {/* LANGUAGE SELECTOR (English / ಕನ್ನಡ / Both) */}
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            background: 'var(--bg-card-subtle)',
+            border: '1px solid var(--border-color)',
+            borderRadius: '10px',
+            padding: '2px',
+            gap: '2px'
+          }}>
+            <button
+              type="button"
+              onClick={() => onSetLang('en')}
+              style={{
+                padding: '0.3rem 0.65rem',
+                fontSize: '0.76rem',
+                fontWeight: lang === 'en' ? '700' : '500',
+                borderRadius: '8px',
+                border: 'none',
+                cursor: 'pointer',
+                background: lang === 'en' ? '#e11d48' : 'transparent',
+                color: lang === 'en' ? '#fff' : 'var(--text-muted)',
+                transition: 'all 0.18s ease'
+              }}
+              title="English interface only"
+            >
+              English
+            </button>
+
+            <button
+              type="button"
+              onClick={() => onSetLang('kn')}
+              style={{
+                padding: '0.3rem 0.65rem',
+                fontSize: '0.76rem',
+                fontWeight: lang === 'kn' ? '700' : '500',
+                borderRadius: '8px',
+                border: 'none',
+                cursor: 'pointer',
+                background: lang === 'kn' ? '#e11d48' : 'transparent',
+                color: lang === 'kn' ? '#fff' : 'var(--text-muted)',
+                transition: 'all 0.18s ease'
+              }}
+              title="ಕನ್ನಡ ರೂಪಾಂತರ ಮಾತ್ರ"
+            >
+              ಕನ್ನಡ
+            </button>
+
+            <button
+              type="button"
+              onClick={() => onSetLang('both')}
+              style={{
+                padding: '0.3rem 0.65rem',
+                fontSize: '0.76rem',
+                fontWeight: lang === 'both' ? '700' : '500',
+                borderRadius: '8px',
+                border: 'none',
+                cursor: 'pointer',
+                background: lang === 'both' ? '#e11d48' : 'transparent',
+                color: lang === 'both' ? '#fff' : 'var(--text-muted)',
+                transition: 'all 0.18s ease'
+              }}
+              title="Bilingual / ದ್ವಿಭಾಷಾ"
+            >
+              Both
+            </button>
+          </div>
+
           {/* Light / Dark Mode Toggle */}
           <button
             onClick={onToggleTheme}
@@ -101,7 +173,7 @@ export default function Navbar({ activeTab, setActiveTab, totalCount = 0, theme 
             whiteSpace: 'nowrap'
           }}>
             <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#10b981', display: 'inline-block' }}></span>
-            <span>MySQL Live</span>
+            <span>{t.liveDb}</span>
           </div>
         </div>
 
@@ -133,7 +205,7 @@ export default function Navbar({ activeTab, setActiveTab, totalCount = 0, theme 
               }}
             >
               <PlusCircle size={15} />
-              <span>New Survey <small style={{ opacity: 0.8 }}>(ಹೊಸ ಸಮೀಕ್ಷೆ)</small></span>
+              <span>{t.newSurveyTab}</span>
             </button>
 
             <button
@@ -152,7 +224,7 @@ export default function Navbar({ activeTab, setActiveTab, totalCount = 0, theme 
               }}
             >
               <LayoutDashboard size={15} />
-              <span>Dashboard <small style={{ opacity: 0.8 }}>(ಡ್ಯಾಶ್‌ಬೋರ್ಡ್)</small></span>
+              <span>{t.dashboardTab}</span>
             </button>
 
             <button
@@ -171,7 +243,7 @@ export default function Navbar({ activeTab, setActiveTab, totalCount = 0, theme 
               }}
             >
               <Database size={15} />
-              <span>All Records <span className="badge badge-emerald" style={{ marginLeft: '4px', padding: '1px 5px', fontSize: '0.7rem' }}>{totalCount}</span></span>
+              <span>{t.recordsTab} <span className="badge badge-emerald" style={{ marginLeft: '4px', padding: '1px 5px', fontSize: '0.7rem' }}>{totalCount}</span></span>
             </button>
           </nav>
         </div>

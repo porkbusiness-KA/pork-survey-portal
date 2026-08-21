@@ -11,6 +11,9 @@ export default function App() {
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('pork_portal_theme') || 'light';
   });
+  const [lang, setLang] = useState(() => {
+    return localStorage.getItem('pork_portal_lang') || 'en';
+  });
   const [surveys, setSurveys] = useState([]);
   const [stats, setStats] = useState(null);
   const [selectedSurvey, setSelectedSurvey] = useState(null);
@@ -21,6 +24,11 @@ export default function App() {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('pork_portal_theme', theme);
   }, [theme]);
+
+  // Persist language selection
+  useEffect(() => {
+    localStorage.setItem('pork_portal_lang', lang);
+  }, [lang]);
 
   const toggleTheme = () => {
     setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
@@ -65,6 +73,8 @@ export default function App() {
         totalCount={surveys.length}
         theme={theme}
         onToggleTheme={toggleTheme}
+        lang={lang}
+        onSetLang={setLang}
       />
 
       {/* Main Tab Content */}
@@ -74,6 +84,8 @@ export default function App() {
             onSurveySubmitted={handleSurveySubmitted}
             onSwitchToDashboard={() => setActiveTab('dashboard')}
             onSwitchToRecords={() => setActiveTab('records')}
+            lang={lang}
+            onSetLang={setLang}
           />
         )}
 
@@ -84,6 +96,7 @@ export default function App() {
             onSelectSurvey={(item) => setSelectedSurvey(item)}
             onRefresh={loadData}
             onAddNewSurvey={() => setActiveTab('form')}
+            lang={lang}
           />
         )}
 
@@ -93,6 +106,7 @@ export default function App() {
             onSelectSurvey={(item) => setSelectedSurvey(item)}
             onSurveyDeleted={handleSurveyDeleted}
             onRefresh={loadData}
+            lang={lang}
           />
         )}
       </main>
@@ -102,6 +116,7 @@ export default function App() {
         <ShopDetailModal
           survey={selectedSurvey}
           onClose={() => setSelectedSurvey(null)}
+          lang={lang}
         />
       )}
 
