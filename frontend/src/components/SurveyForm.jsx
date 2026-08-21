@@ -29,8 +29,8 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
     owner_name: '',
     owner_mobile: '',
     years_in_business: '',
-    opening_time: '08:00 AM',
-    closing_time: '08:30 PM',
+    opening_time: '08:00',
+    closing_time: '20:30',
     holiday_days: ['No holiday'],
     workers_count: '2',
     workers_other: '',
@@ -829,35 +829,75 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem', marginBottom: '1.5rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.25rem', marginBottom: '1.5rem' }}>
+            {/* Opening Time */}
             <div className="form-group">
               <label className="form-label">
                 {t.q14} <span className="required-star">*</span>
               </label>
-              <input
-                type="text"
-                name="opening_time"
-                value={formData.opening_time}
-                onChange={handleChange}
-                placeholder="e.g. 07:30 AM"
-                className="form-input"
-                required
-              />
+              <div style={{ position: 'relative' }}>
+                <span style={{
+                  position: 'absolute', left: '0.9rem', top: '50%',
+                  transform: 'translateY(-50%)', color: '#e11d48', pointerEvents: 'none', zIndex: 1
+                }}>
+                  <Clock size={17} />
+                </span>
+                <input
+                  type="time"
+                  name="opening_time"
+                  value={formData.opening_time}
+                  onChange={handleChange}
+                  className="form-input"
+                  style={{
+                    paddingLeft: '2.5rem',
+                    cursor: 'pointer',
+                    fontSize: '1rem',
+                    fontWeight: '600',
+                    letterSpacing: '0.05em'
+                  }}
+                  required
+                />
+              </div>
+              {formData.opening_time && (
+                <small style={{ color: '#059669', fontSize: '0.78rem', marginTop: '0.3rem', display: 'block', fontWeight: '600' }}>
+                  🕐 {new Date(`1970-01-01T${formData.opening_time}`).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}
+                </small>
+              )}
             </div>
 
+            {/* Closing Time */}
             <div className="form-group">
               <label className="form-label">
                 {t.q15} <span className="required-star">*</span>
               </label>
-              <input
-                type="text"
-                name="closing_time"
-                value={formData.closing_time}
-                onChange={handleChange}
-                placeholder="e.g. 09:00 PM"
-                className="form-input"
-                required
-              />
+              <div style={{ position: 'relative' }}>
+                <span style={{
+                  position: 'absolute', left: '0.9rem', top: '50%',
+                  transform: 'translateY(-50%)', color: '#e11d48', pointerEvents: 'none', zIndex: 1
+                }}>
+                  <Clock size={17} />
+                </span>
+                <input
+                  type="time"
+                  name="closing_time"
+                  value={formData.closing_time}
+                  onChange={handleChange}
+                  className="form-input"
+                  style={{
+                    paddingLeft: '2.5rem',
+                    cursor: 'pointer',
+                    fontSize: '1rem',
+                    fontWeight: '600',
+                    letterSpacing: '0.05em'
+                  }}
+                  required
+                />
+              </div>
+              {formData.closing_time && (
+                <small style={{ color: '#059669', fontSize: '0.78rem', marginTop: '0.3rem', display: 'block', fontWeight: '600' }}>
+                  🕐 {new Date(`1970-01-01T${formData.closing_time}`).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}
+                </small>
+              )}
             </div>
           </div>
 
