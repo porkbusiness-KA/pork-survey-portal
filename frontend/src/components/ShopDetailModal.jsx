@@ -298,6 +298,38 @@ export default function ShopDetailModal({ survey, onClose }) {
                   </div>
                 </div>
               )}
+              <div style={{ borderTop: '1px dashed var(--border-color)', margin: '0.25rem 0' }}></div>
+              {Array.isArray(survey.procurement_sources) && survey.procurement_sources.length > 0 && (
+                <div><strong style={{ color: 'var(--text-muted)' }}>Procurement Sources:</strong> <span style={{ color: 'var(--text-main)' }}>{survey.procurement_sources.join(', ')}{survey.procurement_sources_other ? `, ${survey.procurement_sources_other}` : ''}</span></div>
+              )}
+              {survey.procurement_frequency && (
+                <div><strong style={{ color: 'var(--text-muted)' }}>Procurement Frequency:</strong> <span style={{ color: 'var(--text-main)' }}>{survey.procurement_frequency}{survey.procurement_frequency_other ? ` – ${survey.procurement_frequency_other}` : ''}</span></div>
+              )}
+              {survey.procurement_quantity && (
+                <div><strong style={{ color: 'var(--text-muted)' }}>Procurement Quantity/Order:</strong> <span style={{ color: 'var(--text-main)' }}>{survey.procurement_quantity}</span></div>
+              )}
+              {survey.provides_billing && (
+                <div><strong style={{ color: 'var(--text-muted)' }}>Provides Bill/Receipt:</strong> <span style={{ color: 'var(--text-main)' }}>{survey.provides_billing}</span></div>
+              )}
+              {survey.has_challenges && (
+                <div>
+                  <strong style={{ color: 'var(--text-muted)' }}>Facing Business Challenges:</strong>{' '}
+                  <span style={{ color: survey.has_challenges === 'Yes' ? '#d97706' : '#059669', fontWeight: '700' }}>{survey.has_challenges}</span>
+                </div>
+              )}
+              {survey.has_challenges === 'Yes' && Array.isArray(survey.business_challenges) && survey.business_challenges.length > 0 && (
+                <div>
+                  <strong style={{ color: 'var(--text-muted)' }}>Challenges:</strong>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginTop: '0.4rem' }}>
+                    {survey.business_challenges.map((c, i) => (
+                      <span key={i} style={{ background: 'rgba(225,29,72,0.1)', border: '1px solid rgba(217,119,6,0.4)', borderRadius: '20px', padding: '0.2rem 0.6rem', fontSize: '0.78rem', color: '#b45309', fontWeight: '600' }}>{c}</span>
+                    ))}
+                    {survey.business_challenges_other && (
+                      <span style={{ background: 'rgba(225,29,72,0.1)', border: '1px solid rgba(217,119,6,0.4)', borderRadius: '20px', padding: '0.2rem 0.6rem', fontSize: '0.78rem', color: '#b45309', fontWeight: '600' }}>{survey.business_challenges_other}</span>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 

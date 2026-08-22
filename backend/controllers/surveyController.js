@@ -33,6 +33,8 @@ exports.createSurvey = async (req, res) => {
     const meatTypes = JSON.stringify(parseJSONField(body.meat_types, []));
     const meatCuts = JSON.stringify(parseJSONField(body.meat_cuts_sold_most, []));
     const unsoldHandling = JSON.stringify(parseJSONField(body.unsold_meat_handling, []));
+    const procurementSources = JSON.stringify(parseJSONField(body.procurement_sources, []));
+    const businessChallenges = JSON.stringify(parseJSONField(body.business_challenges, []));
     const trainingSkills = JSON.stringify(parseJSONField(body.training_skills, []));
     const processedConsumption = JSON.stringify(parseJSONField(body.processed_meat_consumption, []));
     const masalas = JSON.stringify(parseJSONField(body.masalas_available, []));
@@ -60,13 +62,17 @@ exports.createSurvey = async (req, res) => {
         peak_customer_days, peak_sales_seasons, peak_sales_seasons_other,
         regular_meat_rate, meat_types, meat_cuts_sold_most, meat_cuts_sold_most_other, processed_meat_consumption,
         average_daily_sale_kg, unsold_meat_handling, unsold_meat_handling_other, storage_capacity,
-        procurement_source, customer_type, masalas_available,
+        procurement_source, procurement_sources, procurement_sources_other,
+        procurement_frequency, procurement_frequency_other,
+        procurement_quantity, procurement_quantity_other,
+        customer_type, masalas_available,
         bbmp_license_issued, bbmp_license_issues, bbmp_issue_reasons,
         fssai_license_issued, fssai_license_issues, fssai_issue_reasons,
+        provides_billing, has_challenges, business_challenges, business_challenges_other,
         wants_training, training_skills, training_skills_other,
         cleanliness_rating, behavior_rating,
         spocs, spoc_name, spoc_mobile, location_link, latitude, longitude, shop_images
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const values = [
@@ -102,6 +108,12 @@ exports.createSurvey = async (req, res) => {
       body.unsold_meat_handling_other || '',
       body.storage_capacity || '',
       body.procurement_source || '',
+      procurementSources,
+      body.procurement_sources_other || '',
+      body.procurement_frequency || '',
+      body.procurement_frequency_other || '',
+      body.procurement_quantity || '',
+      body.procurement_quantity_other || '',
       body.customer_type || 'Localities',
       masalas,
       body.bbmp_license_issued || 'No',
@@ -110,6 +122,10 @@ exports.createSurvey = async (req, res) => {
       body.fssai_license_issued || 'No',
       body.fssai_license_issues || 'No',
       body.fssai_issue_reasons || '',
+      body.provides_billing || '',
+      body.has_challenges || 'No',
+      businessChallenges,
+      body.business_challenges_other || '',
       body.wants_training || 'No',
       trainingSkills,
       body.training_skills_other || '',
@@ -183,6 +199,8 @@ exports.getAllSurveys = async (req, res) => {
       meat_types: parseJSONField(r.meat_types, []),
       meat_cuts_sold_most: parseJSONField(r.meat_cuts_sold_most, []),
       unsold_meat_handling: parseJSONField(r.unsold_meat_handling, []),
+      procurement_sources: parseJSONField(r.procurement_sources, []),
+      business_challenges: parseJSONField(r.business_challenges, []),
       training_skills: parseJSONField(r.training_skills, []),
       processed_meat_consumption: parseJSONField(r.processed_meat_consumption, []),
       masalas_available: parseJSONField(r.masalas_available, []),
@@ -224,6 +242,8 @@ exports.getSurveyById = async (req, res) => {
       meat_types: parseJSONField(r.meat_types, []),
       meat_cuts_sold_most: parseJSONField(r.meat_cuts_sold_most, []),
       unsold_meat_handling: parseJSONField(r.unsold_meat_handling, []),
+      procurement_sources: parseJSONField(r.procurement_sources, []),
+      business_challenges: parseJSONField(r.business_challenges, []),
       training_skills: parseJSONField(r.training_skills, []),
       processed_meat_consumption: parseJSONField(r.processed_meat_consumption, []),
       masalas_available: parseJSONField(r.masalas_available, []),
@@ -370,9 +390,11 @@ exports.exportCSV = async (req, res) => {
       'Workers Count', 'Daily Customers', 'Peak Days', 'Peak Seasons',
       'Meat Rate (Rs/Kg)', 'Meat Types Sold', 'Top Selling Meat Cuts',
       'Processed Meat Consumption', 'Daily Sales (Kg)', 'Unsold Meat Handling', 'Storage Capacity',
+      'Procurement Sources', 'Procurement Source (Old Text)', 'Procurement Frequency', 'Procurement Quantity',
       'Procurement Source', 'Customer Profile', 'Masalas Available',
       'BBMP License Issued', 'BBMP Issues Faced', 'BBMP Issue Reasons',
       'FSSAI License Issued', 'FSSAI Issues Faced', 'FSSAI Issue Reasons',
+      'Provides Billing/Receipt', 'Has Business Challenges', 'Business Challenges',
       'Wants Pig Skills Training', 'Desired Training Skills',
       'Cleanliness Rating (1-5)', 'Behavior Rating (1-5)',
       'SPOC Details (Name, Mobile, Skills)', 'SPOC Mobile Number', 'Shop Location Link', 'Latitude', 'Longitude', 'Submission Date'
@@ -418,7 +440,10 @@ exports.exportCSV = async (req, res) => {
         escapeCSV(r.average_daily_sale_kg),
         escapeCSV(parseJSONField(r.unsold_meat_handling, []).join('; ')),
         escapeCSV(r.storage_capacity || ''),
-        escapeCSV(r.procurement_source),
+        escapeCSV(parseJSONField(r.procurement_sources, []).join('; ')),
+        escapeCSV(r.procurement_source || ''),
+        escapeCSV(r.procurement_frequency || ''),
+        escapeCSV(r.procurement_quantity || ''),
         escapeCSV(r.customer_type),
         escapeCSV(parseJSONField(r.masalas_available, []).join('; ')),
         escapeCSV(r.bbmp_license_issued),
@@ -427,6 +452,9 @@ exports.exportCSV = async (req, res) => {
         escapeCSV(r.fssai_license_issued || 'No'),
         escapeCSV(r.fssai_license_issues || 'No'),
         escapeCSV(r.fssai_issue_reasons || ''),
+        escapeCSV(r.provides_billing || ''),
+        escapeCSV(r.has_challenges || 'No'),
+        escapeCSV(parseJSONField(r.business_challenges, []).join('; ')),
         escapeCSV(r.wants_training || 'No'),
         escapeCSV(parseJSONField(r.training_skills, []).join('; ')),
         escapeCSV(r.cleanliness_rating),

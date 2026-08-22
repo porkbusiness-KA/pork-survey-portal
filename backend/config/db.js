@@ -53,6 +53,12 @@ async function initDatabase() {
         unsold_meat_handling_other VARCHAR(255) DEFAULT '',
         storage_capacity VARCHAR(100) DEFAULT '',
         procurement_source VARCHAR(255),
+        procurement_sources JSON,
+        procurement_sources_other VARCHAR(255) DEFAULT '',
+        procurement_frequency VARCHAR(100) DEFAULT '',
+        procurement_frequency_other VARCHAR(255) DEFAULT '',
+        procurement_quantity VARCHAR(100) DEFAULT '',
+        procurement_quantity_other VARCHAR(255) DEFAULT '',
         customer_type VARCHAR(100),
         masalas_available JSON,
         bbmp_license_issued VARCHAR(10) DEFAULT 'No',
@@ -61,6 +67,10 @@ async function initDatabase() {
         fssai_license_issued VARCHAR(10) DEFAULT 'No',
         fssai_license_issues VARCHAR(10) DEFAULT 'No',
         fssai_issue_reasons TEXT,
+        provides_billing VARCHAR(100) DEFAULT '',
+        has_challenges VARCHAR(10) DEFAULT 'No',
+        business_challenges JSON,
+        business_challenges_other VARCHAR(255) DEFAULT '',
         wants_training VARCHAR(10) DEFAULT 'No',
         training_skills JSON,
         training_skills_other VARCHAR(255) DEFAULT '',
@@ -111,6 +121,16 @@ async function initDatabase() {
     await addColumnIfNotExists('unsold_meat_handling', "JSON");
     await addColumnIfNotExists('unsold_meat_handling_other', "VARCHAR(255) DEFAULT ''");
     await addColumnIfNotExists('storage_capacity', "VARCHAR(100) DEFAULT ''");
+    await addColumnIfNotExists('procurement_sources', "JSON");
+    await addColumnIfNotExists('procurement_sources_other', "VARCHAR(255) DEFAULT ''");
+    await addColumnIfNotExists('procurement_frequency', "VARCHAR(100) DEFAULT ''");
+    await addColumnIfNotExists('procurement_frequency_other', "VARCHAR(255) DEFAULT ''");
+    await addColumnIfNotExists('procurement_quantity', "VARCHAR(100) DEFAULT ''");
+    await addColumnIfNotExists('procurement_quantity_other', "VARCHAR(255) DEFAULT ''");
+    await addColumnIfNotExists('provides_billing', "VARCHAR(100) DEFAULT ''");
+    await addColumnIfNotExists('has_challenges', "VARCHAR(10) DEFAULT 'No'");
+    await addColumnIfNotExists('business_challenges', "JSON");
+    await addColumnIfNotExists('business_challenges_other', "VARCHAR(255) DEFAULT ''");
     await addColumnIfNotExists('wants_training', "VARCHAR(10) DEFAULT 'No'");
     await addColumnIfNotExists('training_skills', "JSON");
     await addColumnIfNotExists('training_skills_other', "VARCHAR(255) DEFAULT ''");

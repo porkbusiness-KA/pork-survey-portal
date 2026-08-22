@@ -88,7 +88,24 @@ export const TRANSLATIONS = {
     qUnsoldMeat: 'How do you handle and store unsold meat?',
     unsoldOtherPlaceholder: 'Specify other unsold meat handling...',
     qStorageCapacity: 'What is your approximate meat storage capacity?',
-    
+
+    secProcurementTitle: 'Procurement & Supply Information',
+    secProcurementSub: 'Source, frequency, and quantity of pork procurement',
+    qProcurementSource: 'Where do you primarily procure pork/meat from?',
+    procurementSourceOtherPlaceholder: 'Specify other procurement source/location...',
+    qProcurementFrequency: 'How often do you purchase pork from your primary supplier/source?',
+    procurementFrequencyOtherPlaceholder: 'Specify other frequency...',
+    qProcurementQuantity: 'What is the average quantity of pork you procure per order?',
+    procurementQuantityOtherPlaceholder: 'Specify other quantity...',
+
+    qBilling: 'Do you provide a bill or receipt for purchases made at your shop?',
+
+    secChallengesTitle: 'Business Challenges',
+    secChallengesSub: 'Current problems or challenges faced in the meat business',
+    qHasChallenges: 'Are you currently facing any problems or challenges in your meat business?',
+    qChallenges: 'What problems or challenges are you facing?',
+    challengeOtherPlaceholder: 'Specify other challenge...',
+
     secTrainingTitle: 'Pig-Related Skills & Training Requirements',
     secTrainingSub: 'Training interest and skill development in pig farming & meat processing',
     qWantsTraining: 'Do you want training on pig-related skills?',
@@ -213,6 +230,23 @@ export const TRANSLATIONS = {
     unsoldOtherPlaceholder: 'ಇತರ ನಿರ್ವಹಣಾ ವಿವರ ನಮೂದಿಸಿ...',
     qStorageCapacity: 'ಅಂಗಡಿಯ ಅಂದಾಜು ಮಾಂಸ ಶೇಖರಣಾ ಸಾಮರ್ಥ್ಯ ಎಷ್ಟು?',
 
+    secProcurementTitle: 'ಖರೀದಿ ಮತ್ತು ಪೂರೈಕೆ ಮಾಹಿತಿ',
+    secProcurementSub: 'ಹಂದಿ ಮಾಂಸ ಖರೀದಿ ಮೂಲ, ಆವರ್ತನ ಮತ್ತು ಪ್ರಮಾಣ',
+    qProcurementSource: 'ನೀವು ಮುಖ್ಯವಾಗಿ ಎಲ್ಲಿಂದ ಹಂದಿ ಮಾಂಸ ಖರೀದಿಸುತ್ತೀರಿ?',
+    procurementSourceOtherPlaceholder: 'ಇತರ ಖರೀದಿ ಮೂಲ / ಸ್ಥಳ ನಮೂದಿಸಿ...',
+    qProcurementFrequency: 'ನಿಮ್ಮ ಮುಖ್ಯ ಪೂರೈಕೆದಾರರಿಂದ ಎಷ್ಟು ಬಾರಿ ಹಂದಿ ಮಾಂಸ ಖರೀದಿಸುತ್ತೀರಿ?',
+    procurementFrequencyOtherPlaceholder: 'ಇತರ ಆವರ್ತನ ನಮೂದಿಸಿ...',
+    qProcurementQuantity: 'ಪ್ರತಿ ಆದೇಶದಲ್ಲಿ ಸರಾಸರಿ ಎಷ್ಟು ಕೆಜಿ ಹಂದಿ ಮಾಂಸ ಖರೀದಿಸುತ್ತೀರಿ?',
+    procurementQuantityOtherPlaceholder: 'ಇತರ ಪ್ರಮಾಣ ನಮೂದಿಸಿ...',
+
+    qBilling: 'ಅಂಗಡಿಯಲ್ಲಿ ಖರೀದಿ ಮಾಡಿದ ಗ್ರಾಹಕರಿಗೆ ಬಿಲ್ / ರಸೀದಿ ನೀಡುತ್ತೀರಾ?',
+
+    secChallengesTitle: 'ವ್ಯಾಪಾರದ ತೊಂದರೆಗಳು ಮತ್ತು ಸಮಸ್ಯೆಗಳು',
+    secChallengesSub: 'ಮಾಂಸ ವ್ಯಾಪಾರದಲ್ಲಿ ಪ್ರಸ್ತುತ ಎದುರಿಸುತ್ತಿರುವ ಸಮಸ್ಯೆಗಳು',
+    qHasChallenges: 'ಪ್ರಸ್ತುತ ಮಾಂಸ ವ್ಯಾಪಾರದಲ್ಲಿ ಯಾವುದಾದರೂ ತೊಂದರೆ ಅಥವಾ ಸವಾಲುಗಳನ್ನು ಎದುರಿಸುತ್ತಿದ್ದೀರಾ?',
+    qChallenges: 'ನೀವು ಯಾವ ತೊಂದರೆ ಅಥವಾ ಸವಾಲುಗಳನ್ನು ಎದುರಿಸುತ್ತಿದ್ದೀರಿ?',
+    challengeOtherPlaceholder: 'ಇತರ ತೊಂದರೆ ನಮೂದಿಸಿ...',
+
     secTrainingTitle: 'ಹಂದಿ ಸಾಕಣೆ ಮತ್ತು ಮಾಂಸ ಕೌಶಲ್ಯ ತರಬೇತಿ ಅಗತ್ಯತೆಗಳು',
     secTrainingSub: 'ಹಂದಿ ಸಾಕಣೆ, ಮಾಂಸ ಸಂಸ್ಕರಣೆ ಮತ್ತು ಮಾರಾಟ ಕೌಶಲ್ಯಗಳ ತರಬೇತಿ ಆಸಕ್ತಿ',
     qWantsTraining: 'ಹಂದಿ ಸಂಬಂಧಿತ ಕೌಶಲ್ಯಗಳ ಕುರಿತು ನಿಮಗೆ ತರಬೇತಿ ಬೇಕೇ?',
@@ -336,6 +370,23 @@ export const TRANSLATIONS = {
     qUnsoldMeat: 'How do you handle and store unsold meat? (ಮಾರಾಟವಾಗದ ಮಾಂಸ ಶೇಖರಣೆ ಹೇಗೆ?)',
     unsoldOtherPlaceholder: 'Specify other handling (ಇತರ ವಿಧಾನ)...',
     qStorageCapacity: 'What is your approximate meat storage capacity? (ಅಂದಾಜು ಶೇಖರಣಾ ಸಾಮರ್ಥ್ಯ)',
+
+    secProcurementTitle: 'Procurement & Supply Information (ಖರೀದಿ ಮತ್ತು ಪೂರೈಕೆ ಮಾಹಿತಿ)',
+    secProcurementSub: 'Source, frequency and quantity of pork procurement (ಖರೀದಿ ಮೂಲ, ಆವರ್ತನ ಮತ್ತು ಪ್ರಮಾಣ)',
+    qProcurementSource: 'Where do you primarily procure pork/meat from? (ಮಾಂಸ ಖರೀದಿ ಮೂಲ ಯಾವುದು?)',
+    procurementSourceOtherPlaceholder: 'Specify other source (ಇತರ ಮೂಲ)...',
+    qProcurementFrequency: 'How often do you purchase pork? (ಎಷ್ಟು ಬಾರಿ ಖರೀದಿಸುತ್ತೀರಿ?)',
+    procurementFrequencyOtherPlaceholder: 'Specify other frequency (ಇತರ)...',
+    qProcurementQuantity: 'Average quantity procured per order? (ಪ್ರತಿ ಆದೇಶದಲ್ಲಿ ಸರಾಸರಿ ಪ್ರಮಾಣ)',
+    procurementQuantityOtherPlaceholder: 'Specify other quantity (ಇತರ)...',
+
+    qBilling: 'Do you provide a bill or receipt? (ಬಿಲ್ / ರಸೀದಿ ನೀಡುತ್ತೀರಾ?)',
+
+    secChallengesTitle: 'Business Challenges (ವ್ಯಾಪಾರದ ತೊಂದರೆಗಳು)',
+    secChallengesSub: 'Current problems in your meat business (ಪ್ರಸ್ತುತ ಸಮಸ್ಯೆಗಳು)',
+    qHasChallenges: 'Are you currently facing any business challenges? (ವ್ಯಾಪಾರದ ತೊಂದರೆಗಳಿವೆಯೇ?)',
+    qChallenges: 'What problems or challenges are you facing? (ಯಾವ ತೊಂದರೆಗಳಿವೆ?)',
+    challengeOtherPlaceholder: 'Specify other challenge (ಇತರ ಸಮಸ್ಯೆ)...',
 
     secTrainingTitle: 'Pig-Related Skills & Training (ಹಂದಿ ಸಾಕಣೆ & ಕೌಶಲ್ಯ ತರಬೇತಿ)',
     secTrainingSub: 'Training interest and skill development (ತರಬೇತಿ ಅಗತ್ಯತೆಗಳು ಮತ್ತು ಆಸಕ್ತಿ)',

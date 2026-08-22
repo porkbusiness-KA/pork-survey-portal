@@ -180,3 +180,61 @@ export const MEAT_CUTS_OPTIONS = [
   { id: 'Kidney', en: 'Kidney', kn: 'ಮೂತ್ರಪಿಂಡ / ಕಿಡ್ನಿ (Kidney)' },
   { id: 'Other', en: 'Other', kn: 'ಇತರ ಭಾಗಗಳು' }
 ];
+
+export const PROCUREMENT_SOURCE_OPTIONS = [
+  { id: 'Local wholesale market', en: 'Local wholesale market', kn: 'ಸ್ಥಳೀಯ ಸಗಟು ಮಾರುಕಟ್ಟೆ (Local wholesale)' },
+  { id: 'Nearby meat wholesale shop', en: 'Nearby meat wholesale shop', kn: 'ಹತ್ತಿರದ ಮಾಂಸ ಸಗಟು ಅಂಗಡಿ' },
+  { id: 'Slaughterhouse / Abattoir', en: 'Slaughterhouse / Abattoir', kn: 'ವಧ್ಯಗೃಹ / ಕಸಾಯಿಖಾನೆ (Slaughterhouse)' },
+  { id: 'Directly from pig farmers', en: 'Directly from pig farmers', kn: 'ನೇರವಾಗಿ ಹಂದಿ ಸಾಕಣೆದಾರರಿಂದ' },
+  { id: 'Meat processing unit', en: 'Meat processing unit', kn: 'ಮಾಂಸ ಸಂಸ್ಕರಣಾ ಘಟಕ (Processing unit)' },
+  { id: 'Distributor / Supplier', en: 'Distributor / Supplier', kn: 'ಡಿಸ್ಟ್ರಿಬ್ಯೂಟರ್ / ಪೂರೈಕೆದಾರ' },
+  { id: 'Agricultural / Livestock market', en: 'Agricultural / Livestock market', kn: 'ಕೃಷಿ / ಜಾನುವಾರು ಮಾರುಕಟ್ಟೆ' },
+  { id: 'Other', en: 'Other', kn: 'ಇತರ ಮೂಲ' }
+];
+
+export const PROCUREMENT_FREQUENCY_OPTIONS = [
+  { id: 'Daily', en: 'Daily', kn: 'ಪ್ರತಿದಿನ (Daily)' },
+  { id: '2–3 times a week', en: '2–3 times a week', kn: 'ವಾರಕ್ಕೆ 2–3 ಬಾರಿ' },
+  { id: 'Once a week', en: 'Once a week', kn: 'ವಾರಕ್ಕೆ ಒಮ್ಮೆ (Weekly)' },
+  { id: '2–3 times a month', en: '2–3 times a month', kn: 'ತಿಂಗಳಿಗೆ 2–3 ಬಾರಿ' },
+  { id: 'Once a month', en: 'Once a month', kn: 'ತಿಂಗಳಿಗೆ ಒಮ್ಮೆ (Monthly)' },
+  { id: 'Less than once a month', en: 'Less than once a month', kn: 'ತಿಂಗಳಿಗೆ ಒಮ್ಮೆಗಿಂತ ಕಡಿಮೆ' },
+  { id: 'As per demand / requirement', en: 'As per demand / requirement', kn: 'ಬೇಡಿಕೆ ಆಧಾರದ ಮೇಲೆ (On demand)' },
+  { id: 'Other', en: 'Other', kn: 'ಇತರ' }
+];
+
+export const PROCUREMENT_QUANTITY_OPTIONS = [
+  { id: 'Less than 10 kg', en: 'Less than 10 kg', kn: '10 ಕೆಜಿಗಿಂತ ಕಡಿಮೆ' },
+  { id: '10–25 kg', en: '10–25 kg', kn: '10–25 ಕೆಜಿ' },
+  { id: '26–50 kg', en: '26–50 kg', kn: '26–50 ಕೆಜಿ' },
+  { id: '51–100 kg', en: '51–100 kg', kn: '51–100 ಕೆಜಿ' },
+  { id: '101–250 kg', en: '101–250 kg', kn: '101–250 ಕೆಜಿ' },
+  { id: '251–500 kg', en: '251–500 kg', kn: '251–500 ಕೆಜಿ' },
+  { id: 'More than 500 kg', en: 'More than 500 kg', kn: '500 ಕೆಜಿಗಿಂತ ಹೆಚ್ಚು' },
+  { id: 'Quantity varies based on demand', en: 'Quantity varies based on demand', kn: 'ಬೇಡಿಕೆ ಆಧಾರದ ಮೇಲೆ ಬದಲಾಗುತ್ತದೆ' },
+  { id: 'Other', en: 'Other', kn: 'ಇತರ' }
+];
+
+export const BILLING_OPTIONS = [
+  { id: 'Yes, for every purchase', en: 'Yes, for every purchase', kn: 'ಹೌದು, ಪ್ರತಿ ಖರೀದಿಗೂ ರಸೀದಿ ನೀಡಲಾಗುತ್ತದೆ' },
+  { id: 'Yes, only when requested', en: 'Yes, only when requested by the customer', kn: 'ಹೌದು, ಗ್ರಾಹಕ ಕೇಳಿದಾಗ ಮಾತ್ರ' },
+  { id: 'No', en: 'No', kn: 'ಇಲ್ಲ (No bill provided)' },
+  { id: 'Sometimes', en: 'Sometimes', kn: 'ಕೆಲವೊಮ್ಮೆ (Sometimes)' }
+];
+
+export const BUSINESS_CHALLENGE_OPTIONS = [
+  { id: 'Difficulty in sourcing quality pork', en: 'Difficulty in sourcing quality pork', kn: 'ಗುಣಮಟ್ಟದ ಹಂದಿ ಮಾಂಸ ಪಡೆಯಲು ತೊಂದರೆ' },
+  { id: 'High procurement cost', en: 'High procurement cost', kn: 'ಹೆಚ್ಚಿನ ಖರೀದಿ ವೆಚ್ಚ (High procurement cost)' },
+  { id: 'Low customer demand', en: 'Low customer demand', kn: 'ಕಡಿಮೆ ಗ್ರಾಹಕ ಬೇಡಿಕೆ (Low demand)' },
+  { id: 'Price fluctuations', en: 'Price fluctuations', kn: 'ಬೆಲೆ ಏರಿಳಿತ (Price fluctuations)' },
+  { id: 'Unsold meat / wastage', en: 'Unsold meat / wastage', kn: 'ಮಾರಾಟವಾಗದ ಮಾಂಸ / ಪೋಲು (Wastage)' },
+  { id: 'Lack of cold storage facilities', en: 'Lack of cold storage facilities', kn: 'ಶೀತಲ ಸಂಗ್ರಹ ಸೌಲಭ್ಯದ ಕೊರತೆ' },
+  { id: 'Lack of working capital', en: 'Lack of working capital', kn: 'ಕಾರ್ಯ ಬಂಡವಾಳದ ಕೊರತೆ (Working capital)' },
+  { id: 'Transportation issues', en: 'Transportation issues', kn: 'ಸಾರಿಗೆ ತೊಂದರೆಗಳು (Transportation)' },
+  { id: 'Lack of skilled workers', en: 'Lack of skilled workers', kn: 'ನುರಿತ ಕಾರ್ಮಿಕರ ಕೊರತೆ (Skilled workers)' },
+  { id: 'Meat quality or hygiene issues', en: 'Meat quality or hygiene issues', kn: 'ಮಾಂಸದ ಗುಣಮಟ್ಟ / ನೈರ್ಮಲ್ಯ ಸಮಸ್ಯೆ' },
+  { id: 'Difficulty in maintaining records/billing', en: 'Difficulty in maintaining proper records/billing', kn: 'ಲೆಕ್ಕಪತ್ರ ನಿರ್ವಹಣೆ / ಬಿಲ್ಲಿಂಗ್ ತೊಂದರೆ' },
+  { id: 'Competition from other shops', en: 'Competition from other shops', kn: 'ಇತರ ಅಂಗಡಿಗಳಿಂದ ಪ್ರತಿಸ್ಪರ್ಧೆ (Competition)' },
+  { id: 'Lack of market information', en: 'Lack of market information', kn: 'ಮಾರುಕಟ್ಟೆ ಮಾಹಿತಿಯ ಕೊರತೆ' },
+  { id: 'Other', en: 'Other', kn: 'ಇತರ ಸಮಸ್ಯೆ' }
+];
