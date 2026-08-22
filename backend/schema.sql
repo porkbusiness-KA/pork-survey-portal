@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS surveys (
     shop_name VARCHAR(255) NOT NULL,
     owner_name VARCHAR(255) NOT NULL,
     owner_mobile VARCHAR(20) DEFAULT '',
+    owner_email VARCHAR(150) DEFAULT '',
     years_in_business INT DEFAULT 0,
     opening_time VARCHAR(50) NOT NULL,
     closing_time VARCHAR(50) NOT NULL,

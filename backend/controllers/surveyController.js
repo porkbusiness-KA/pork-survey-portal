@@ -36,13 +36,13 @@ exports.createSurvey = async (req, res) => {
 
     const query = `
       INSERT INTO surveys (
-        country, state, district, taluk, village, place, pincode, shop_name, owner_name, owner_mobile, years_in_business,
+        country, state, district, taluk, village, place, pincode, shop_name, owner_name, owner_mobile, owner_email, years_in_business,
         opening_time, closing_time, holiday_days, workers_count, daily_customers,
         peak_customer_days, regular_meat_rate, meat_types, processed_meat_consumption,
         average_daily_sale_kg, procurement_source, customer_type, masalas_available,
         bbmp_license_issued, bbmp_license_issues, bbmp_issue_reasons, cleanliness_rating, behavior_rating,
         spoc_name, spoc_mobile, location_link, latitude, longitude, shop_images
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const values = [
@@ -56,6 +56,7 @@ exports.createSurvey = async (req, res) => {
       body.shop_name || '',
       body.owner_name || '',
       body.owner_mobile || '',
+      body.owner_email || '',
       parseInt(body.years_in_business || 0, 10),
       body.opening_time || '',
       body.closing_time || '',
@@ -313,7 +314,7 @@ exports.exportCSV = async (req, res) => {
     const [rows] = await pool.query('SELECT * FROM surveys ORDER BY id ASC');
 
     const headers = [
-      'Survey ID', 'Country', 'State', 'District', 'Taluk', 'Village', 'Place', 'Pincode', 'Shop Name', 'Owner Name', 'Owner Mobile',
+      'Survey ID', 'Country', 'State', 'District', 'Taluk', 'Village', 'Place', 'Pincode', 'Shop Name', 'Owner Name', 'Owner Mobile', 'Owner Email',
       'Years in Business', 'Opening Time', 'Closing Time', 'Weekly Holidays',
       'Workers Count', 'Daily Customers', 'Peak Days', 'Meat Rate (Rs/Kg)',
       'Meat Types Sold', 'Processed Meat Consumption', 'Daily Sales (Kg)',
@@ -344,6 +345,7 @@ exports.exportCSV = async (req, res) => {
         escapeCSV(r.shop_name),
         escapeCSV(r.owner_name),
         escapeCSV(r.owner_mobile || ''),
+        escapeCSV(r.owner_email || ''),
         escapeCSV(r.years_in_business),
         escapeCSV(r.opening_time),
         escapeCSV(r.closing_time),

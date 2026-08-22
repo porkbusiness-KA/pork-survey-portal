@@ -29,6 +29,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
     shop_name: '',
     owner_name: '',
     owner_mobile: '',
+    owner_email: '',
     years_in_business: '',
     opening_time: '08:00',
     closing_time: '20:30',
@@ -214,6 +215,42 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
       });
       return;
     }
+
+    // Special logic for peak_customer_days: 'All the days' selects/deselects everything
+    if (field === 'peak_customer_days') {
+      setFormData(prev => {
+        const currentList = prev[field] || [];
+        const ALL_DAYS = 'All the days';
+        const ALL_DAY_IDS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', ALL_DAYS];
+        const INDIVIDUAL_DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+        if (item === ALL_DAYS) {
+          // If 'All the days' is already selected → deselect everything
+          if (currentList.includes(ALL_DAYS)) {
+            return { ...prev, [field]: [] };
+          }
+          // Otherwise → select ALL days including individual ones
+          return { ...prev, [field]: ALL_DAY_IDS };
+        } else {
+          // Toggle individual day, always remove 'All the days' first
+          const withoutAllDays = currentList.filter(x => x !== ALL_DAYS);
+          let newList;
+          if (withoutAllDays.includes(item)) {
+            newList = withoutAllDays.filter(x => x !== item);
+          } else {
+            newList = [...withoutAllDays, item];
+          }
+          // Auto-select 'All the days' if all 7 individual days are now checked
+          const allIndividualSelected = INDIVIDUAL_DAYS.every(d => newList.includes(d));
+          if (allIndividualSelected) {
+            newList = [...newList, ALL_DAYS];
+          }
+          return { ...prev, [field]: newList };
+        }
+      });
+      return;
+    }
+
     // Default toggle for other fields
     setFormData(prev => {
       const currentList = prev[field] || [];
@@ -709,7 +746,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
         </div>
 
-        {/* SECTION 2: Shop & Owner Info (Q8, Q9, Q10, Q11, Q12, Q13) */}
+        {/* SECTION 2: Shop & Owner Info (Q8, Q9, Q10, Q12, Q13, Q14) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <Store size={20} color="#d97706" />
@@ -766,9 +803,24 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
               />
             </div>
 
+            {/* Q11: Owner's Email ID */}
             <div className="form-group">
               <label className="form-label">
                 {t.q11}
+              </label>
+              <input
+                type="email"
+                name="owner_email"
+                value={formData.owner_email || ''}
+                onChange={handleChange}
+                placeholder="e.g. owner@example.com"
+                className="form-input"
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">
+                {t.q12}
               </label>
               <input
                 type="number"
@@ -781,10 +833,10 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
               />
             </div>
 
-            {/* Q12: SPOC Name */}
+            {/* Q13: SPOC Name */}
             <div className="form-group">
               <label className="form-label">
-                {t.q12} <span className="required-star">*</span>
+                {t.q13} <span className="required-star">*</span>
               </label>
               <div style={{ marginBottom: '0.5rem' }}>
                 <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem', cursor: 'pointer', color: 'var(--text-muted)' }}>
@@ -795,7 +847,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                     onChange={handleChange}
                     style={{ accentColor: '#d97706' }}
                   />
-                  <span>{t.q12SameAsOwner}</span>
+                  <span>{t.q13SameAsOwner}</span>
                 </label>
               </div>
               {!formData.spoc_same_as_owner ? (
@@ -819,10 +871,10 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
               )}
             </div>
 
-            {/* Q13: SPOC Mobile */}
+            {/* Q14: SPOC Mobile */}
             <div className="form-group">
               <label className="form-label">
-                {t.q13}
+                {t.q14}
               </label>
               <input
                 type="tel"
@@ -837,7 +889,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           </div>
         </div>
 
-        {/* SECTION 3: Timings & Weekly Holidays (Q14, Q15, Q16) */}
+        {/* SECTION 3: Timings & Weekly Holidays (Q15, Q16, Q17) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <Clock size={20} color="#d97706" />
@@ -851,7 +903,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
             {/* Opening Time */}
             <div className="form-group">
               <label className="form-label" style={{ marginBottom: '0.5rem', display: 'block' }}>
-                {t.q14} <span className="required-star">*</span>
+                {t.q15} <span className="required-star">*</span>
               </label>
               <TimePicker
                 name="opening_time"
@@ -864,7 +916,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
             {/* Closing Time */}
             <div className="form-group">
               <label className="form-label" style={{ marginBottom: '0.5rem', display: 'block' }}>
-                {t.q15} <span className="required-star">*</span>
+                {t.q16} <span className="required-star">*</span>
               </label>
               <TimePicker
                 name="closing_time"
@@ -877,7 +929,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
           <div className="form-group">
             <label className="form-label" style={{ marginBottom: '0.6rem' }}>
-              {t.q16}
+              {t.q17}
             </label>
 
             {/* No holiday banner */}
@@ -889,10 +941,10 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
               }}>
                 <span style={{ fontSize: '1rem' }}>🎉</span>
                 <span style={{ fontSize: '0.84rem', color: '#059669', fontWeight: '600' }}>
-                  {t.q16NoHolidayBanner}
+                  {t.q17NoHolidayBanner}
                 </span>
                 <span style={{ fontSize: '0.77rem', color: 'var(--text-muted)', marginLeft: 'auto' }}>
-                  {t.q16DeselectHint}
+                  {t.q17DeselectHint}
                 </span>
               </div>
             )}
@@ -908,7 +960,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 return (
                   <label
                     key={opt.id}
-                    title={isDisabled ? t.q16DeselectHint : ''}
+                    title={isDisabled ? t.q17DeselectHint : ''}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -942,7 +994,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           </div>
         </div>
 
-        {/* SECTION 4: Operations & Customer Footfall (Q17, Q18, Q19) */}
+        {/* SECTION 4: Operations & Customer Footfall (Q18, Q19, Q20) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <Users size={20} color="#d97706" />
@@ -955,7 +1007,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginBottom: '1.25rem' }}>
             <div className="form-group">
               <label className="form-label">
-                {t.q17} <span className="required-star">*</span>
+                {t.q18} <span className="required-star">*</span>
               </label>
               <select
                 name="workers_count"
@@ -982,7 +1034,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
             <div className="form-group">
               <label className="form-label">
-                {t.q18}
+                {t.q19}
               </label>
               <select
                 name="daily_customers"
@@ -999,7 +1051,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
           <div className="form-group">
             <label className="form-label" style={{ marginBottom: '0.6rem' }}>
-              {t.q19}
+              {t.q20}
             </label>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '0.6rem' }}>
               {PEAK_DAY_OPTIONS.map(p => {
@@ -1032,7 +1084,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           </div>
         </div>
 
-        {/* SECTION 5: Meat Products & Sales (Q20, Q21, Q22, Q23, Q24, Q25) */}
+        {/* SECTION 5: Meat Products & Sales (Q21, Q22, Q23, Q24, Q25, Q26) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <ShoppingBag size={20} color="#d97706" />
@@ -1045,7 +1097,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginBottom: '1.25rem' }}>
             <div className="form-group">
               <label className="form-label">
-                {t.q20} <span className="required-star">*</span>
+                {t.q21} <span className="required-star">*</span>
               </label>
               <div style={{ position: 'relative' }}>
                 <span style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', fontWeight: '700' }}>₹</span>
@@ -1064,7 +1116,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
             <div className="form-group">
               <label className="form-label">
-                {t.q21}
+                {t.q22}
               </label>
               <input
                 type="number"
@@ -1077,10 +1129,10 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
             </div>
           </div>
 
-          {/* Q22: Meat Types */}
+          {/* Q23: Meat Types */}
           <div className="form-group" style={{ marginBottom: '1.5rem' }}>
             <label className="form-label" style={{ marginBottom: '0.6rem' }}>
-              {t.q22} <span className="required-star">*</span>
+              {t.q23} <span className="required-star">*</span>
             </label>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '0.6rem' }}>
               {MEAT_TYPES_OPTIONS.map(m => {
@@ -1112,17 +1164,17 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
             </div>
           </div>
 
-          {/* Q23: Processed Meat Products */}
+          {/* Q24: Processed Meat Products */}
           <div className="form-group" style={{ marginBottom: '1.5rem', background: 'var(--bg-card-subtle)', padding: '1.25rem', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
             <label className="form-label" style={{ marginBottom: '0.75rem', fontWeight: '700' }}>
-              {t.q23}
+              {t.q24}
             </label>
             
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem' }}>
               {/* Dropdown 1: Weekly Volume */}
               <div>
                 <label className="form-label" style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '0.35rem' }}>
-                  {t.q23Volume}
+                  {t.q24Volume}
                 </label>
                 <select
                   name="processed_meat_volume"
@@ -1154,7 +1206,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
               {/* Dropdown 2: Product Variety */}
               <div>
                 <label className="form-label" style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '0.35rem' }}>
-                  {t.q23Varieties}
+                  {t.q24Varieties}
                 </label>
                 <select
                   name="processed_meat_product"
@@ -1191,7 +1243,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
             <div className="form-group">
               <label className="form-label">
-                {t.q24}
+                {t.q25}
               </label>
               <input
                 type="text"
@@ -1205,7 +1257,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
             <div className="form-group">
               <label className="form-label">
-                {t.q25}
+                {t.q26}
               </label>
               <select
                 name="customer_type"
@@ -1223,7 +1275,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           </div>
         </div>
 
-        {/* SECTION 6: Masala Availability (Q26) */}
+        {/* SECTION 6: Masala Availability (Q27) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <Sparkles size={20} color="#d97706" />
@@ -1236,7 +1288,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           {/* STEP 1: Are masalas sold? (Yes / No) */}
           <div className="form-group" style={{ marginBottom: formData.has_masalas === 'Yes' ? '1.25rem' : '0' }}>
             <label className="form-label" style={{ marginBottom: '0.5rem' }}>
-              {t.q26} <span className="required-star">*</span>
+              {t.q27} <span className="required-star">*</span>
             </label>
             <div style={{ display: 'flex', gap: '1.5rem', marginTop: '0.4rem' }}>
               {['Yes', 'No'].map(val => (
@@ -1274,7 +1326,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
               margin: 0
             }}>
               <label className="form-label" style={{ marginBottom: '0.5rem' }}>
-                {t.q26Brand} <span className="required-star">*</span>
+                {t.q27Brand} <span className="required-star">*</span>
               </label>
               <select
                 name="masalas_available"
@@ -1329,7 +1381,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           )}
         </div>
 
-        {/* SECTION 7: BBMP Trade Licensing (Q27, Q28, Q29) */}
+        {/* SECTION 7: BBMP Trade Licensing (Q28, Q29, Q30) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <FileCheck size={20} color="#d97706" />
@@ -1342,7 +1394,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginBottom: formData.bbmp_license_issues === 'Yes' ? '1.25rem' : '0' }}>
             <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label">
-                {t.q27}
+                {t.q28}
               </label>
               <div style={{ display: 'flex', gap: '1rem', marginTop: '0.4rem' }}>
                 {['Yes', 'No'].map(val => (
@@ -1363,7 +1415,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
             <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label">
-                {t.q28}
+                {t.q29}
               </label>
               <div style={{ display: 'flex', gap: '1rem', marginTop: '0.4rem' }}>
                 {['Yes', 'No'].map(val => (
@@ -1386,7 +1438,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           {formData.bbmp_license_issues === 'Yes' && (
             <div className="form-group animate-fade-in" style={{ marginTop: '1.25rem', marginBottom: 0 }}>
               <label className="form-label">
-                {t.q29}
+                {t.q30}
               </label>
               <textarea
                 name="bbmp_issue_reasons"
@@ -1400,7 +1452,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           )}
         </div>
 
-        {/* SECTION 8: Shop Photos & Map Link (Q31, Q32) */}
+        {/* SECTION 8: Shop Photos & Map Link (Q35, Q36) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '2rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <ImageIcon size={20} color="#d97706" />
@@ -1412,7 +1464,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
           <div className="form-group" style={{ marginBottom: '1.5rem' }}>
             <label className="form-label">
-              {t.q31}
+              {t.q35}
             </label>
 
             <div style={{
@@ -1452,7 +1504,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                   borderRadius: '10px', fontWeight: '600', fontSize: '0.85rem',
                   color: '#d97706', transition: 'all 0.2s'
                 }}>
-                  📁 {t.q31UploadHint}
+                  📁 {t.q35UploadHint}
                 </label>
                 <button
                   type="button"
@@ -1479,12 +1531,12 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                     color: '#10b981', transition: 'all 0.2s'
                   }}
                 >
-                  📷 {t.q31CameraBtn}
+                  📷 {t.q35CameraBtn}
                 </button>
               </div>
 
               <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.75rem' }}>
-                {t.q31UploadSub}
+                {t.q35UploadSub}
               </div>
             </div>
 
@@ -1522,7 +1574,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
           <div className="form-group">
             <label className="form-label">
-              {t.q32} <span className="required-star">*</span>
+              {t.q36} <span className="required-star">*</span>
             </label>
             
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
@@ -1545,11 +1597,11 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 style={{ whiteSpace: 'nowrap', borderColor: '#d97706' }}
               >
                 <Navigation size={16} color="#d97706" />
-                <span>{isLocating ? t.q32Locating : t.q32GpsBtn}</span>
+                <span>{isLocating ? t.q36Locating : t.q36GpsBtn}</span>
               </button>
             </div>
             <small style={{ color: 'var(--text-muted)', fontSize: '0.78rem', marginTop: '0.35rem', display: 'block' }}>
-              {t.q32Hint}
+              {t.q36Hint}
             </small>
           </div>
         </div>

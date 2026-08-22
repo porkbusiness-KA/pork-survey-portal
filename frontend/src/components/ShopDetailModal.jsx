@@ -100,6 +100,7 @@ export default function ShopDetailModal({ survey, onClose }) {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.88rem' }}>
               <div><strong style={{ color: 'var(--text-muted)' }}>Shop Owner:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.owner_name}</span></div>
               <div><strong style={{ color: 'var(--text-muted)' }}>Owner Mobile:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.owner_mobile || 'Not provided'}</span></div>
+              <div><strong style={{ color: 'var(--text-muted)' }}>Owner Email:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.owner_email || 'Not provided'}</span></div>
               <div><strong style={{ color: 'var(--text-muted)' }}>SPOC Name:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.spoc_name || survey.owner_name}</span></div>
               <div><strong style={{ color: 'var(--text-muted)' }}>SPOC Mobile:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.spoc_mobile || 'Not provided'}</span></div>
               <div><strong style={{ color: 'var(--text-muted)' }}>Years in Operation:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.years_in_business || 0} years</span></div>

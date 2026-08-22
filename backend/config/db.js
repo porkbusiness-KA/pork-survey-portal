@@ -31,6 +31,7 @@ async function initDatabase() {
         shop_name VARCHAR(255) NOT NULL,
         owner_name VARCHAR(255) NOT NULL,
         owner_mobile VARCHAR(20) DEFAULT '',
+        owner_email VARCHAR(150) DEFAULT '',
         years_in_business INT DEFAULT 0,
         opening_time VARCHAR(50) NOT NULL,
         closing_time VARCHAR(50) NOT NULL,
@@ -84,6 +85,7 @@ async function initDatabase() {
     await addColumnIfNotExists('taluk', "VARCHAR(150) DEFAULT ''");
     await addColumnIfNotExists('village', "VARCHAR(255) DEFAULT ''");
     await addColumnIfNotExists('owner_mobile', "VARCHAR(20) DEFAULT ''");
+    await addColumnIfNotExists('owner_email', "VARCHAR(150) DEFAULT ''");
 
     console.log(' Surveys table verified/created successfully.');
     connection.release();
