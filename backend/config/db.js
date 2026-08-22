@@ -49,6 +49,9 @@ async function initDatabase() {
         bbmp_license_issued VARCHAR(10) DEFAULT 'No',
         bbmp_license_issues VARCHAR(10) DEFAULT 'No',
         bbmp_issue_reasons TEXT,
+        fssai_license_issued VARCHAR(10) DEFAULT 'No',
+        fssai_license_issues VARCHAR(10) DEFAULT 'No',
+        fssai_issue_reasons TEXT,
         cleanliness_rating INT DEFAULT 3,
         spoc_name VARCHAR(255) NOT NULL,
         spoc_mobile VARCHAR(20),
@@ -86,6 +89,9 @@ async function initDatabase() {
     await addColumnIfNotExists('village', "VARCHAR(255) DEFAULT ''");
     await addColumnIfNotExists('owner_mobile', "VARCHAR(20) DEFAULT ''");
     await addColumnIfNotExists('owner_email', "VARCHAR(150) DEFAULT ''");
+    await addColumnIfNotExists('fssai_license_issued', "VARCHAR(10) DEFAULT 'No'");
+    await addColumnIfNotExists('fssai_license_issues', "VARCHAR(10) DEFAULT 'No'");
+    await addColumnIfNotExists('fssai_issue_reasons', "TEXT");
 
     console.log(' Surveys table verified/created successfully.');
     connection.release();

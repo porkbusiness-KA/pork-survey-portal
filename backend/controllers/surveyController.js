@@ -40,9 +40,11 @@ exports.createSurvey = async (req, res) => {
         opening_time, closing_time, holiday_days, workers_count, daily_customers,
         peak_customer_days, regular_meat_rate, meat_types, processed_meat_consumption,
         average_daily_sale_kg, procurement_source, customer_type, masalas_available,
-        bbmp_license_issued, bbmp_license_issues, bbmp_issue_reasons, cleanliness_rating, behavior_rating,
+        bbmp_license_issued, bbmp_license_issues, bbmp_issue_reasons,
+        fssai_license_issued, fssai_license_issues, fssai_issue_reasons,
+        cleanliness_rating, behavior_rating,
         spoc_name, spoc_mobile, location_link, latitude, longitude, shop_images
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const values = [
@@ -74,6 +76,9 @@ exports.createSurvey = async (req, res) => {
       body.bbmp_license_issued || 'No',
       body.bbmp_license_issues || 'No',
       body.bbmp_issue_reasons || '',
+      body.fssai_license_issued || 'No',
+      body.fssai_license_issues || 'No',
+      body.fssai_issue_reasons || '',
       parseInt(body.cleanliness_rating || 3, 10),
       parseInt(body.behavior_rating || 4, 10),
       body.spoc_name || body.owner_name || '',
@@ -319,7 +324,9 @@ exports.exportCSV = async (req, res) => {
       'Workers Count', 'Daily Customers', 'Peak Days', 'Meat Rate (Rs/Kg)',
       'Meat Types Sold', 'Processed Meat Consumption', 'Daily Sales (Kg)',
       'Procurement Source', 'Customer Profile', 'Masalas Available',
-      'BBMP License Issued', 'BBMP Issues Faced', 'BBMP Issue Reasons', 'Cleanliness Rating (1-5)', 'Behavior Rating (1-5)',
+      'BBMP License Issued', 'BBMP Issues Faced', 'BBMP Issue Reasons',
+      'FSSAI License Issued', 'FSSAI Issues Faced', 'FSSAI Issue Reasons',
+      'Cleanliness Rating (1-5)', 'Behavior Rating (1-5)',
       'SPOC Name', 'SPOC Mobile Number', 'Shop Location Link', 'Latitude', 'Longitude', 'Submission Date'
     ];
 
@@ -363,6 +370,9 @@ exports.exportCSV = async (req, res) => {
         escapeCSV(r.bbmp_license_issued),
         escapeCSV(r.bbmp_license_issues),
         escapeCSV(r.bbmp_issue_reasons),
+        escapeCSV(r.fssai_license_issued || 'No'),
+        escapeCSV(r.fssai_license_issues || 'No'),
+        escapeCSV(r.fssai_issue_reasons || ''),
         escapeCSV(r.cleanliness_rating),
         escapeCSV(r.behavior_rating),
         escapeCSV(r.spoc_name),

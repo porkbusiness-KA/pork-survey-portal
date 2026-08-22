@@ -55,6 +55,9 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
     bbmp_license_issued: 'No',
     bbmp_license_issues: 'No',
     bbmp_issue_reasons: '',
+    fssai_license_issued: 'No',
+    fssai_license_issues: 'No',
+    fssai_issue_reasons: '',
     cleanliness_rating: 0,
     behavior_rating: 0,
     spoc_same_as_owner: true,
@@ -1386,8 +1389,8 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <FileCheck size={20} color="#d97706" />
             <div>
-              <h2 style={{ fontSize: '1.2rem' }}>{t.sec7Title}</h2>
-              <p className="kannada-text">{t.sec7Sub}</p>
+              <h2 style={{ fontSize: '1.2rem' }}>{lang === 'kn' ? '7. ಬಿಬಿಎಂಪಿ ವ್ಯಾಪಾರ ಪರವಾನಗಿ ಸ್ಥಿತಿ' : lang === 'both' ? '7. BBMP Trade License Status (ಬಿಬಿಎಂಪಿ ಪರವಾನಗಿ)' : '7. BBMP Trade License Status'}</h2>
+              <p className="kannada-text">{lang === 'kn' ? 'BBMP ಟ್ರೇಡ್ ಲೈಸೆನ್ಸ್ ಮತ್ತು ಪರವಾನಗಿ ಸಮಸ್ಯೆಗಳು' : lang === 'both' ? 'ಬಿಬಿಎಂಪಿ ವ್ಯಾಪಾರ ಪರವಾನಗಿ ಮತ್ತು ಸಮಸ್ಯೆಗಳ ವಿವರ' : 'BBMP trade licensing and procurement issues'}</p>
             </div>
           </div>
 
@@ -1445,6 +1448,77 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 value={formData.bbmp_issue_reasons}
                 onChange={handleChange}
                 placeholder="Explain the issues faced with BBMP trade licensing..."
+                rows="2"
+                className="form-textarea"
+              />
+            </div>
+          )}
+        </div>
+
+        {/* SECTION 7b: FSSAI Trade Licensing (Q31, Q32, Q33) */}
+        <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
+            <ShieldAlert size={20} color="#d97706" />
+            <div>
+              <h2 style={{ fontSize: '1.2rem' }}>{lang === 'kn' ? 'FSSAI ವ್ಯಾಪಾರ ಪರವಾನಗಿ ಸ್ಥಿತಿ' : lang === 'both' ? 'FSSAI Trade License Status (FSSAI ಪರವಾನಗಿ)' : 'FSSAI Trade License Status'}</h2>
+              <p className="kannada-text">{lang === 'kn' ? 'FSSAI ಟ್ರೇಡ್ ಲೈಸೆನ್ಸ್ ಮತ್ತು ಪರವಾನಗಿ ಸಮಸ್ಯೆಗಳು' : lang === 'both' ? 'FSSAI ವ್ಯಾಪಾರ ಪರವಾನಗಿ ಮತ್ತು ಸಮಸ್ಯೆಗಳ ವಿವರ' : 'FSSAI licensing and procurement issues'}</p>
+            </div>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginBottom: formData.fssai_license_issues === 'Yes' ? '1.25rem' : '0' }}>
+            <div className="form-group" style={{ margin: 0 }}>
+              <label className="form-label">
+                {t.q31}
+              </label>
+              <div style={{ display: 'flex', gap: '1rem', marginTop: '0.4rem' }}>
+                {['Yes', 'No'].map(val => (
+                  <label key={val} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', cursor: 'pointer', color: 'var(--text-main)' }}>
+                    <input
+                      type="radio"
+                      name="fssai_license_issued"
+                      value={val}
+                      checked={formData.fssai_license_issued === val}
+                      onChange={handleChange}
+                      style={{ accentColor: '#d97706' }}
+                    />
+                    <span>{val === 'Yes' ? (lang === 'kn' ? 'ಹೌದು' : lang === 'both' ? 'Yes (ಹೌದು)' : 'Yes') : (lang === 'kn' ? 'ಇಲ್ಲ' : lang === 'both' ? 'No (ಇಲ್ಲ)' : 'No')}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div className="form-group" style={{ margin: 0 }}>
+              <label className="form-label">
+                {t.q32}
+              </label>
+              <div style={{ display: 'flex', gap: '1rem', marginTop: '0.4rem' }}>
+                {['Yes', 'No'].map(val => (
+                  <label key={val} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', cursor: 'pointer', color: 'var(--text-main)' }}>
+                    <input
+                      type="radio"
+                      name="fssai_license_issues"
+                      value={val}
+                      checked={formData.fssai_license_issues === val}
+                      onChange={handleChange}
+                      style={{ accentColor: '#d97706' }}
+                    />
+                    <span>{val === 'Yes' ? (lang === 'kn' ? 'ಹೌದು' : lang === 'both' ? 'Yes (ಹೌದು)' : 'Yes') : (lang === 'kn' ? 'ಇಲ್ಲ' : lang === 'both' ? 'No (ಇಲ್ಲ)' : 'No')}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {formData.fssai_license_issues === 'Yes' && (
+            <div className="form-group animate-fade-in" style={{ marginTop: '1.25rem', marginBottom: 0 }}>
+              <label className="form-label">
+                {t.q33}
+              </label>
+              <textarea
+                name="fssai_issue_reasons"
+                value={formData.fssai_issue_reasons || ''}
+                onChange={handleChange}
+                placeholder="Explain the issues faced with FSSAI trade licensing..."
                 rows="2"
                 className="form-textarea"
               />

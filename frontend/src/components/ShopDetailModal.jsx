@@ -191,7 +191,7 @@ export default function ShopDetailModal({ survey, onClose }) {
             </div>
           </div>
 
-          {/* Group 6: BBMP Trade License & Cleanliness */}
+          {/* Group 6: BBMP & FSSAI Trade License & Cleanliness */}
           <div style={{ background: 'var(--bg-card-subtle)', padding: '1.25rem', borderRadius: '14px', border: '1px solid var(--border-color)' }}>
             <h4 style={{ color: '#d97706', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
               <ShieldCheck size={16} /> Licensing & Hygiene
@@ -200,13 +200,25 @@ export default function ShopDetailModal({ survey, onClose }) {
               <div>
                 <strong style={{ color: 'var(--text-muted)' }}>BBMP Trade License:</strong>{' '}
                 <span style={{ color: survey.bbmp_license_issued === 'Yes' ? '#059669' : '#d97706', fontWeight: '700' }}>
-                  {survey.bbmp_license_issued}
+                  {survey.bbmp_license_issued || 'No'}
                 </span>
               </div>
-              <div><strong style={{ color: 'var(--text-muted)' }}>Issues in Procuring:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.bbmp_license_issues}</span></div>
+              <div><strong style={{ color: 'var(--text-muted)' }}>BBMP License Issues:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.bbmp_license_issues || 'No'}</span></div>
               {survey.bbmp_issue_reasons && (
-                <div><strong style={{ color: 'var(--text-muted)' }}>Reason:</strong> <span style={{ color: 'var(--text-main)' }}>{survey.bbmp_issue_reasons}</span></div>
+                <div><strong style={{ color: 'var(--text-muted)' }}>BBMP Issue Reason:</strong> <span style={{ color: 'var(--text-main)' }}>{survey.bbmp_issue_reasons}</span></div>
               )}
+              <div style={{ borderTop: '1px dashed var(--border-color)', margin: '0.25rem 0' }}></div>
+              <div>
+                <strong style={{ color: 'var(--text-muted)' }}>FSSAI Trade License:</strong>{' '}
+                <span style={{ color: survey.fssai_license_issued === 'Yes' ? '#059669' : '#d97706', fontWeight: '700' }}>
+                  {survey.fssai_license_issued || 'No'}
+                </span>
+              </div>
+              <div><strong style={{ color: 'var(--text-muted)' }}>FSSAI License Issues:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.fssai_license_issues || 'No'}</span></div>
+              {survey.fssai_issue_reasons && (
+                <div><strong style={{ color: 'var(--text-muted)' }}>FSSAI Issue Reason:</strong> <span style={{ color: 'var(--text-main)' }}>{survey.fssai_issue_reasons}</span></div>
+              )}
+              <div style={{ borderTop: '1px dashed var(--border-color)', margin: '0.25rem 0' }}></div>
               <div><strong style={{ color: 'var(--text-muted)' }}>Cleanliness Score:</strong> <span style={{ color: '#d97706', fontWeight: '700' }}>{'★'.repeat(survey.cleanliness_rating || 3)} ({survey.cleanliness_rating}/5)</span></div>
               <div><strong style={{ color: 'var(--text-muted)' }}>Behavior/Attitude Score:</strong> <span style={{ color: '#d97706', fontWeight: '700' }}>{'★'.repeat(survey.behavior_rating || 4)} ({survey.behavior_rating || 4}/5)</span></div>
             </div>
