@@ -10,7 +10,9 @@ import {
   DISTRICTS, PINCODE_DATABASE, HOLIDAY_OPTIONS, WORKER_OPTIONS,
   DAILY_CUSTOMER_OPTIONS, PEAK_DAY_OPTIONS, MEAT_TYPES_OPTIONS,
   PROCESSED_VOLUME_OPTIONS, PROCESSED_PRODUCT_TYPES,
-  CUSTOMER_TYPE_OPTIONS, MASALA_OPTIONS, SPOC_SKILL_OPTIONS
+  CUSTOMER_TYPE_OPTIONS, MASALA_OPTIONS, SPOC_SKILL_OPTIONS,
+  SHOP_OWNERSHIP_OPTIONS, PEAK_SEASON_OPTIONS, MEAT_CUTS_OPTIONS,
+  UNSOLD_MEAT_OPTIONS, STORAGE_CAPACITY_OPTIONS, TRAINING_SKILL_OPTIONS
 } from '../data/surveyQuestions';
 import { TRANSLATIONS } from '../data/translations';
 import TimePicker from './TimePicker';
@@ -58,6 +60,18 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
     fssai_license_issued: 'No',
     fssai_license_issues: 'No',
     fssai_issue_reasons: '',
+    shop_ownership: '',
+    shop_ownership_other: '',
+    peak_sales_seasons: [],
+    peak_sales_seasons_other: '',
+    meat_cuts_sold_most: [],
+    meat_cuts_sold_most_other: '',
+    unsold_meat_handling: [],
+    unsold_meat_handling_other: '',
+    storage_capacity: '',
+    wants_training: '',
+    training_skills: [],
+    training_skills_other: '',
     cleanliness_rating: 0,
     behavior_rating: 0,
     spocs: [
@@ -431,7 +445,11 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
       ].filter(Boolean);
 
       Object.keys(formData).forEach(key => {
-        if (['holiday_days', 'peak_customer_days', 'meat_types', 'masalas_available'].includes(key)) {
+        const jsonArrayFields = [
+          'holiday_days', 'peak_customer_days', 'meat_types', 'masalas_available',
+          'peak_sales_seasons', 'meat_cuts_sold_most', 'unsold_meat_handling', 'training_skills'
+        ];
+        if (jsonArrayFields.includes(key)) {
           data.append(key, JSON.stringify(formData[key]));
         } else if (key === 'spocs') {
           data.append('spocs', JSON.stringify(effectiveSpocs));
@@ -1279,7 +1297,51 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           </div>
         </div>
 
-        {/* SECTION 5: Meat Products & Sales (Q21, Q22, Q23, Q24, Q25, Q26) */}
+        {/* SECTION 4b: Shop Ownership */}
+        <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
+            <Store size={20} color="#d97706" />
+            <div>
+              <h2 style={{ fontSize: '1.2rem' }}>{lang === 'kn' ? '4b. ಅಂಗಡಿ ಮಾಲೀಕತ್ವ' : lang === 'both' ? '4b. Shop Ownership (ಅಂಗಡಿ ಮಾಲೀಕತ್ವ)' : '4b. Shop Ownership'}</h2>
+              <p className="kannada-text">{t.qShopOwnership}</p>
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label className="form-label" style={{ marginBottom: '0.6rem' }}>
+              {t.qShopOwnership}
+            </label>
+            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+              {SHOP_OWNERSHIP_OPTIONS.map(opt => (
+                <label key={opt.id} style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', cursor: 'pointer', padding: '0.5rem 0.85rem', borderRadius: '8px', background: formData.shop_ownership === opt.id ? 'rgba(217,119,6,0.13)' : 'var(--bg-card-subtle)', border: formData.shop_ownership === opt.id ? '1px solid #d97706' : '1px solid var(--border-color)', color: 'var(--text-main)', fontWeight: '500', transition: 'all 0.15s' }}>
+                  <input
+                    type="radio"
+                    name="shop_ownership"
+                    value={opt.id}
+                    checked={formData.shop_ownership === opt.id}
+                    onChange={handleChange}
+                    style={{ accentColor: '#d97706' }}
+                  />
+                  <span>{lang === 'en' ? opt.en : lang === 'kn' ? opt.kn : `${opt.en}`}</span>
+                </label>
+              ))}
+            </div>
+            {formData.shop_ownership === 'Other' && (
+              <div className="animate-fade-in" style={{ marginTop: '0.75rem' }}>
+                <input
+                  type="text"
+                  name="shop_ownership_other"
+                  value={formData.shop_ownership_other || ''}
+                  onChange={handleChange}
+                  placeholder={t.ownershipOtherPlaceholder}
+                  className="form-input"
+                />
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* SECTION 5: Meat Products & Sales */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <ShoppingBag size={20} color="#d97706" />
@@ -1467,6 +1529,106 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 ))}
               </select>
             </div>
+          </div>
+        </div>
+
+        {/* SECTION 5b: Peak Sales Seasons, Meat Cuts, Unsold Meat, Storage */}
+        <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
+            <ShoppingBag size={20} color="#d97706" />
+            <div>
+              <h2 style={{ fontSize: '1.2rem' }}>{lang === 'kn' ? '5b. ಮಾರಾಟ ಋತು ಮತ್ತು ಮಾಂಸ ಶೇಖರಣೆ' : lang === 'both' ? '5b. Sales Seasons & Meat Storage (ಮಾರಾಟ ಋತು ಮತ್ತು ಶೇಖರಣೆ)' : '5b. Sales Seasons & Meat Storage'}</h2>
+              <p className="kannada-text">{lang === 'kn' ? 'ಮಾರಾಟ ಋತು, ಮಾಂಸ ವಿಧ, ಮತ್ತು ಶೇಖರಣಾ ವ್ಯವಸ್ಥೆ' : 'Peak selling seasons, top meat cuts and unsold meat management'}</p>
+            </div>
+          </div>
+
+          {/* Peak Sales Seasons */}
+          <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+            <label className="form-label" style={{ marginBottom: '0.6rem' }}>
+              {t.qPeakSeasons}
+            </label>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '0.6rem' }}>
+              {PEAK_SEASON_OPTIONS.map(opt => {
+                const isSelected = formData.peak_sales_seasons.includes(opt.id);
+                return (
+                  <label key={opt.id} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.6rem 0.85rem', borderRadius: '10px', background: isSelected ? 'rgba(225,29,72,0.1)' : 'var(--bg-card-subtle)', border: isSelected ? '1px solid #d97706' : '1px solid var(--border-color)', cursor: 'pointer', transition: 'all 0.15s' }}>
+                    <input type="checkbox" checked={isSelected} onChange={() => handleMultiToggle('peak_sales_seasons', opt.id)} style={{ accentColor: '#d97706' }} />
+                    <span style={{ fontSize: '0.88rem' }}>{lang === 'en' ? opt.en : lang === 'kn' ? opt.kn : opt.en}</span>
+                  </label>
+                );
+              })}
+            </div>
+            {formData.peak_sales_seasons.includes('Other') && (
+              <div className="animate-fade-in" style={{ marginTop: '0.75rem' }}>
+                <input type="text" name="peak_sales_seasons_other" value={formData.peak_sales_seasons_other || ''} onChange={handleChange} placeholder={t.peakSeasonOtherPlaceholder} className="form-input" />
+              </div>
+            )}
+          </div>
+
+          {/* Meat Cuts Sold Most */}
+          <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+            <label className="form-label" style={{ marginBottom: '0.6rem' }}>
+              {t.qMeatCuts}
+            </label>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '0.6rem' }}>
+              {MEAT_CUTS_OPTIONS.map(opt => {
+                const isSelected = formData.meat_cuts_sold_most.includes(opt.id);
+                return (
+                  <label key={opt.id} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.6rem 0.85rem', borderRadius: '10px', background: isSelected ? 'rgba(225,29,72,0.1)' : 'var(--bg-card-subtle)', border: isSelected ? '1px solid #d97706' : '1px solid var(--border-color)', cursor: 'pointer', transition: 'all 0.15s' }}>
+                    <input type="checkbox" checked={isSelected} onChange={() => handleMultiToggle('meat_cuts_sold_most', opt.id)} style={{ accentColor: '#d97706' }} />
+                    <span style={{ fontSize: '0.88rem' }}>{lang === 'en' ? opt.en : lang === 'kn' ? opt.kn : opt.en}</span>
+                  </label>
+                );
+              })}
+            </div>
+            {formData.meat_cuts_sold_most.includes('Other') && (
+              <div className="animate-fade-in" style={{ marginTop: '0.75rem' }}>
+                <input type="text" name="meat_cuts_sold_most_other" value={formData.meat_cuts_sold_most_other || ''} onChange={handleChange} placeholder={t.meatCutOtherPlaceholder} className="form-input" />
+              </div>
+            )}
+          </div>
+
+          {/* Unsold Meat Handling */}
+          <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+            <label className="form-label" style={{ marginBottom: '0.6rem' }}>
+              {t.qUnsoldMeat}
+            </label>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '0.6rem' }}>
+              {UNSOLD_MEAT_OPTIONS.map(opt => {
+                const isSelected = formData.unsold_meat_handling.includes(opt.id);
+                return (
+                  <label key={opt.id} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.6rem 0.85rem', borderRadius: '10px', background: isSelected ? 'rgba(225,29,72,0.1)' : 'var(--bg-card-subtle)', border: isSelected ? '1px solid #d97706' : '1px solid var(--border-color)', cursor: 'pointer', transition: 'all 0.15s' }}>
+                    <input type="checkbox" checked={isSelected} onChange={() => handleMultiToggle('unsold_meat_handling', opt.id)} style={{ accentColor: '#d97706' }} />
+                    <span style={{ fontSize: '0.88rem' }}>{lang === 'en' ? opt.en : lang === 'kn' ? opt.kn : opt.en}</span>
+                  </label>
+                );
+              })}
+            </div>
+            {formData.unsold_meat_handling.includes('Other') && (
+              <div className="animate-fade-in" style={{ marginTop: '0.75rem' }}>
+                <input type="text" name="unsold_meat_handling_other" value={formData.unsold_meat_handling_other || ''} onChange={handleChange} placeholder={t.unsoldOtherPlaceholder} className="form-input" />
+              </div>
+            )}
+          </div>
+
+          {/* Storage Capacity */}
+          <div className="form-group" style={{ marginBottom: 0 }}>
+            <label className="form-label" style={{ marginBottom: '0.5rem' }}>
+              {t.qStorageCapacity}
+            </label>
+            <select
+              name="storage_capacity"
+              value={formData.storage_capacity}
+              onChange={handleChange}
+              className="form-select"
+            >
+              <option value="">{lang === 'kn' ? 'ಶೇಖರಣಾ ಸಾಮರ್ಥ್ಯ ಆಯ್ಕೆ ಮಾಡಿ' : 'Select storage capacity...'}</option>
+              {STORAGE_CAPACITY_OPTIONS.map(opt => (
+                <option key={opt.id} value={opt.id}>
+                  {lang === 'en' ? opt.en : lang === 'kn' ? opt.kn : `${opt.en}`}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 
@@ -1714,6 +1876,64 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 rows="2"
                 className="form-textarea"
               />
+            </div>
+          )}
+        </div>
+
+        {/* SECTION 7c: Pig-Related Skills Training */}
+        <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
+            <Briefcase size={20} color="#d97706" />
+            <div>
+              <h2 style={{ fontSize: '1.2rem' }}>{t.secTrainingTitle}</h2>
+              <p className="kannada-text">{t.secTrainingSub}</p>
+            </div>
+          </div>
+
+          {/* Does the shopkeeper want training? */}
+          <div className="form-group" style={{ marginBottom: '1.25rem' }}>
+            <label className="form-label" style={{ marginBottom: '0.5rem' }}>
+              {t.qWantsTraining}
+            </label>
+            <div style={{ display: 'flex', gap: '1.5rem', marginTop: '0.4rem' }}>
+              {['Yes', 'No'].map(val => (
+                <label key={val} style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', cursor: 'pointer', padding: '0.5rem 0.85rem', borderRadius: '8px', background: formData.wants_training === val ? (val === 'Yes' ? 'rgba(16,185,129,0.12)' : 'rgba(225,29,72,0.1)') : 'var(--bg-card-subtle)', border: formData.wants_training === val ? (val === 'Yes' ? '1px solid #10b981' : '1px solid #d97706') : '1px solid var(--border-color)', color: 'var(--text-main)', fontWeight: '500', transition: 'all 0.15s' }}>
+                  <input
+                    type="radio"
+                    name="wants_training"
+                    value={val}
+                    checked={formData.wants_training === val}
+                    onChange={handleChange}
+                    style={{ accentColor: '#d97706' }}
+                  />
+                  <span>{val === 'Yes' ? (lang === 'kn' ? 'ಹೌದು' : lang === 'both' ? 'Yes (ಹೌದು)' : 'Yes') : (lang === 'kn' ? 'ಇಲ್ಲ' : lang === 'both' ? 'No (ಇಲ್ಲ)' : 'No')}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          {/* If Yes, show skills multi-select */}
+          {formData.wants_training === 'Yes' && (
+            <div className="form-group animate-fade-in" style={{ background: 'var(--bg-card-subtle)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '1.15rem' }}>
+              <label className="form-label" style={{ marginBottom: '0.6rem' }}>
+                {t.qTrainingSkills}
+              </label>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '0.6rem' }}>
+                {TRAINING_SKILL_OPTIONS.map(opt => {
+                  const isSelected = formData.training_skills.includes(opt.id);
+                  return (
+                    <label key={opt.id} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.6rem 0.85rem', borderRadius: '10px', background: isSelected ? 'rgba(16,185,129,0.1)' : 'var(--bg-card)', border: isSelected ? '1px solid #10b981' : '1px solid var(--border-color)', cursor: 'pointer', transition: 'all 0.15s' }}>
+                      <input type="checkbox" checked={isSelected} onChange={() => handleMultiToggle('training_skills', opt.id)} style={{ accentColor: '#10b981' }} />
+                      <span style={{ fontSize: '0.87rem' }}>{lang === 'en' ? opt.en : lang === 'kn' ? opt.kn : opt.en}</span>
+                    </label>
+                  );
+                })}
+              </div>
+              {formData.training_skills.includes('Other') && (
+                <div className="animate-fade-in" style={{ marginTop: '0.75rem' }}>
+                  <input type="text" name="training_skills_other" value={formData.training_skills_other || ''} onChange={handleChange} placeholder={t.trainingOtherPlaceholder} className="form-input" />
+                </div>
+              )}
             </div>
           )}
         </div>

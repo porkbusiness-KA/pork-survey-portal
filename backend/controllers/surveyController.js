@@ -29,7 +29,11 @@ exports.createSurvey = async (req, res) => {
 
     const holidayDays = JSON.stringify(parseJSONField(body.holiday_days, []));
     const peakDays = JSON.stringify(parseJSONField(body.peak_customer_days, []));
+    const peakSeasons = JSON.stringify(parseJSONField(body.peak_sales_seasons, []));
     const meatTypes = JSON.stringify(parseJSONField(body.meat_types, []));
+    const meatCuts = JSON.stringify(parseJSONField(body.meat_cuts_sold_most, []));
+    const unsoldHandling = JSON.stringify(parseJSONField(body.unsold_meat_handling, []));
+    const trainingSkills = JSON.stringify(parseJSONField(body.training_skills, []));
     const processedConsumption = JSON.stringify(parseJSONField(body.processed_meat_consumption, []));
     const masalas = JSON.stringify(parseJSONField(body.masalas_available, []));
     const shopImages = JSON.stringify(uploadedImages);
@@ -38,27 +42,31 @@ exports.createSurvey = async (req, res) => {
     let spocsList = parseJSONField(body.spocs, []);
     if (!Array.isArray(spocsList) || spocsList.length === 0) {
       spocsList = [{
-        name: body.spoc_name || body.owner_name || '',
+        name: body.spoc_name || '',
         mobile: body.spoc_mobile || '',
-        skills: parseJSONField(body.spoc_skills, ['Butchery / Meat Cutting']),
+        skills: parseJSONField(body.spoc_skills, []),
         skills_other: ''
-      }];
+      }].filter(s => s.name || s.mobile || (s.skills && s.skills.length > 0));
     }
     const spocsJSON = JSON.stringify(spocsList);
-    const primarySpocName = spocsList.map(s => s.name).filter(Boolean).join(', ') || body.spoc_name || body.owner_name || '';
+    const primarySpocName = spocsList.map(s => s.name).filter(Boolean).join(', ') || body.spoc_name || '';
     const primarySpocMobile = spocsList.map(s => s.mobile).filter(Boolean).join(', ') || body.spoc_mobile || '';
 
     const query = `
       INSERT INTO surveys (
-        country, state, district, taluk, village, place, pincode, shop_name, owner_name, owner_mobile, owner_email, years_in_business,
+        country, state, district, taluk, village, place, pincode, shop_name, owner_name, owner_mobile, owner_email,
+        shop_ownership, shop_ownership_other, years_in_business,
         opening_time, closing_time, holiday_days, workers_count, daily_customers,
-        peak_customer_days, regular_meat_rate, meat_types, processed_meat_consumption,
-        average_daily_sale_kg, procurement_source, customer_type, masalas_available,
+        peak_customer_days, peak_sales_seasons, peak_sales_seasons_other,
+        regular_meat_rate, meat_types, meat_cuts_sold_most, meat_cuts_sold_most_other, processed_meat_consumption,
+        average_daily_sale_kg, unsold_meat_handling, unsold_meat_handling_other, storage_capacity,
+        procurement_source, customer_type, masalas_available,
         bbmp_license_issued, bbmp_license_issues, bbmp_issue_reasons,
         fssai_license_issued, fssai_license_issues, fssai_issue_reasons,
+        wants_training, training_skills, training_skills_other,
         cleanliness_rating, behavior_rating,
         spocs, spoc_name, spoc_mobile, location_link, latitude, longitude, shop_images
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const values = [
@@ -73,6 +81,8 @@ exports.createSurvey = async (req, res) => {
       body.owner_name || '',
       body.owner_mobile || '',
       body.owner_email || '',
+      body.shop_ownership || '',
+      body.shop_ownership_other || '',
       parseInt(body.years_in_business || 0, 10),
       body.opening_time || '',
       body.closing_time || '',
@@ -80,10 +90,17 @@ exports.createSurvey = async (req, res) => {
       body.workers_count || '1',
       body.daily_customers || '10-20',
       peakDays,
+      peakSeasons,
+      body.peak_sales_seasons_other || '',
       parseFloat(body.regular_meat_rate || 0),
       meatTypes,
+      meatCuts,
+      body.meat_cuts_sold_most_other || '',
       processedConsumption,
       parseFloat(body.average_daily_sale_kg || 0),
+      unsoldHandling,
+      body.unsold_meat_handling_other || '',
+      body.storage_capacity || '',
       body.procurement_source || '',
       body.customer_type || 'Localities',
       masalas,
@@ -93,6 +110,9 @@ exports.createSurvey = async (req, res) => {
       body.fssai_license_issued || 'No',
       body.fssai_license_issues || 'No',
       body.fssai_issue_reasons || '',
+      body.wants_training || 'No',
+      trainingSkills,
+      body.training_skills_other || '',
       parseInt(body.cleanliness_rating || 3, 10),
       parseInt(body.behavior_rating || 4, 10),
       spocsJSON,
@@ -159,7 +179,11 @@ exports.getAllSurveys = async (req, res) => {
       ...r,
       holiday_days: parseJSONField(r.holiday_days, []),
       peak_customer_days: parseJSONField(r.peak_customer_days, []),
+      peak_sales_seasons: parseJSONField(r.peak_sales_seasons, []),
       meat_types: parseJSONField(r.meat_types, []),
+      meat_cuts_sold_most: parseJSONField(r.meat_cuts_sold_most, []),
+      unsold_meat_handling: parseJSONField(r.unsold_meat_handling, []),
+      training_skills: parseJSONField(r.training_skills, []),
       processed_meat_consumption: parseJSONField(r.processed_meat_consumption, []),
       masalas_available: parseJSONField(r.masalas_available, []),
       spocs: parseJSONField(r.spocs, []),
@@ -196,7 +220,11 @@ exports.getSurveyById = async (req, res) => {
       ...r,
       holiday_days: parseJSONField(r.holiday_days, []),
       peak_customer_days: parseJSONField(r.peak_customer_days, []),
+      peak_sales_seasons: parseJSONField(r.peak_sales_seasons, []),
       meat_types: parseJSONField(r.meat_types, []),
+      meat_cuts_sold_most: parseJSONField(r.meat_cuts_sold_most, []),
+      unsold_meat_handling: parseJSONField(r.unsold_meat_handling, []),
+      training_skills: parseJSONField(r.training_skills, []),
       processed_meat_consumption: parseJSONField(r.processed_meat_consumption, []),
       masalas_available: parseJSONField(r.masalas_available, []),
       spocs: parseJSONField(r.spocs, []),
@@ -337,12 +365,15 @@ exports.exportCSV = async (req, res) => {
 
     const headers = [
       'Survey ID', 'Country', 'State', 'District', 'Taluk', 'Village', 'Place', 'Pincode', 'Shop Name', 'Owner Name', 'Owner Mobile', 'Owner Email',
+      'Shop Ownership', 'Ownership Details',
       'Years in Business', 'Opening Time', 'Closing Time', 'Weekly Holidays',
-      'Workers Count', 'Daily Customers', 'Peak Days', 'Meat Rate (Rs/Kg)',
-      'Meat Types Sold', 'Processed Meat Consumption', 'Daily Sales (Kg)',
+      'Workers Count', 'Daily Customers', 'Peak Days', 'Peak Seasons',
+      'Meat Rate (Rs/Kg)', 'Meat Types Sold', 'Top Selling Meat Cuts',
+      'Processed Meat Consumption', 'Daily Sales (Kg)', 'Unsold Meat Handling', 'Storage Capacity',
       'Procurement Source', 'Customer Profile', 'Masalas Available',
       'BBMP License Issued', 'BBMP Issues Faced', 'BBMP Issue Reasons',
       'FSSAI License Issued', 'FSSAI Issues Faced', 'FSSAI Issue Reasons',
+      'Wants Pig Skills Training', 'Desired Training Skills',
       'Cleanliness Rating (1-5)', 'Behavior Rating (1-5)',
       'SPOC Details (Name, Mobile, Skills)', 'SPOC Mobile Number', 'Shop Location Link', 'Latitude', 'Longitude', 'Submission Date'
     ];
@@ -370,6 +401,8 @@ exports.exportCSV = async (req, res) => {
         escapeCSV(r.owner_name),
         escapeCSV(r.owner_mobile || ''),
         escapeCSV(r.owner_email || ''),
+        escapeCSV(r.shop_ownership || ''),
+        escapeCSV(r.shop_ownership_other || ''),
         escapeCSV(r.years_in_business),
         escapeCSV(r.opening_time),
         escapeCSV(r.closing_time),
@@ -377,10 +410,14 @@ exports.exportCSV = async (req, res) => {
         escapeCSV(r.workers_count),
         escapeCSV(r.daily_customers),
         escapeCSV(parseJSONField(r.peak_customer_days, []).join('; ')),
+        escapeCSV(parseJSONField(r.peak_sales_seasons, []).join('; ')),
         escapeCSV(r.regular_meat_rate),
         escapeCSV(parseJSONField(r.meat_types, []).join('; ')),
+        escapeCSV(parseJSONField(r.meat_cuts_sold_most, []).join('; ')),
         escapeCSV(parseJSONField(r.processed_meat_consumption, []).join('; ')),
         escapeCSV(r.average_daily_sale_kg),
+        escapeCSV(parseJSONField(r.unsold_meat_handling, []).join('; ')),
+        escapeCSV(r.storage_capacity || ''),
         escapeCSV(r.procurement_source),
         escapeCSV(r.customer_type),
         escapeCSV(parseJSONField(r.masalas_available, []).join('; ')),
@@ -390,6 +427,8 @@ exports.exportCSV = async (req, res) => {
         escapeCSV(r.fssai_license_issued || 'No'),
         escapeCSV(r.fssai_license_issues || 'No'),
         escapeCSV(r.fssai_issue_reasons || ''),
+        escapeCSV(r.wants_training || 'No'),
+        escapeCSV(parseJSONField(r.training_skills, []).join('; ')),
         escapeCSV(r.cleanliness_rating),
         escapeCSV(r.behavior_rating),
         escapeCSV(

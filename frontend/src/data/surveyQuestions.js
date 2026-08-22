@@ -106,3 +106,77 @@ export const SPOC_SKILL_OPTIONS = [
   { id: 'Cleaning & Maintenance', en: 'Cleaning & Maintenance', kn: 'ಶುಚಿತ್ವ ಮತ್ತು ಸ್ವಚ್ಛತೆ' },
   { id: 'Other', en: 'Other', kn: 'ಇತರ' }
 ];
+
+export const TRAINING_SKILL_OPTIONS = [
+  { id: 'Pig Rearing and Farm Management', en: 'Pig Rearing and Farm Management', kn: 'ಹಂದಿ ಸಾಕಣೆ ಮತ್ತು ಫಾರ್ಮ್ ನಿರ್ವಹಣೆ' },
+  { id: 'Pig Breeding and Reproduction', en: 'Pig Breeding and Reproduction', kn: 'ಹಂದಿ ತಳಿ ಅಭಿವೃದ್ಧಿ ಮತ್ತು ಸಂತಾನೋತ್ಪತ್ತಿ' },
+  { id: 'Pig Feeding and Nutrition', en: 'Pig Feeding and Nutrition', kn: 'ಹಂದಿ ಆಹಾರ ಮತ್ತು ಪೌಷ್ಟಿಕಾಂಶ' },
+  { id: 'Pig Health and Disease Management', en: 'Pig Health and Disease Management', kn: 'ಹಂದಿ ಆರೋಗ್ಯ ಮತ್ತು ರೋಗ ನಿರ್ವಹಣೆ' },
+  { id: 'Pig Housing and Farm Hygiene', en: 'Pig Housing and Farm Hygiene', kn: 'ಹಂದಿ ಶೆಡ್ ನಿರ್ಮಾಣ ಮತ್ತು ಫಾರ್ಮ್ ನೈರ್ಮಲ್ಯ' },
+  { id: 'Piglet Care and Management', en: 'Piglet Care and Management', kn: 'ಹಂದಿ ಮರಿಗಳ ಆರೈಕೆ ಮತ್ತು ಪಾಲನೆ' },
+  { id: 'Pig Fattening and Growth Management', en: 'Pig Fattening and Growth Management', kn: 'ಹಂದಿ ತೂಕ ಹೆಚ್ಚಿಸುವಿಕೆ ಮತ್ತು ಬೆಳವಣಿಗೆ' },
+  { id: 'Pig Vaccination and Preventive Care', en: 'Pig Vaccination and Preventive Care', kn: 'ಲಸಿಕೆ ಮತ್ತು ಮುಂಜಾಗ್ರತಾ ಚಿಕಿತ್ಸೆ' },
+  { id: 'Pig Waste Management', en: 'Pig Waste Management', kn: 'ತ್ಯಾಜ್ಯ ನಿರ್ವಹಣೆ ಮತ್ತು ಗೊಬ್ಬರ ಬಳಕೆ' },
+  { id: 'Pig Slaughtering and Meat Processing', en: 'Pig Slaughtering and Meat Processing', kn: 'ಹಂದಿ ಕಡಿಯುವುದು ಮತ್ತು ಸಂಸ್ಕರಣೆ' },
+  { id: 'Meat Cutting and Butchering', en: 'Meat Cutting and Butchering', kn: 'ಮಾಂಸ ಕತ್ತರಿಸುವುದು ಮತ್ತು ಬಚರಿಂಗ್' },
+  { id: 'Meat Preservation and Storage', en: 'Meat Preservation and Storage', kn: 'ಮಾಂಸ ಸಂರಕ್ಷಣೆ ಮತ್ತು ಶೇಖರಣೆ' },
+  { id: 'Meat Packaging and Handling', en: 'Meat Packaging and Handling', kn: 'ಪ್ಯಾಕಿಂಗ್ ಮತ್ತು ನಿರ್ವಹಣೆ' },
+  { id: 'Value-Added Pig Meat Products', en: 'Value-Added Pig Meat Products', kn: 'ಮೌಲ್ಯವರ್ಧಿತ ಹಂದಿ ಮಾಂಸ ಉತ್ಪನ್ನಗಳು' },
+  { id: 'Marketing and Selling Pig Meat', en: 'Marketing and Selling Pig Meat', kn: 'ಮಾರ್ಕೆಟಿಂಗ್ ಮತ್ತು ಮಾರಾಟ ತಂತ್ರಗಳು' },
+  { id: 'Other', en: 'Other', kn: 'ಇತರ' }
+];
+
+export const SHOP_OWNERSHIP_OPTIONS = [
+  { id: 'Family-owned', en: 'Family-owned', kn: 'ಕುಟುಂಬದ ಸ್ವಂತ ಅಂಗಡಿ (Family-owned)' },
+  { id: 'Rented', en: 'Rented', kn: 'ಬಾಡಿಗೆ ಅಂಗಡಿ (Rented)' },
+  { id: 'Other', en: 'Other', kn: 'ಇತರ (Other)' }
+];
+
+export const UNSOLD_MEAT_OPTIONS = [
+  { id: 'Refrigerated storage', en: 'Refrigerated storage', kn: 'ರೆಫ್ರಿಜರೇಟರ್ ಶೇಖರಣೆ (Fridge)' },
+  { id: 'Freezer storage', en: 'Freezer storage', kn: 'ಫ್ರೀಜರ್ ಶೇಖರಣೆ (Freezer)' },
+  { id: 'Deep freezer', en: 'Deep freezer', kn: 'ಡೀಪ್ ಫ್ರೀಜರ್ (Deep Freezer)' },
+  { id: 'Sold at a discounted price', en: 'Sold at a discounted price', kn: 'ರಿಯಾಯಿತಿ ದರದಲ್ಲಿ ಮಾರಾಟ (Discount)' },
+  { id: 'Processed into other meat products', en: 'Processed into other meat products', kn: 'ಇತರ ಮಾಂಸ ಉತ್ಪನ್ನಗಳಾಗಿ ಸಂಸ್ಕರಣೆ' },
+  { id: 'Returned to supplier', en: 'Returned to supplier', kn: 'ಸರಬರಾಜುದಾರರಿಗೆ ಹಿಂತಿರುಗಿಸುವುದು' },
+  { id: 'Used for personal/family consumption', en: 'Used for personal/family consumption', kn: 'ಸ್ವಂತ / ಕುಟುಂಬದ ಬಳಕೆಗೆ' },
+  { id: 'Disposed of', en: 'Disposed of', kn: 'ವಿಲೇವಾರಿ ಮಾಡಲಾಗುತ್ತದೆ (Disposed)' },
+  { id: 'Other', en: 'Other', kn: 'ಇತರ ವಿಧಾನ' }
+];
+
+export const STORAGE_CAPACITY_OPTIONS = [
+  { id: 'Less than 10 kg', en: 'Less than 10 kg', kn: '10 ಕೆಜಿಗಿಂತ ಕಡಿಮೆ (< 10 kg)' },
+  { id: '10–25 kg', en: '10–25 kg', kn: '10–25 ಕೆಜಿ' },
+  { id: '26–50 kg', en: '26–50 kg', kn: '26–50 ಕೆಜಿ' },
+  { id: '51–100 kg', en: '51–100 kg', kn: '51–100 ಕೆಜಿ' },
+  { id: '101–250 kg', en: '101–250 kg', kn: '101–250 ಕೆಜಿ' },
+  { id: 'More than 250 kg', en: 'More than 250 kg', kn: '250 ಕೆಜಿಗಿಂತ ಹೆಚ್ಚು (> 250 kg)' },
+  { id: 'No storage facility', en: 'No storage facility', kn: 'ಯಾವುದೇ ಶೇಖರಣಾ ಸೌಲಭ್ಯವಿಲ್ಲ (No storage)' }
+];
+
+export const PEAK_SEASON_OPTIONS = [
+  { id: 'Summer', en: 'Summer', kn: 'ಬೇಸಿಗೆ ಕಾಲ (Summer)' },
+  { id: 'Monsoon / Rainy Season', en: 'Monsoon / Rainy Season', kn: 'ಮಳೆಗಾಲ (Monsoon / Rainy)' },
+  { id: 'Winter', en: 'Winter', kn: 'ಚಳಿಗಾಲ (Winter)' },
+  { id: 'Festival Season', en: 'Festival Season', kn: 'ಹಬ್ಬದ ಸಮಯ (Festival Season)' },
+  { id: 'Wedding Season', en: 'Wedding Season', kn: 'ಮದುವೆ ಸಮಾರಂಭಗಳ ಕಾಲ (Wedding Season)' },
+  { id: 'Holiday / Vacation Period', en: 'Holiday / Vacation Period', kn: 'ರಜಾ ದಿನಗಳು (Holiday / Vacation)' },
+  { id: 'Sales remain consistent throughout the year', en: 'Sales remain consistent throughout the year', kn: 'ವರ್ಷಪೂರ್ತಿ ಸ್ಥಿರ ಮಾರಾಟ (Consistent all year)' },
+  { id: 'Other', en: 'Other', kn: 'ಇತರ ಕಾಲ' }
+];
+
+export const MEAT_CUTS_OPTIONS = [
+  { id: 'Shoulder', en: 'Shoulder', kn: 'ಭುಜದ ಭಾಗ (Shoulder)' },
+  { id: 'Thigh', en: 'Thigh', kn: 'ತೊಡೆಯ ಭಾಗ (Thigh)' },
+  { id: 'Leg', en: 'Leg', kn: 'ಕಾಲಿನ ಭಾಗ (Leg)' },
+  { id: 'Belly', en: 'Belly', kn: 'ಹೊಟ್ಟೆಯ ಭಾಗ (Belly)' },
+  { id: 'Ribs', en: 'Ribs', kn: 'ಪಕ್ಕೆಲುಬುಗಳು (Ribs)' },
+  { id: 'Head', en: 'Head', kn: 'ತಲೆಯ ಭಾಗ (Head)' },
+  { id: 'Loin', en: 'Loin', kn: 'ಬೆನ್ನಿನ ಮಾಂಸ (Loin)' },
+  { id: 'Chops', en: 'Chops', kn: 'ಚಾಪ್ಸ್ (Chops)' },
+  { id: 'Feet / Trotters', en: 'Feet / Trotters', kn: 'ಕಾಲುಗಳು / ಖುರಾಗಳು (Trotters)' },
+  { id: 'Liver', en: 'Liver', kn: 'ಲಿವರ್ / ಯಕೃತ್ತು (Liver)' },
+  { id: 'Heart', en: 'Heart', kn: 'ಗುಂಡಿಗೆ / ಹೃದಯ (Heart)' },
+  { id: 'Kidney', en: 'Kidney', kn: 'ಮೂತ್ರಪಿಂಡ / ಕಿಡ್ನಿ (Kidney)' },
+  { id: 'Other', en: 'Other', kn: 'ಇತರ ಭಾಗಗಳು' }
+];

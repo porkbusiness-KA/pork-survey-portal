@@ -32,6 +32,8 @@ async function initDatabase() {
         owner_name VARCHAR(255) NOT NULL,
         owner_mobile VARCHAR(20) DEFAULT '',
         owner_email VARCHAR(150) DEFAULT '',
+        shop_ownership VARCHAR(100) DEFAULT '',
+        shop_ownership_other VARCHAR(255) DEFAULT '',
         years_in_business INT DEFAULT 0,
         opening_time VARCHAR(50) NOT NULL,
         closing_time VARCHAR(50) NOT NULL,
@@ -39,10 +41,17 @@ async function initDatabase() {
         workers_count VARCHAR(50) NOT NULL,
         daily_customers VARCHAR(50),
         peak_customer_days JSON,
+        peak_sales_seasons JSON,
+        peak_sales_seasons_other VARCHAR(255) DEFAULT '',
         regular_meat_rate DECIMAL(10, 2) NOT NULL,
         meat_types JSON NOT NULL,
+        meat_cuts_sold_most JSON,
+        meat_cuts_sold_most_other VARCHAR(255) DEFAULT '',
         processed_meat_consumption JSON,
         average_daily_sale_kg DECIMAL(10, 2) DEFAULT 0,
+        unsold_meat_handling JSON,
+        unsold_meat_handling_other VARCHAR(255) DEFAULT '',
+        storage_capacity VARCHAR(100) DEFAULT '',
         procurement_source VARCHAR(255),
         customer_type VARCHAR(100),
         masalas_available JSON,
@@ -52,6 +61,9 @@ async function initDatabase() {
         fssai_license_issued VARCHAR(10) DEFAULT 'No',
         fssai_license_issues VARCHAR(10) DEFAULT 'No',
         fssai_issue_reasons TEXT,
+        wants_training VARCHAR(10) DEFAULT 'No',
+        training_skills JSON,
+        training_skills_other VARCHAR(255) DEFAULT '',
         cleanliness_rating INT DEFAULT 3,
         spocs JSON,
         spoc_name VARCHAR(255) DEFAULT '',
@@ -90,6 +102,18 @@ async function initDatabase() {
     await addColumnIfNotExists('village', "VARCHAR(255) DEFAULT ''");
     await addColumnIfNotExists('owner_mobile', "VARCHAR(20) DEFAULT ''");
     await addColumnIfNotExists('owner_email', "VARCHAR(150) DEFAULT ''");
+    await addColumnIfNotExists('shop_ownership', "VARCHAR(100) DEFAULT ''");
+    await addColumnIfNotExists('shop_ownership_other', "VARCHAR(255) DEFAULT ''");
+    await addColumnIfNotExists('peak_sales_seasons', "JSON");
+    await addColumnIfNotExists('peak_sales_seasons_other', "VARCHAR(255) DEFAULT ''");
+    await addColumnIfNotExists('meat_cuts_sold_most', "JSON");
+    await addColumnIfNotExists('meat_cuts_sold_most_other', "VARCHAR(255) DEFAULT ''");
+    await addColumnIfNotExists('unsold_meat_handling', "JSON");
+    await addColumnIfNotExists('unsold_meat_handling_other', "VARCHAR(255) DEFAULT ''");
+    await addColumnIfNotExists('storage_capacity', "VARCHAR(100) DEFAULT ''");
+    await addColumnIfNotExists('wants_training', "VARCHAR(10) DEFAULT 'No'");
+    await addColumnIfNotExists('training_skills', "JSON");
+    await addColumnIfNotExists('training_skills_other', "VARCHAR(255) DEFAULT ''");
     await addColumnIfNotExists('fssai_license_issued', "VARCHAR(10) DEFAULT 'No'");
     await addColumnIfNotExists('fssai_license_issues', "VARCHAR(10) DEFAULT 'No'");
     await addColumnIfNotExists('fssai_issue_reasons', "TEXT");

@@ -77,6 +77,24 @@ export const TRANSLATIONS = {
     q31: '31. Is FSSAI Trade License Issued?',
     q32: '32. Facing Issues in Procuring FSSAI License?',
     q33: '33. Reason for issues faced in procuring FSSAI license',
+    
+    // New Feature Questions
+    qShopOwnership: 'What is the ownership status of your shop?',
+    ownershipOtherPlaceholder: 'Specify ownership status...',
+    qPeakSeasons: 'During which seasons do you experience peak meat sales?',
+    peakSeasonOtherPlaceholder: 'Specify other peak season...',
+    qMeatCuts: 'Which cuts or parts of pork are sold the most in your shop?',
+    meatCutOtherPlaceholder: 'Specify other cut or part...',
+    qUnsoldMeat: 'How do you handle and store unsold meat?',
+    unsoldOtherPlaceholder: 'Specify other unsold meat handling...',
+    qStorageCapacity: 'What is your approximate meat storage capacity?',
+    
+    secTrainingTitle: 'Pig-Related Skills & Training Requirements',
+    secTrainingSub: 'Training interest and skill development in pig farming & meat processing',
+    qWantsTraining: 'Do you want training on pig-related skills?',
+    qTrainingSkills: 'Which pig-related skills would you like to receive training in?',
+    trainingOtherPlaceholder: 'Specify other required skill...',
+
     q34: '34. Provide the rating on the cleanliness of pork shop (1 to 5 Stars)',
     q35: '35. Image of Shop (Upload up to 5 photos)',
     q35UploadHint: 'Click to Browse or Drag & Drop Shop Photos',
@@ -183,6 +201,24 @@ export const TRANSLATIONS = {
     q31: '31. FSSAI ವ್ಯಾಪಾರ ಪರವಾನಗಿ ನೀಡಲಾಗಿದೆಯೇ?',
     q32: '32. FSSAI ಪರವಾನಗಿ ಪಡೆಯುವಲ್ಲಿ ಸಮಸ್ಯೆಗಳಿವೆಯೇ?',
     q33: '33. FSSAI ಪರವಾನಗಿ ಸಮಸ್ಯೆಗಳಿಗೆ ಕಾರಣವೇನು?',
+
+    // New Feature Questions
+    qShopOwnership: 'ಅಂಗಡಿಯ ಮಾಲೀಕತ್ವದ ಸ್ಥಿತಿ ಏನು?',
+    ownershipOtherPlaceholder: 'ಇತರ ಮಾಲೀಕತ್ವದ ವಿವರ ನಮೂದಿಸಿ...',
+    qPeakSeasons: 'ಯಾವ ಕಾಲದಲ್ಲಿ ಅಥವಾ ಋತುವಿನಲ್ಲಿ ಮಾಂಸದ ಮಾರಾಟ ಹೆಚ್ಚಾಗಿರುತ್ತದೆ?',
+    peakSeasonOtherPlaceholder: 'ಇತರ ಋತುವಿನ ವಿವರ ನಮೂದಿಸಿ...',
+    qMeatCuts: 'ಅಂಗಡಿಯಲ್ಲಿ ಹಂದಿ ಮಾಂಸದ ಯಾವ ಭಾಗಗಳು / ಕಟ್‌ಗಳು ಹೆಚ್ಚು ಮಾರಾಟವಾಗುತ್ತವೆ?',
+    meatCutOtherPlaceholder: 'ಇತರ ಭಾಗದ ವಿವರ ನಮೂದಿಸಿ...',
+    qUnsoldMeat: 'ಮಾರಾಟವಾಗದ ಮಾಂಸವನ್ನು ಹೇಗೆ ನಿರ್ವಹಿಸುತ್ತೀರಿ ಮತ್ತು ಶೇಖರಿಸುತ್ತೀರಿ?',
+    unsoldOtherPlaceholder: 'ಇತರ ನಿರ್ವಹಣಾ ವಿವರ ನಮೂದಿಸಿ...',
+    qStorageCapacity: 'ಅಂಗಡಿಯ ಅಂದಾಜು ಮಾಂಸ ಶೇಖರಣಾ ಸಾಮರ್ಥ್ಯ ಎಷ್ಟು?',
+
+    secTrainingTitle: 'ಹಂದಿ ಸಾಕಣೆ ಮತ್ತು ಮಾಂಸ ಕೌಶಲ್ಯ ತರಬೇತಿ ಅಗತ್ಯತೆಗಳು',
+    secTrainingSub: 'ಹಂದಿ ಸಾಕಣೆ, ಮಾಂಸ ಸಂಸ್ಕರಣೆ ಮತ್ತು ಮಾರಾಟ ಕೌಶಲ್ಯಗಳ ತರಬೇತಿ ಆಸಕ್ತಿ',
+    qWantsTraining: 'ಹಂದಿ ಸಂಬಂಧಿತ ಕೌಶಲ್ಯಗಳ ಕುರಿತು ನಿಮಗೆ ತರಬೇತಿ ಬೇಕೇ?',
+    qTrainingSkills: 'ಯಾವ ಹಂದಿ ಸಂಬಂಧಿತ ಕೌಶಲ್ಯಗಳಲ್ಲಿ ನೀವು ತರಬೇತಿ ಪಡೆಯಲು ಬಯಸುತ್ತೀರಿ?',
+    trainingOtherPlaceholder: 'ಇತರ ಅಗತ್ಯ ಕೌಶಲ್ಯವನ್ನು ನಮೂದಿಸಿ...',
+
     q34: '34. ಹಂದಿಮಾಂಸದ ಅಂಗಡಿಯ ಶುಚಿತ್ವದ ಮೇಲೆ ರೇಟಿಂಗ್ ಒದಗಿಸಿ (1 ರಿಂದ 5)',
     q35: '35. ಅಂಗಡಿಯ ಚಿತ್ರಗಳು (ಗರಿಷ್ಠ 5 ಫೋಟೋಗಳು)',
     q35UploadHint: 'ಫೋಟೋಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಲು ಇಲ್ಲಿ ಕ್ಲಿಕ್ ಮಾಡಿ',
@@ -289,6 +325,24 @@ export const TRANSLATIONS = {
     q31: '31. Is FSSAI Trade License Issued? (FSSAI ವ್ಯಾಪಾರ ಪರವಾನಗಿ ನೀಡಲಾಗಿದೆಯೇ?)',
     q32: '32. Facing Issues in Procuring FSSAI License? (FSSAI ಪರವಾನಗಿ ಪಡೆಯುವಲ್ಲಿ ಸಮಸ್ಯೆಗಳಿವೆಯೇ?)',
     q33: '33. Reason for issues faced in procuring FSSAI license (ಸಮಸ್ಯೆಗಳಿಗೆ ಕಾರಣ)',
+
+    // New Feature Questions
+    qShopOwnership: 'What is the ownership status of your shop? (ಅಂಗಡಿಯ ಮಾಲೀಕತ್ವದ ಸ್ಥಿತಿ)',
+    ownershipOtherPlaceholder: 'Specify ownership status (ವಿವರ ನಮೂದಿಸಿ)...',
+    qPeakSeasons: 'During which seasons do you experience peak meat sales? (ಯಾವ ಋತುವಿನಲ್ಲಿ ಹೆಚ್ಚು ಮಾರಾಟ?)',
+    peakSeasonOtherPlaceholder: 'Specify other peak season (ಇತರ ಋತು)...',
+    qMeatCuts: 'Which cuts or parts of pork are sold the most in your shop? (ಯಾವ ಭಾಗಗಳು ಹೆಚ್ಚು ಮಾರಾಟವಾಗುತ್ತವೆ?)',
+    meatCutOtherPlaceholder: 'Specify other cut or part (ಇತರ ಭಾಗ)...',
+    qUnsoldMeat: 'How do you handle and store unsold meat? (ಮಾರಾಟವಾಗದ ಮಾಂಸ ಶೇಖರಣೆ ಹೇಗೆ?)',
+    unsoldOtherPlaceholder: 'Specify other handling (ಇತರ ವಿಧಾನ)...',
+    qStorageCapacity: 'What is your approximate meat storage capacity? (ಅಂದಾಜು ಶೇಖರಣಾ ಸಾಮರ್ಥ್ಯ)',
+
+    secTrainingTitle: 'Pig-Related Skills & Training (ಹಂದಿ ಸಾಕಣೆ & ಕೌಶಲ್ಯ ತರಬೇತಿ)',
+    secTrainingSub: 'Training interest and skill development (ತರಬೇತಿ ಅಗತ್ಯತೆಗಳು ಮತ್ತು ಆಸಕ್ತಿ)',
+    qWantsTraining: 'Do you want training on pig-related skills? (ಹಂದಿ ಸಂಬಂಧಿತ ಕೌಶಲ್ಯಗಳ ತರಬೇತಿ ಬೇಕೇ?)',
+    qTrainingSkills: 'Which pig-related skills would you like to receive training in? (ಯಾವ ಕೌಶಲ್ಯಗಳಲ್ಲಿ ತರಬೇತಿ ಬೇಕು?)',
+    trainingOtherPlaceholder: 'Specify other skill (ಇತರ ಅಗತ್ಯ ಕೌಶಲ್ಯ)...',
+
     q34: '34. Provide the rating on the cleanliness of pork shop (1 to 5 Stars) (ಶುಚಿತ್ವದ ರೇಟಿಂಗ್)',
     q35: '35. Image of Shop (Upload up to 5 photos) (ಅಂಗಡಿಯ ಚಿತ್ರ - ಗರಿಷ್ಠ 5 ಫೋಟೋಗಳು)',
     q35UploadHint: 'Click to Browse or Drag & Drop Shop Photos',

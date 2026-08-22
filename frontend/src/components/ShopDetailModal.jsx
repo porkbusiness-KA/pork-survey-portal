@@ -257,6 +257,50 @@ export default function ShopDetailModal({ survey, onClose }) {
             </div>
           </div>
 
+          {/* Group 6b: New Fields – Ownership, Seasons, Cuts, Unsold, Storage, Training */}
+          <div style={{ background: 'var(--bg-card-subtle)', padding: '1.25rem', borderRadius: '14px', border: '1px solid var(--border-color)' }}>
+            <h4 style={{ color: '#d97706', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <ShoppingBag size={16} /> Business Insights & Training
+            </h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.88rem' }}>
+              {survey.shop_ownership && (
+                <div><strong style={{ color: 'var(--text-muted)' }}>Shop Ownership:</strong> <span style={{ color: 'var(--text-main)' }}>{survey.shop_ownership}{survey.shop_ownership_other ? ` – ${survey.shop_ownership_other}` : ''}</span></div>
+              )}
+              {Array.isArray(survey.peak_sales_seasons) && survey.peak_sales_seasons.length > 0 && (
+                <div><strong style={{ color: 'var(--text-muted)' }}>Peak Sales Seasons:</strong> <span style={{ color: 'var(--text-main)' }}>{survey.peak_sales_seasons.join(', ')}{survey.peak_sales_seasons_other ? `, ${survey.peak_sales_seasons_other}` : ''}</span></div>
+              )}
+              {Array.isArray(survey.meat_cuts_sold_most) && survey.meat_cuts_sold_most.length > 0 && (
+                <div><strong style={{ color: 'var(--text-muted)' }}>Top Selling Cuts:</strong> <span style={{ color: 'var(--text-main)' }}>{survey.meat_cuts_sold_most.join(', ')}{survey.meat_cuts_sold_most_other ? `, ${survey.meat_cuts_sold_most_other}` : ''}</span></div>
+              )}
+              {Array.isArray(survey.unsold_meat_handling) && survey.unsold_meat_handling.length > 0 && (
+                <div><strong style={{ color: 'var(--text-muted)' }}>Unsold Meat Handling:</strong> <span style={{ color: 'var(--text-main)' }}>{survey.unsold_meat_handling.join(', ')}{survey.unsold_meat_handling_other ? `, ${survey.unsold_meat_handling_other}` : ''}</span></div>
+              )}
+              {survey.storage_capacity && (
+                <div><strong style={{ color: 'var(--text-muted)' }}>Storage Capacity:</strong> <span style={{ color: 'var(--text-main)' }}>{survey.storage_capacity}</span></div>
+              )}
+              <div style={{ borderTop: '1px dashed var(--border-color)', margin: '0.25rem 0' }}></div>
+              {survey.wants_training && (
+                <div>
+                  <strong style={{ color: 'var(--text-muted)' }}>Wants Pig Skills Training:</strong>{' '}
+                  <span style={{ color: survey.wants_training === 'Yes' ? '#059669' : '#d97706', fontWeight: '700' }}>{survey.wants_training}</span>
+                </div>
+              )}
+              {survey.wants_training === 'Yes' && Array.isArray(survey.training_skills) && survey.training_skills.length > 0 && (
+                <div>
+                  <strong style={{ color: 'var(--text-muted)' }}>Training Interests:</strong>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginTop: '0.4rem' }}>
+                    {survey.training_skills.map((skill, i) => (
+                      <span key={i} style={{ background: 'rgba(16,185,129,0.12)', border: '1px solid rgba(16,185,129,0.35)', borderRadius: '20px', padding: '0.2rem 0.6rem', fontSize: '0.78rem', color: '#059669', fontWeight: '600' }}>{skill}</span>
+                    ))}
+                    {survey.training_skills_other && (
+                      <span style={{ background: 'rgba(16,185,129,0.12)', border: '1px solid rgba(16,185,129,0.35)', borderRadius: '20px', padding: '0.2rem 0.6rem', fontSize: '0.78rem', color: '#059669', fontWeight: '600' }}>{survey.training_skills_other}</span>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
         </div>
 
         {/* Uploaded Photos Section */}
