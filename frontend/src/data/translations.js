@@ -70,7 +70,7 @@ export const TRANSLATIONS = {
     q31: '31. Is FSSAI Trade License Issued?',
     q32: '32. Facing Issues in Procuring FSSAI License?',
     q33: '33. Reason for issues faced in procuring FSSAI license',
-    q34: '34. Provide the rating on the cleanliness of pork shop (1 to 5 Stars)'
+    q34: '34. Provide the rating on the cleanliness of pork shop (1 to 5 Stars)',
     q35: '35. Image of Shop (Upload up to 5 photos)',
     q35UploadHint: 'Click to Browse or Drag & Drop Shop Photos',
     q35CameraBtn: 'Take Photo with Camera',
@@ -169,7 +169,7 @@ export const TRANSLATIONS = {
     q31: '31. FSSAI ವ್ಯಾಪಾರ ಪರವಾನಗಿ ನೀಡಲಾಗಿದೆಯೇ?',
     q32: '32. FSSAI ಪರವಾನಗಿ ಪಡೆಯುವಲ್ಲಿ ಸಮಸ್ಯೆಗಳಿವೆಯೇ?',
     q33: '33. FSSAI ಪರವಾನಗಿ ಸಮಸ್ಯೆಗಳಿಗೆ ಕಾರಣವೇನು?',
-    q34: '34. ಹಂದಿಮಾಂಸದ ಅಂಗಡಿಯ ಶುಚಿತ್ವದ ಮೇಲೆ ರೇಟಿಂಗ್ ಒದಗಿಸಿ (1 ರಿಂದ 5)'
+    q34: '34. ಹಂದಿಮಾಂಸದ ಅಂಗಡಿಯ ಶುಚಿತ್ವದ ಮೇಲೆ ರೇಟಿಂಗ್ ಒದಗಿಸಿ (1 ರಿಂದ 5)',
     q35: '35. ಅಂಗಡಿಯ ಚಿತ್ರಗಳು (ಗರಿಷ್ಠ 5 ಫೋಟೋಗಳು)',
     q35UploadHint: 'ಫೋಟೋಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಲು ಇಲ್ಲಿ ಕ್ಲಿಕ್ ಮಾಡಿ',
     q35CameraBtn: 'ಕ್ಯಾಮರಾ ಮೂಲಕ ಫೋಟೋ ತೆಗೆಯಿರಿ',
