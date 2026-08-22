@@ -406,23 +406,19 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
       const data = new FormData();
       
       const effectiveSpocs = (formData.spocs && formData.spocs.length > 0)
-        ? formData.spocs.map((s, idx) => ({
-            name: (idx === 0 && s.same_as_owner) ? formData.owner_name : (s.name || formData.owner_name),
-            mobile: s.mobile || '',
-            same_as_owner: idx === 0 ? !!s.same_as_owner : false,
-            skills: s.skills || ['Butchery / Meat Cutting'],
-            skills_other: s.skills_other || ''
-          }))
-        : [{
-            name: formData.owner_name,
-            mobile: formData.owner_mobile || '',
-            same_as_owner: true,
-            skills: ['Butchery / Meat Cutting'],
-            skills_other: ''
-          }];
+        ? formData.spocs
+            .map((s, idx) => ({
+              name: (idx === 0 && s.same_as_owner) ? formData.owner_name : (s.name || ''),
+              mobile: s.mobile || '',
+              same_as_owner: idx === 0 ? !!s.same_as_owner : false,
+              skills: s.skills || [],
+              skills_other: s.skills_other || ''
+            }))
+            .filter(s => s.name || s.mobile || (s.skills && s.skills.length > 0))
+        : [];
 
-      const effectiveSpocName = effectiveSpocs.map(s => s.name).filter(Boolean).join(', ') || formData.owner_name;
-      const effectiveSpocMobile = effectiveSpocs.map(s => s.mobile).filter(Boolean).join(', ') || formData.owner_mobile;
+      const effectiveSpocName = effectiveSpocs.map(s => s.name).filter(Boolean).join(', ') || '';
+      const effectiveSpocMobile = effectiveSpocs.map(s => s.mobile).filter(Boolean).join(', ') || '';
       
       const effectiveProcessedVolume = formData.processed_meat_volume === 'Other'
         ? (formData.processed_meat_volume_other ? `${formData.processed_meat_volume_other} Kg` : 'Other')
@@ -912,13 +908,13 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
             </div>
           </div>
 
-          {/* Q13: Contact Person(s) / SPOC Details & Skills */}
+          {/* Q13: Contact Person(s) / SPOC Details & Skills (Optional) */}
           <div style={{ marginTop: '1.5rem', borderTop: '1px solid var(--border-color)', paddingTop: '1.25rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.75rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <Users size={18} color="#d97706" />
                 <label className="form-label" style={{ margin: 0, fontSize: '1rem', fontWeight: '700' }}>
-                  {t.q13} <span className="required-star">*</span>
+                  {t.q13} <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 'normal' }}>({lang === 'kn' ? 'ಐಚ್ಛಿಕ' : lang === 'both' ? 'Optional / ಐಚ್ಛಿಕ' : 'Optional'})</span>
                 </label>
               </div>
               <button
@@ -996,7 +992,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                     {/* Name */}
                     <div className="form-group" style={{ margin: 0 }}>
                       <label className="form-label" style={{ fontSize: '0.85rem' }}>
-                        {t.spocNameLabel} <span className="required-star">*</span>
+                        {t.spocNameLabel}
                       </label>
                       {spocIdx === 0 && spoc.same_as_owner ? (
                         <input
@@ -1013,7 +1009,6 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                           onChange={(e) => handleSpocChange(spocIdx, 'name', e.target.value)}
                           placeholder="e.g. Anand Kumar"
                           className="form-input"
-                          required
                         />
                       )}
                     </div>
