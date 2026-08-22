@@ -14,6 +14,9 @@ export default function ShopDetailModal({ survey, onClose }) {
   const processedConsumption = Array.isArray(survey.processed_meat_consumption) ? survey.processed_meat_consumption : [];
   const masalas = Array.isArray(survey.masalas_available) ? survey.masalas_available : [];
   const images = Array.isArray(survey.shop_images) ? survey.shop_images : [];
+  const spocs = Array.isArray(survey.spocs) && survey.spocs.length > 0
+    ? survey.spocs
+    : [{ name: survey.spoc_name || survey.owner_name, mobile: survey.spoc_mobile, skills: [] }];
 
   return (
     <div style={{
@@ -62,21 +65,18 @@ export default function ShopDetailModal({ survey, onClose }) {
             cursor: 'pointer'
           }}
         >
-          <X size={20} />
+          <X size={18} />
         </button>
 
         {/* Modal Header */}
-        <div style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '1.25rem', marginBottom: '1.5rem' }}>
-          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '0.5rem' }}>
-            <span className="badge badge-primary">{survey.district}</span>
-            {survey.taluk && <span className="badge badge-indigo">Taluk: {survey.taluk}</span>}
-            {survey.village && <span className="badge badge-cyan">Village: {survey.village}</span>}
-            <span className="badge badge-emerald">Survey ID #{survey.id}</span>
-            <span className="badge badge-amber">★ Cleanliness: {survey.cleanliness_rating}/5</span>
-            <span className="badge badge-amber">★ Behavior: {survey.behavior_rating || 4}/5</span>
+        <div style={{ marginBottom: '1.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem' }}>
+            <span className="badge badge-amber">Survey ID: #{survey.id}</span>
+            <span style={{ color: 'var(--text-muted)', fontSize: '0.82rem' }}>
+              {new Date(survey.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+            </span>
           </div>
-
-          <h2 style={{ fontSize: '1.65rem', marginBottom: '0.35rem' }}>
+          <h2 style={{ fontSize: '1.6rem', fontWeight: '800', color: 'var(--text-main)', marginBottom: '0.35rem' }}>
             {survey.shop_name}
           </h2>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--text-muted)', fontSize: '0.9rem', flexWrap: 'wrap' }}>
@@ -101,9 +101,42 @@ export default function ShopDetailModal({ survey, onClose }) {
               <div><strong style={{ color: 'var(--text-muted)' }}>Shop Owner:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.owner_name}</span></div>
               <div><strong style={{ color: 'var(--text-muted)' }}>Owner Mobile:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.owner_mobile || 'Not provided'}</span></div>
               <div><strong style={{ color: 'var(--text-muted)' }}>Owner Email:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.owner_email || 'Not provided'}</span></div>
-              <div><strong style={{ color: 'var(--text-muted)' }}>SPOC Name:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.spoc_name || survey.owner_name}</span></div>
-              <div><strong style={{ color: 'var(--text-muted)' }}>SPOC Mobile:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.spoc_mobile || 'Not provided'}</span></div>
               <div><strong style={{ color: 'var(--text-muted)' }}>Years in Operation:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.years_in_business || 0} years</span></div>
+              
+              {/* SPOCs List */}
+              <div style={{ borderTop: '1px dashed var(--border-color)', paddingTop: '0.6rem', marginTop: '0.2rem' }}>
+                <strong style={{ color: '#d97706', display: 'block', marginBottom: '0.4rem' }}>
+                  Contact Person(s) / SPOCs ({spocs.length}):
+                </strong>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                  {spocs.map((spoc, sIdx) => (
+                    <div key={sIdx} style={{ background: 'var(--bg-main)', padding: '0.6rem 0.75rem', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
+                        <span style={{ fontWeight: '700', color: 'var(--text-main)' }}>
+                          {spoc.name || 'Unnamed SPOC'}
+                        </span>
+                        <span className="badge badge-amber" style={{ fontSize: '0.7rem' }}>
+                          SPOC #{sIdx + 1}
+                        </span>
+                      </div>
+                      {spoc.mobile && (
+                        <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '0.35rem' }}>
+                          📱 {spoc.mobile}
+                        </div>
+                      )}
+                      {Array.isArray(spoc.skills) && spoc.skills.length > 0 && (
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem', marginTop: '0.25rem' }}>
+                          {spoc.skills.map((sk, kIdx) => (
+                            <span key={kIdx} className="badge badge-primary" style={{ fontSize: '0.68rem', padding: '0.15rem 0.45rem' }}>
+                              {sk === 'Other' && spoc.skills_other ? `${sk}: ${spoc.skills_other}` : sk}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
 

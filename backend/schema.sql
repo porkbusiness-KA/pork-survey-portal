@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS surveys (
     fssai_license_issues VARCHAR(10) DEFAULT 'No',
     fssai_issue_reasons TEXT,
     cleanliness_rating INT DEFAULT 3,
+    spocs JSON,
     spoc_name VARCHAR(255) NOT NULL,
     spoc_mobile VARCHAR(20),
     location_link TEXT NOT NULL,

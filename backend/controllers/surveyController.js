@@ -34,6 +34,20 @@ exports.createSurvey = async (req, res) => {
     const masalas = JSON.stringify(parseJSONField(body.masalas_available, []));
     const shopImages = JSON.stringify(uploadedImages);
 
+    // Process SPOCs list
+    let spocsList = parseJSONField(body.spocs, []);
+    if (!Array.isArray(spocsList) || spocsList.length === 0) {
+      spocsList = [{
+        name: body.spoc_name || body.owner_name || '',
+        mobile: body.spoc_mobile || '',
+        skills: parseJSONField(body.spoc_skills, ['Butchery / Meat Cutting']),
+        skills_other: ''
+      }];
+    }
+    const spocsJSON = JSON.stringify(spocsList);
+    const primarySpocName = spocsList.map(s => s.name).filter(Boolean).join(', ') || body.spoc_name || body.owner_name || '';
+    const primarySpocMobile = spocsList.map(s => s.mobile).filter(Boolean).join(', ') || body.spoc_mobile || '';
+
     const query = `
       INSERT INTO surveys (
         country, state, district, taluk, village, place, pincode, shop_name, owner_name, owner_mobile, owner_email, years_in_business,
@@ -43,8 +57,8 @@ exports.createSurvey = async (req, res) => {
         bbmp_license_issued, bbmp_license_issues, bbmp_issue_reasons,
         fssai_license_issued, fssai_license_issues, fssai_issue_reasons,
         cleanliness_rating, behavior_rating,
-        spoc_name, spoc_mobile, location_link, latitude, longitude, shop_images
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        spocs, spoc_name, spoc_mobile, location_link, latitude, longitude, shop_images
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const values = [
@@ -81,8 +95,9 @@ exports.createSurvey = async (req, res) => {
       body.fssai_issue_reasons || '',
       parseInt(body.cleanliness_rating || 3, 10),
       parseInt(body.behavior_rating || 4, 10),
-      body.spoc_name || body.owner_name || '',
-      body.spoc_mobile || '',
+      spocsJSON,
+      primarySpocName,
+      primarySpocMobile,
       body.location_link || '',
       body.latitude ? parseFloat(body.latitude) : null,
       body.longitude ? parseFloat(body.longitude) : null,
@@ -147,6 +162,7 @@ exports.getAllSurveys = async (req, res) => {
       meat_types: parseJSONField(r.meat_types, []),
       processed_meat_consumption: parseJSONField(r.processed_meat_consumption, []),
       masalas_available: parseJSONField(r.masalas_available, []),
+      spocs: parseJSONField(r.spocs, []),
       shop_images: parseJSONField(r.shop_images, [])
     }));
 
@@ -183,6 +199,7 @@ exports.getSurveyById = async (req, res) => {
       meat_types: parseJSONField(r.meat_types, []),
       processed_meat_consumption: parseJSONField(r.processed_meat_consumption, []),
       masalas_available: parseJSONField(r.masalas_available, []),
+      spocs: parseJSONField(r.spocs, []),
       shop_images: parseJSONField(r.shop_images, [])
     };
 
@@ -327,7 +344,7 @@ exports.exportCSV = async (req, res) => {
       'BBMP License Issued', 'BBMP Issues Faced', 'BBMP Issue Reasons',
       'FSSAI License Issued', 'FSSAI Issues Faced', 'FSSAI Issue Reasons',
       'Cleanliness Rating (1-5)', 'Behavior Rating (1-5)',
-      'SPOC Name', 'SPOC Mobile Number', 'Shop Location Link', 'Latitude', 'Longitude', 'Submission Date'
+      'SPOC Details (Name, Mobile, Skills)', 'SPOC Mobile Number', 'Shop Location Link', 'Latitude', 'Longitude', 'Submission Date'
     ];
 
     const escapeCSV = (val) => {
@@ -375,7 +392,11 @@ exports.exportCSV = async (req, res) => {
         escapeCSV(r.fssai_issue_reasons || ''),
         escapeCSV(r.cleanliness_rating),
         escapeCSV(r.behavior_rating),
-        escapeCSV(r.spoc_name),
+        escapeCSV(
+          (parseJSONField(r.spocs, []).length > 0)
+            ? parseJSONField(r.spocs, []).map(s => `${s.name || ''} (${s.mobile || ''}) [Skills: ${(s.skills || []).join(', ')}]`).join('; ')
+            : r.spoc_name
+        ),
         escapeCSV(r.spoc_mobile),
         escapeCSV(r.location_link),
         escapeCSV(r.latitude),

@@ -53,6 +53,7 @@ async function initDatabase() {
         fssai_license_issues VARCHAR(10) DEFAULT 'No',
         fssai_issue_reasons TEXT,
         cleanliness_rating INT DEFAULT 3,
+        spocs JSON,
         spoc_name VARCHAR(255) NOT NULL,
         spoc_mobile VARCHAR(20),
         location_link TEXT NOT NULL,
@@ -92,6 +93,7 @@ async function initDatabase() {
     await addColumnIfNotExists('fssai_license_issued', "VARCHAR(10) DEFAULT 'No'");
     await addColumnIfNotExists('fssai_license_issues', "VARCHAR(10) DEFAULT 'No'");
     await addColumnIfNotExists('fssai_issue_reasons', "TEXT");
+    await addColumnIfNotExists('spocs', "JSON");
 
     console.log(' Surveys table verified/created successfully.');
     connection.release();

@@ -97,3 +97,12 @@ export const MASALA_OPTIONS = [
   { id: 'Jeevith masala', en: 'Jeevith masala only', kn: 'ಜೀವಿತ ಮಸಾಲಾ ಮಾತ್ರ' },
   { id: 'Other', en: 'Other masala brands', kn: 'ಇತರ ಮಸಾಲಾ ಬ್ರಾಂಡ್‌ಗಳು' }
 ];
+
+export const SPOC_SKILL_OPTIONS = [
+  { id: 'Butchery / Meat Cutting', en: 'Butchery / Meat Cutting', kn: 'ಮಾಂಸ ಕತ್ತರಿಸುವುದು (Butchery)' },
+  { id: 'Sales & Billing', en: 'Sales & Billing', kn: 'ಮಾರಾಟ ಮತ್ತು ಬಿಲ್ಲಿಂಗ್ (Sales)' },
+  { id: 'Shop Incharge / Management', en: 'Shop Incharge / Management', kn: 'ಅಂಗಡಿ ನಿರ್ವಹಣೆ (Manager)' },
+  { id: 'Procurement & Sourcing', en: 'Procurement & Sourcing', kn: 'ಸಗಟು ಖರೀದಿ ಮತ್ತು ಸಾಗಾಣಿಕೆ' },
+  { id: 'Cleaning & Maintenance', en: 'Cleaning & Maintenance', kn: 'ಶುಚಿತ್ವ ಮತ್ತು ಸ್ವಚ್ಛತೆ' },
+  { id: 'Other', en: 'Other', kn: 'ಇತರ' }
+];

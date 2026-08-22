@@ -4,13 +4,13 @@ import {
   DollarSign, CheckSquare, Award, Phone, Image as ImageIcon,
   Send, Sparkles, Navigation, AlertCircle, CheckCircle2, Trash2,
   FileCheck, ShieldAlert, X, LayoutDashboard, Database, ArrowRight,
-  Search, Check, Loader2, Compass
+  Search, Check, Loader2, Compass, Plus, Briefcase
 } from 'lucide-react';
 import {
   DISTRICTS, PINCODE_DATABASE, HOLIDAY_OPTIONS, WORKER_OPTIONS,
   DAILY_CUSTOMER_OPTIONS, PEAK_DAY_OPTIONS, MEAT_TYPES_OPTIONS,
   PROCESSED_VOLUME_OPTIONS, PROCESSED_PRODUCT_TYPES,
-  CUSTOMER_TYPE_OPTIONS, MASALA_OPTIONS
+  CUSTOMER_TYPE_OPTIONS, MASALA_OPTIONS, SPOC_SKILL_OPTIONS
 } from '../data/surveyQuestions';
 import { TRANSLATIONS } from '../data/translations';
 import TimePicker from './TimePicker';
@@ -60,6 +60,15 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
     fssai_issue_reasons: '',
     cleanliness_rating: 0,
     behavior_rating: 0,
+    spocs: [
+      {
+        name: '',
+        mobile: '',
+        same_as_owner: true,
+        skills: ['Butchery / Meat Cutting'],
+        skills_other: ''
+      }
+    ],
     spoc_same_as_owner: true,
     spoc_name: '',
     spoc_mobile: '',
@@ -265,6 +274,50 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
     });
   };
 
+  // SPOC management handlers
+  const handleAddSpoc = () => {
+    setFormData(prev => ({
+      ...prev,
+      spocs: [
+        ...(prev.spocs || []),
+        {
+          name: '',
+          mobile: '',
+          same_as_owner: false,
+          skills: ['Sales & Billing'],
+          skills_other: ''
+        }
+      ]
+    }));
+  };
+
+  const handleRemoveSpoc = (index) => {
+    setFormData(prev => ({
+      ...prev,
+      spocs: (prev.spocs || []).filter((_, i) => i !== index)
+    }));
+  };
+
+  const handleSpocChange = (index, field, value) => {
+    setFormData(prev => {
+      const updated = [...(prev.spocs || [])];
+      updated[index] = { ...updated[index], [field]: value };
+      return { ...prev, spocs: updated };
+    });
+  };
+
+  const handleSpocSkillToggle = (spocIndex, skillId) => {
+    setFormData(prev => {
+      const updated = [...(prev.spocs || [])];
+      const curSkills = updated[spocIndex].skills || [];
+      const newSkills = curSkills.includes(skillId)
+        ? curSkills.filter(s => s !== skillId)
+        : [...curSkills, skillId];
+      updated[spocIndex] = { ...updated[spocIndex], skills: newSkills };
+      return { ...prev, spocs: updated };
+    });
+  };
+
   // Geolocation auto-detection
   const handleFetchLocation = () => {
     if (!navigator.geolocation) {
@@ -351,7 +404,25 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
     try {
       const data = new FormData();
-      const effectiveSpocName = formData.spoc_same_as_owner ? formData.owner_name : (formData.spoc_name || formData.owner_name);
+      
+      const effectiveSpocs = (formData.spocs && formData.spocs.length > 0)
+        ? formData.spocs.map((s, idx) => ({
+            name: (idx === 0 && s.same_as_owner) ? formData.owner_name : (s.name || formData.owner_name),
+            mobile: s.mobile || '',
+            same_as_owner: idx === 0 ? !!s.same_as_owner : false,
+            skills: s.skills || ['Butchery / Meat Cutting'],
+            skills_other: s.skills_other || ''
+          }))
+        : [{
+            name: formData.owner_name,
+            mobile: formData.owner_mobile || '',
+            same_as_owner: true,
+            skills: ['Butchery / Meat Cutting'],
+            skills_other: ''
+          }];
+
+      const effectiveSpocName = effectiveSpocs.map(s => s.name).filter(Boolean).join(', ') || formData.owner_name;
+      const effectiveSpocMobile = effectiveSpocs.map(s => s.mobile).filter(Boolean).join(', ') || formData.owner_mobile;
       
       const effectiveProcessedVolume = formData.processed_meat_volume === 'Other'
         ? (formData.processed_meat_volume_other ? `${formData.processed_meat_volume_other} Kg` : 'Other')
@@ -366,8 +437,12 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
       Object.keys(formData).forEach(key => {
         if (['holiday_days', 'peak_customer_days', 'meat_types', 'masalas_available'].includes(key)) {
           data.append(key, JSON.stringify(formData[key]));
+        } else if (key === 'spocs') {
+          data.append('spocs', JSON.stringify(effectiveSpocs));
         } else if (key === 'spoc_name') {
           data.append('spoc_name', effectiveSpocName);
+        } else if (key === 'spoc_mobile') {
+          data.append('spoc_mobile', effectiveSpocMobile);
         } else {
           data.append(key, formData[key]);
         }
@@ -835,59 +910,181 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 className="form-input"
               />
             </div>
+          </div>
 
-            {/* Q13: SPOC Name */}
-            <div className="form-group">
-              <label className="form-label">
-                {t.q13} <span className="required-star">*</span>
-              </label>
-              <div style={{ marginBottom: '0.5rem' }}>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem', cursor: 'pointer', color: 'var(--text-muted)' }}>
-                  <input
-                    type="checkbox"
-                    name="spoc_same_as_owner"
-                    checked={formData.spoc_same_as_owner}
-                    onChange={handleChange}
-                    style={{ accentColor: '#d97706' }}
-                  />
-                  <span>{t.q13SameAsOwner}</span>
+          {/* Q13: Contact Person(s) / SPOC Details & Skills */}
+          <div style={{ marginTop: '1.5rem', borderTop: '1px solid var(--border-color)', paddingTop: '1.25rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.75rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Users size={18} color="#d97706" />
+                <label className="form-label" style={{ margin: 0, fontSize: '1rem', fontWeight: '700' }}>
+                  {t.q13} <span className="required-star">*</span>
                 </label>
               </div>
-              {!formData.spoc_same_as_owner ? (
-                <input
-                  type="text"
-                  name="spoc_name"
-                  value={formData.spoc_name}
-                  onChange={handleChange}
-                  placeholder="Enter SPOC full name"
-                  className="form-input"
-                  required={!formData.spoc_same_as_owner}
-                />
-              ) : (
-                <input
-                  type="text"
-                  value={formData.owner_name ? `${formData.owner_name} (Owner)` : '(Will mirror Owner Name)'}
-                  className="form-input"
-                  disabled
-                  style={{ opacity: 0.75, background: 'var(--bg-card-subtle)' }}
-                />
-              )}
+              <button
+                type="button"
+                onClick={handleAddSpoc}
+                className="btn btn-outline"
+                style={{ fontSize: '0.85rem', padding: '0.4rem 0.85rem', display: 'flex', alignItems: 'center', gap: '0.4rem', borderColor: '#d97706', color: '#d97706' }}
+              >
+                <Plus size={16} />
+                <span>{t.addSpocBtn}</span>
+              </button>
             </div>
 
-            {/* Q14: SPOC Mobile */}
-            <div className="form-group">
-              <label className="form-label">
-                {t.q14}
-              </label>
-              <input
-                type="tel"
-                name="spoc_mobile"
-                value={formData.spoc_mobile}
-                onChange={handleChange}
-                placeholder="e.g. 9845012345"
-                maxLength="12"
-                className="form-input"
-              />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              {(formData.spocs || []).map((spoc, spocIdx) => (
+                <div
+                  key={spocIdx}
+                  className="animate-fade-in"
+                  style={{
+                    background: 'var(--bg-card-subtle)',
+                    border: '1px solid var(--border-color)',
+                    borderRadius: '12px',
+                    padding: '1.25rem',
+                    position: 'relative'
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem', borderBottom: '1px dashed var(--border-color)', paddingBottom: '0.6rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <span className="badge badge-amber" style={{ fontSize: '0.78rem', fontWeight: '700' }}>
+                        {t.spocBadge} #{spocIdx + 1}
+                      </span>
+                      {spocIdx === 0 && (
+                        <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.82rem', cursor: 'pointer', color: 'var(--text-muted)' }}>
+                          <input
+                            type="checkbox"
+                            checked={!!spoc.same_as_owner}
+                            onChange={(e) => {
+                              handleSpocChange(0, 'same_as_owner', e.target.checked);
+                              if (e.target.checked) {
+                                handleSpocChange(0, 'name', formData.owner_name);
+                              }
+                            }}
+                            style={{ accentColor: '#d97706' }}
+                          />
+                          <span>{t.q13SameAsOwner}</span>
+                        </label>
+                      )}
+                    </div>
+
+                    {formData.spocs.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveSpoc(spocIdx)}
+                        style={{
+                          background: 'transparent',
+                          border: 'none',
+                          color: '#ef4444',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.3rem',
+                          fontSize: '0.82rem',
+                          fontWeight: '600',
+                          padding: '0.2rem 0.5rem',
+                          borderRadius: '6px'
+                        }}
+                      >
+                        <Trash2 size={14} />
+                        <span>{t.removeSpocBtn}</span>
+                      </button>
+                    )}
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
+                    {/* Name */}
+                    <div className="form-group" style={{ margin: 0 }}>
+                      <label className="form-label" style={{ fontSize: '0.85rem' }}>
+                        {t.spocNameLabel} <span className="required-star">*</span>
+                      </label>
+                      {spocIdx === 0 && spoc.same_as_owner ? (
+                        <input
+                          type="text"
+                          value={formData.owner_name ? `${formData.owner_name} (Owner)` : '(Will mirror Owner Name)'}
+                          className="form-input"
+                          disabled
+                          style={{ opacity: 0.75, background: 'rgba(0,0,0,0.03)' }}
+                        />
+                      ) : (
+                        <input
+                          type="text"
+                          value={spoc.name || ''}
+                          onChange={(e) => handleSpocChange(spocIdx, 'name', e.target.value)}
+                          placeholder="e.g. Anand Kumar"
+                          className="form-input"
+                          required
+                        />
+                      )}
+                    </div>
+
+                    {/* Mobile */}
+                    <div className="form-group" style={{ margin: 0 }}>
+                      <label className="form-label" style={{ fontSize: '0.85rem' }}>
+                        {t.spocMobileLabel}
+                      </label>
+                      <input
+                        type="tel"
+                        value={spoc.mobile || ''}
+                        onChange={(e) => handleSpocChange(spocIdx, 'mobile', e.target.value)}
+                        placeholder="e.g. 9845012345"
+                        maxLength="12"
+                        className="form-input"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Multi-select Skill Checkboxes */}
+                  <div className="form-group" style={{ margin: 0 }}>
+                    <label className="form-label" style={{ fontSize: '0.85rem', marginBottom: '0.5rem', display: 'block' }}>
+                      {t.spocSkillLabel}
+                    </label>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '0.5rem' }}>
+                      {SPOC_SKILL_OPTIONS.map(skill => {
+                        const isSkillSelected = (spoc.skills || []).includes(skill.id);
+                        return (
+                          <label
+                            key={skill.id}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '0.45rem',
+                              padding: '0.45rem 0.75rem',
+                              borderRadius: '8px',
+                              background: isSkillSelected ? 'rgba(217, 119, 6, 0.12)' : 'var(--bg-main)',
+                              border: isSkillSelected ? '1.5px solid #d97706' : '1px solid var(--border-color)',
+                              cursor: 'pointer',
+                              fontSize: '0.84rem',
+                              transition: 'all 0.15s ease'
+                            }}
+                          >
+                            <input
+                              type="checkbox"
+                              checked={isSkillSelected}
+                              onChange={() => handleSpocSkillToggle(spocIdx, skill.id)}
+                              style={{ accentColor: '#d97706' }}
+                            />
+                            <span>{lang === 'en' ? skill.en : lang === 'kn' ? skill.kn : `${skill.en} (${skill.kn})`}</span>
+                          </label>
+                        );
+                      })}
+                    </div>
+
+                    {(spoc.skills || []).includes('Other') && (
+                      <div className="animate-fade-in" style={{ marginTop: '0.65rem' }}>
+                        <input
+                          type="text"
+                          value={spoc.skills_other || ''}
+                          onChange={(e) => handleSpocChange(spocIdx, 'skills_other', e.target.value)}
+                          placeholder={t.spocOtherSkillPlaceholder}
+                          className="form-input"
+                          style={{ fontSize: '0.88rem' }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
