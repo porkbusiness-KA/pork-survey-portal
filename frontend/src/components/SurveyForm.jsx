@@ -401,29 +401,17 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
     setErrorMessage(null);
 
     // Validation
-    if (!formData.cleanliness_rating || formData.cleanliness_rating === 0) {
-      setErrorMessage('Please provide the Cleanliness rating (Internal rating at the bottom of the form).');
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-      return;
-    }
     if (!formData.behavior_rating || formData.behavior_rating === 0) {
-      setErrorMessage('Please provide the Behavior rating (Internal rating at the bottom of the form).');
+      setErrorMessage('Please provide the Feedback / Attitude rating at the bottom of the form (48. Shopkeeper Behavior/Attitude Feedback).');
       window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
       return;
     }
-    if (!formData.shop_name.trim()) {
-      setErrorMessage('Please enter the name of the pork shop (ಹಂದಿಮಾಂಸದ ಅಂಗಡಿಯ ಹೆಸರು).');
-      window.scrollTo({ top: 200, behavior: 'smooth' });
-      return;
-    }
-    if (!formData.owner_name.trim()) {
-      setErrorMessage("Please enter the shop's owner name (ಅಂಗಡಿಯ ಮಾಲೀಕರ ಹೆಸರು).");
-      window.scrollTo({ top: 350, behavior: 'smooth' });
-      return;
-    }
-    if (!formData.location_link.trim()) {
-      const fallbackLink = `https://maps.google.com/?q=${encodeURIComponent(formData.shop_name + ', ' + formData.place + ', ' + formData.district)}`;
-      formData.location_link = fallbackLink;
+    
+    if (!formData.location_link || !formData.location_link.trim()) {
+      const shopPart = formData.shop_name ? formData.shop_name.trim() + ', ' : '';
+      const placePart = formData.place ? formData.place.trim() + ', ' : '';
+      const distPart = formData.district ? formData.district.trim() : 'Karnataka';
+      formData.location_link = `https://maps.google.com/?q=${encodeURIComponent(shopPart + placePart + distPart)}`;
     }
 
     setIsSubmitting(true);
@@ -663,7 +651,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           {/* ROW 1: Pincode */}
           <div className="form-group" style={{ marginBottom: '1.25rem' }}>
             <label className="form-label" style={{ fontSize: '0.88rem', fontWeight: '700' }}>
-              {t.q1} <span className="required-star">*</span>
+              {t.q1}
             </label>
             <div style={{ position: 'relative', maxWidth: '360px' }}>
               <input
@@ -675,7 +663,6 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 maxLength="6"
                 className="form-input"
                 style={{ letterSpacing: '0.15em', fontWeight: '600', fontSize: '1rem' }}
-                required
               />
               {isFetchingPincode && (
                 <span style={{ position: 'absolute', right: '14px', top: '50%', transform: 'translateY(-50%)', color: '#d97706' }}>
@@ -714,7 +701,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '1.25rem' }}>
             <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: '700' }}>
-                {t.q2} <span className="required-star">*</span>
+                {t.q2}
               </label>
               <input
                 type="text"
@@ -724,12 +711,11 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 placeholder="Auto-filled from pincode"
                 className="form-input"
                 style={{ background: formData.country ? '' : 'rgba(var(--bg-card-rgb, 18,18,26), 0.5)' }}
-                required
               />
             </div>
             <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: '700' }}>
-                {t.q3} <span className="required-star">*</span>
+                {t.q3}
               </label>
               <input
                 type="text"
@@ -739,7 +725,6 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 placeholder="Auto-filled from pincode"
                 className="form-input"
                 style={{ background: formData.state ? '' : 'rgba(var(--bg-card-rgb, 18,18,26), 0.5)' }}
-                required
               />
             </div>
           </div>
@@ -748,7 +733,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '1.25rem' }}>
             <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: '700' }}>
-                {t.q4} <span className="required-star">*</span>
+                {t.q4}
               </label>
               <input
                 type="text"
@@ -758,12 +743,11 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 placeholder="Auto-filled from pincode"
                 className="form-input"
                 style={{ background: formData.district ? '' : 'rgba(var(--bg-card-rgb, 18,18,26), 0.5)' }}
-                required
               />
             </div>
             <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: '700' }}>
-                {t.q5} <span className="required-star">*</span>
+                {t.q5}
               </label>
               <input
                 type="text"
@@ -773,7 +757,6 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 placeholder="Auto-filled from pincode"
                 className="form-input"
                 style={{ background: formData.taluk ? '' : 'rgba(var(--bg-card-rgb, 18,18,26), 0.5)' }}
-                required
               />
             </div>
           </div>
@@ -781,7 +764,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           {/* ROW 4: Village (with chips below) */}
           <div className="form-group" style={{ marginBottom: pincodeAreas.length > 1 ? '0.75rem' : '1.25rem' }}>
             <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: '700' }}>
-              {t.q6} <span className="required-star">*</span>
+              {t.q6}
             </label>
             <input
               type="text"
@@ -791,7 +774,6 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
               placeholder="Auto-filled · or tap a chip below to select"
               className="form-input"
               style={{ background: formData.village ? '' : 'rgba(var(--bg-card-rgb, 18,18,26), 0.5)' }}
-              required
             />
           </div>
 
@@ -836,7 +818,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           {/* ROW 5: Complete Address */}
           <div className="form-group" style={{ margin: 0 }}>
             <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: '700' }}>
-              {t.q7} <span className="required-star">*</span>
+              {t.q7}
             </label>
             <input
               type="text"
@@ -845,7 +827,6 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
               onChange={handleChange}
               placeholder="e.g. Arasinakunte Village, Nelamangala Taluk, Bengaluru Rural"
               className="form-input"
-              required
             />
           </div>
 
@@ -864,7 +845,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
             <div className="form-group">
               <label className="form-label">
-                {t.q8} <span className="required-star">*</span>
+                {t.q8}
               </label>
               <input
                 type="text"
@@ -873,13 +854,12 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 onChange={handleChange}
                 placeholder="e.g. St. Anthony Fresh Pork Meat Centre"
                 className="form-input"
-                required
               />
             </div>
 
             <div className="form-group">
               <label className="form-label">
-                {t.q9} <span className="required-star">*</span>
+                {t.q9}
               </label>
               <input
                 type="text"
@@ -888,7 +868,6 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 onChange={handleChange}
                 placeholder="e.g. Francis Fernandes"
                 className="form-input"
-                required
               />
             </div>
 
@@ -1129,26 +1108,24 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
             {/* Opening Time */}
             <div className="form-group">
               <label className="form-label" style={{ marginBottom: '0.5rem', display: 'block' }}>
-                {t.q15} <span className="required-star">*</span>
+                {t.q15}
               </label>
               <TimePicker
                 name="opening_time"
                 value={formData.opening_time}
                 onChange={handleChange}
-                required
               />
             </div>
 
             {/* Closing Time */}
             <div className="form-group">
               <label className="form-label" style={{ marginBottom: '0.5rem', display: 'block' }}>
-                {t.q16} <span className="required-star">*</span>
+                {t.q16}
               </label>
               <TimePicker
                 name="closing_time"
                 value={formData.closing_time}
                 onChange={handleChange}
-                required
               />
             </div>
           </div>
@@ -1233,7 +1210,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginBottom: '1.25rem' }}>
             <div className="form-group">
               <label className="form-label">
-                {t.q18} <span className="required-star">*</span>
+                {t.q18}
               </label>
               <select
                 name="workers_count"
@@ -1315,8 +1292,8 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <Store size={20} color="#d97706" />
             <div>
-              <h2 style={{ fontSize: '1.2rem' }}>{lang === 'kn' ? '4b. ಅಂಗಡಿ ಮಾಲೀಕತ್ವ' : lang === 'both' ? '4b. Shop Ownership (ಅಂಗಡಿ ಮಾಲೀಕತ್ವ)' : '4b. Shop Ownership'}</h2>
-              <p className="kannada-text">{t.qShopOwnership}</p>
+              <h2 style={{ fontSize: '1.2rem' }}>{t.sec9Title}</h2>
+              <p className="kannada-text">{t.sec9Sub}</p>
             </div>
           </div>
 
@@ -1367,7 +1344,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginBottom: '1.25rem' }}>
             <div className="form-group">
               <label className="form-label">
-                {t.q21} <span className="required-star">*</span>
+                {t.q21}
               </label>
               <div style={{ position: 'relative' }}>
                 <span style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', fontWeight: '700' }}>₹</span>
@@ -1379,7 +1356,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                   placeholder="340"
                   className="form-input"
                   style={{ paddingLeft: '2.2rem' }}
-                  required
+                 
                 />
               </div>
             </div>
@@ -1402,7 +1379,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           {/* Q23: Meat Types */}
           <div className="form-group" style={{ marginBottom: '1.5rem' }}>
             <label className="form-label" style={{ marginBottom: '0.6rem' }}>
-              {t.q23} <span className="required-star">*</span>
+              {t.q23}
             </label>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '0.6rem' }}>
               {MEAT_TYPES_OPTIONS.map(m => {
@@ -1467,7 +1444,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                       onChange={handleChange}
                       placeholder={lang === 'kn' ? 'ಉದಾಹರಣೆಗೆ: 15 ಕೆಜಿ ಅಥವಾ 25 ಕೆಜಿ' : 'e.g. 15 Kg or 25 Kg'}
                       className="form-input"
-                      required
+                     
                     />
                   </div>
                 )}
@@ -1502,7 +1479,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                       onChange={handleChange}
                       placeholder={lang === 'kn' ? 'ಇತರ ಸಂಸ್ಕರಿಸಿದ ಮಾಂಸದ ವಿಧ ನಮೂದಿಸಿ...' : 'Specify other processed meat product...'}
                       className="form-input"
-                      required
+                     
                     />
                   </div>
                 )}
@@ -1550,8 +1527,8 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <DollarSign size={20} color="#d97706" />
             <div>
-              <h2 style={{ fontSize: '1.2rem' }}>{t.secProcurementTitle}</h2>
-              <p className="kannada-text">{t.secProcurementSub}</p>
+              <h2 style={{ fontSize: '1.2rem' }}>{t.sec14Title}</h2>
+              <p className="kannada-text">{t.sec14Sub}</p>
             </div>
           </div>
 
@@ -1615,7 +1592,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <ShoppingBag size={20} color="#d97706" />
             <div>
-              <h2 style={{ fontSize: '1.2rem' }}>{lang === 'kn' ? '5b. ಮಾರಾಟ ಋತು ಮತ್ತು ಮಾಂಸ ಶೇಖರಣೆ' : lang === 'both' ? '5b. Sales Seasons & Meat Storage (ಮಾರಾಟ ಋತು ಮತ್ತು ಶೇಖರಣೆ)' : '5b. Sales Seasons & Meat Storage'}</h2>
+              <h2 style={{ fontSize: '1.2rem' }}>{t.sec7Title}</h2>
               <p className="kannada-text">{lang === 'kn' ? 'ಮಾರಾಟ ಋತು, ಮಾಂಸ ವಿಧ, ಮತ್ತು ಶೇಖರಣಾ ವ್ಯವಸ್ಥೆ' : 'Peak selling seasons, top meat cuts and unsold meat management'}</p>
             </div>
           </div>
@@ -1723,7 +1700,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           {/* STEP 1: Are masalas sold? (Yes / No) */}
           <div className="form-group" style={{ marginBottom: formData.has_masalas === 'Yes' ? '1.25rem' : '0' }}>
             <label className="form-label" style={{ marginBottom: '0.5rem' }}>
-              {t.q27} <span className="required-star">*</span>
+              {t.q27}
             </label>
             <div style={{ display: 'flex', gap: '1.5rem', marginTop: '0.4rem' }}>
               {['Yes', 'No'].map(val => (
@@ -1761,7 +1738,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
               margin: 0
             }}>
               <label className="form-label" style={{ marginBottom: '0.5rem' }}>
-                {t.q27Brand} <span className="required-star">*</span>
+                {t.q27Brand}
               </label>
               <select
                 name="masalas_available"
@@ -1789,7 +1766,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                     onChange={handleChange}
                     placeholder={lang === 'kn' ? 'ಇತರ ಮಸಾಲಾ ಬ್ರಾಂಡ್‌ಗಳ ಹೆಸರು ನಮೂದಿಸಿ...' : 'Specify other masala brand name...'}
                     className="form-input"
-                    required
+                   
                   />
                 </div>
               )}
@@ -1821,7 +1798,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <FileCheck size={20} color="#d97706" />
             <div>
-              <h2 style={{ fontSize: '1.2rem' }}>{lang === 'kn' ? '7. ಬಿಬಿಎಂಪಿ ವ್ಯಾಪಾರ ಪರವಾನಗಿ ಸ್ಥಿತಿ' : lang === 'both' ? '7. BBMP Trade License Status (ಬಿಬಿಎಂಪಿ ಪರವಾನಗಿ)' : '7. BBMP Trade License Status'}</h2>
+              <h2 style={{ fontSize: '1.2rem' }}>{t.sec10Title}</h2>
               <p className="kannada-text">{lang === 'kn' ? 'BBMP ಟ್ರೇಡ್ ಲೈಸೆನ್ಸ್ ಮತ್ತು ಪರವಾನಗಿ ಸಮಸ್ಯೆಗಳು' : lang === 'both' ? 'ಬಿಬಿಎಂಪಿ ವ್ಯಾಪಾರ ಪರವಾನಗಿ ಮತ್ತು ಸಮಸ್ಯೆಗಳ ವಿವರ' : 'BBMP trade licensing and procurement issues'}</p>
             </div>
           </div>
@@ -1829,7 +1806,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginBottom: formData.bbmp_license_issues === 'Yes' ? '1.25rem' : '0' }}>
             <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label">
-                {t.q28}
+                {t.q47}
               </label>
               <div style={{ display: 'flex', gap: '1rem', marginTop: '0.4rem' }}>
                 {['Yes', 'No'].map(val => (
@@ -1850,7 +1827,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
             <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label">
-                {t.q29}
+                {t.q47Hint}
               </label>
               <div style={{ display: 'flex', gap: '1rem', marginTop: '0.4rem' }}>
                 {['Yes', 'No'].map(val => (
@@ -1873,7 +1850,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           {formData.bbmp_license_issues === 'Yes' && (
             <div className="form-group animate-fade-in" style={{ marginTop: '1.25rem', marginBottom: 0 }}>
               <label className="form-label">
-                {t.q30}
+                {t.q36}
               </label>
               <textarea
                 name="bbmp_issue_reasons"
@@ -1892,7 +1869,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <ShieldAlert size={20} color="#d97706" />
             <div>
-              <h2 style={{ fontSize: '1.2rem' }}>{lang === 'kn' ? 'FSSAI ವ್ಯಾಪಾರ ಪರವಾನಗಿ ಸ್ಥಿತಿ' : lang === 'both' ? 'FSSAI Trade License Status (FSSAI ಪರವಾನಗಿ)' : 'FSSAI Trade License Status'}</h2>
+              <h2 style={{ fontSize: '1.2rem' }}>{t.sec11Title}</h2>
               <p className="kannada-text">{lang === 'kn' ? 'FSSAI ಟ್ರೇಡ್ ಲೈಸೆನ್ಸ್ ಮತ್ತು ಪರವಾನಗಿ ಸಮಸ್ಯೆಗಳು' : lang === 'both' ? 'FSSAI ವ್ಯಾಪಾರ ಪರವಾನಗಿ ಮತ್ತು ಸಮಸ್ಯೆಗಳ ವಿವರ' : 'FSSAI licensing and procurement issues'}</p>
             </div>
           </div>
@@ -1900,7 +1877,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginBottom: formData.fssai_license_issues === 'Yes' ? '1.25rem' : '0' }}>
             <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label">
-                {t.q31}
+                {t.q48}
               </label>
               <div style={{ display: 'flex', gap: '1rem', marginTop: '0.4rem' }}>
                 {['Yes', 'No'].map(val => (
@@ -1921,7 +1898,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
             <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label">
-                {t.q32}
+                {t.q48Hint}
               </label>
               <div style={{ display: 'flex', gap: '1rem', marginTop: '0.4rem' }}>
                 {['Yes', 'No'].map(val => (
@@ -1944,7 +1921,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           {formData.fssai_license_issues === 'Yes' && (
             <div className="form-group animate-fade-in" style={{ marginTop: '1.25rem', marginBottom: 0 }}>
               <label className="form-label">
-                {t.q33}
+                {t.q39}
               </label>
               <textarea
                 name="fssai_issue_reasons"
@@ -1963,8 +1940,8 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <ShieldAlert size={20} color="#d97706" />
             <div>
-              <h2 style={{ fontSize: '1.2rem' }}>{t.secChallengesTitle}</h2>
-              <p className="kannada-text">{t.secChallengesSub}</p>
+              <h2 style={{ fontSize: '1.2rem' }}>{t.sec12Title}</h2>
+              <p className="kannada-text">{t.sec12Sub}</p>
             </div>
           </div>
 
@@ -2022,8 +1999,8 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <Briefcase size={20} color="#d97706" />
             <div>
-              <h2 style={{ fontSize: '1.2rem' }}>{t.secTrainingTitle}</h2>
-              <p className="kannada-text">{t.secTrainingSub}</p>
+              <h2 style={{ fontSize: '1.2rem' }}>{t.sec13Title}</h2>
+              <p className="kannada-text">{t.sec13Sub}</p>
             </div>
           </div>
 
@@ -2087,7 +2064,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
           <div className="form-group" style={{ marginBottom: '1.5rem' }}>
             <label className="form-label">
-              {t.q35}
+              {t.q47Hint}
             </label>
 
             <div style={{
@@ -2197,7 +2174,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
           <div className="form-group">
             <label className="form-label">
-              {t.q36} <span className="required-star">*</span>
+              {t.q36}
             </label>
             
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
