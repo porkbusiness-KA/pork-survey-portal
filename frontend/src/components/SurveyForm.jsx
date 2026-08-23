@@ -1117,7 +1117,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
             {/* Opening Time */}
             <div className="form-group">
               <label className="form-label" style={{ marginBottom: '0.5rem', display: 'block' }}>
-                {t.q15}
+                {t.q14}
               </label>
               <TimePicker
                 name="opening_time"
@@ -1130,7 +1130,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
             {/* Closing Time */}
             <div className="form-group">
               <label className="form-label" style={{ marginBottom: '0.5rem', display: 'block' }}>
-                {t.q16}
+                {t.q15}
               </label>
               <TimePicker
                 name="closing_time"
@@ -1143,7 +1143,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
           <div className="form-group">
             <label className="form-label" style={{ marginBottom: '0.6rem' }}>
-              {t.q17}
+              {t.q16}
             </label>
 
             {/* No holiday banner */}
@@ -1221,7 +1221,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginBottom: '1.25rem' }}>
             <div className="form-group">
               <label className="form-label">
-                {t.q18}
+                {t.q17}
               </label>
               <select
                 name="workers_count"
@@ -1248,7 +1248,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
             <div className="form-group">
               <label className="form-label">
-                {t.q19}
+                {t.q18}
               </label>
               <select
                 name="daily_customers"
@@ -1265,7 +1265,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
           <div className="form-group">
             <label className="form-label" style={{ marginBottom: '0.6rem' }}>
-              {t.q20}
+              {t.q19}
             </label>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '0.6rem' }}>
               {PEAK_DAY_OPTIONS.map(p => {
@@ -1303,14 +1303,14 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <Store size={20} color="#d97706" />
             <div>
-              <h2 style={{ fontSize: '1.2rem' }}>{t.sec9Title}</h2>
-              <p className="kannada-text">{t.sec9Sub}</p>
+              <h2 style={{ fontSize: '1.2rem' }}>{t.sec5Title}</h2>
+              <p className="kannada-text">{t.sec5Sub}</p>
             </div>
           </div>
 
           <div className="form-group">
             <label className="form-label" style={{ marginBottom: '0.6rem' }}>
-              {t.qShopOwnership}
+              {t.q20}
             </label>
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
               {SHOP_OWNERSHIP_OPTIONS.map(opt => (
@@ -1347,8 +1347,8 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <ShoppingBag size={20} color="#d97706" />
             <div>
-              <h2 style={{ fontSize: '1.2rem' }}>{t.sec5Title}</h2>
-              <p className="kannada-text">{t.sec5Sub}</p>
+              <h2 style={{ fontSize: '1.2rem' }}>{t.sec6Title}</h2>
+              <p className="kannada-text">{t.sec6Sub}</p>
             </div>
           </div>
 
@@ -1498,120 +1498,39 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
-            <div className="form-group">
-              <label className="form-label">
-                {t.q25}
-              </label>
-              <input
-                type="text"
-                name="procurement_source"
-                value={formData.procurement_source}
-                onChange={handleChange}
-                placeholder="e.g. Registered piggeries in Hoskote, KGF, or Mandya"
-                className="form-input"
-              />
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">
-                {t.q26}
-              </label>
-              <select
-                name="customer_type"
-                value={formData.customer_type}
-                onChange={handleChange}
-                className="form-select"
-              >
-                {CUSTOMER_TYPE_OPTIONS.map(c => (
-                  <option key={c.id} value={c.id}>
-                    {lang === 'en' ? c.en : lang === 'kn' ? c.kn : `${c.en} (${c.kn})`}
-                  </option>
-                ))}
-              </select>
-            </div>
+          <div className="form-group" style={{ margin: 0 }}>
+            <label className="form-label">
+              {t.q25}
+            </label>
+            <select
+              name="customer_type"
+              value={formData.customer_type}
+              onChange={handleChange}
+              className="form-select"
+            >
+              {CUSTOMER_TYPE_OPTIONS.map(c => (
+                <option key={c.id} value={c.id}>
+                  {lang === 'en' ? c.en : lang === 'kn' ? c.kn : `${c.en} (${c.kn})`}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 
-        {/* SECTION 5c: Procurement Source, Frequency & Quantity */}
-        <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
-            <DollarSign size={20} color="#d97706" />
-            <div>
-              <h2 style={{ fontSize: '1.2rem' }}>{t.sec14Title}</h2>
-              <p className="kannada-text">{t.sec14Sub}</p>
-            </div>
-          </div>
-
-          {/* Procurement Source – Multi-select */}
-          <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-            <label className="form-label" style={{ marginBottom: '0.6rem' }}>{t.qProcurementSource}</label>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: '0.6rem' }}>
-              {PROCUREMENT_SOURCE_OPTIONS.map(opt => {
-                const isSelected = formData.procurement_sources.includes(opt.id);
-                return (
-                  <label key={opt.id} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.6rem 0.85rem', borderRadius: '10px', background: isSelected ? 'rgba(225,29,72,0.1)' : 'var(--bg-card-subtle)', border: isSelected ? '1px solid #d97706' : '1px solid var(--border-color)', cursor: 'pointer', transition: 'all 0.15s' }}>
-                    <input type="checkbox" checked={isSelected} onChange={() => handleMultiToggle('procurement_sources', opt.id)} style={{ accentColor: '#d97706' }} />
-                    <span style={{ fontSize: '0.88rem' }}>{lang === 'en' ? opt.en : lang === 'kn' ? opt.kn : opt.en}</span>
-                  </label>
-                );
-              })}
-            </div>
-            {formData.procurement_sources.includes('Other') && (
-              <div className="animate-fade-in" style={{ marginTop: '0.75rem' }}>
-                <input type="text" name="procurement_sources_other" value={formData.procurement_sources_other || ''} onChange={handleChange} placeholder={t.procurementSourceOtherPlaceholder} className="form-input" />
-              </div>
-            )}
-          </div>
-
-          {/* Procurement Frequency & Quantity in 2-column grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
-            <div className="form-group">
-              <label className="form-label" style={{ marginBottom: '0.5rem' }}>{t.qProcurementFrequency}</label>
-              <select name="procurement_frequency" value={formData.procurement_frequency} onChange={handleChange} className="form-select">
-                <option value="">{lang === 'kn' ? 'ಆಯ್ಕೆ ಮಾಡಿ...' : 'Select frequency...'}</option>
-                {PROCUREMENT_FREQUENCY_OPTIONS.map(opt => (
-                  <option key={opt.id} value={opt.id}>{lang === 'en' ? opt.en : lang === 'kn' ? opt.kn : opt.en}</option>
-                ))}
-              </select>
-              {formData.procurement_frequency === 'Other' && (
-                <div className="animate-fade-in" style={{ marginTop: '0.65rem' }}>
-                  <input type="text" name="procurement_frequency_other" value={formData.procurement_frequency_other || ''} onChange={handleChange} placeholder={t.procurementFrequencyOtherPlaceholder} className="form-input" />
-                </div>
-              )}
-            </div>
-
-            <div className="form-group">
-              <label className="form-label" style={{ marginBottom: '0.5rem' }}>{t.qProcurementQuantity}</label>
-              <select name="procurement_quantity" value={formData.procurement_quantity} onChange={handleChange} className="form-select">
-                <option value="">{lang === 'kn' ? 'ಆಯ್ಕೆ ಮಾಡಿ...' : 'Select quantity...'}</option>
-                {PROCUREMENT_QUANTITY_OPTIONS.map(opt => (
-                  <option key={opt.id} value={opt.id}>{lang === 'en' ? opt.en : lang === 'kn' ? opt.kn : opt.en}</option>
-                ))}
-              </select>
-              {formData.procurement_quantity === 'Other' && (
-                <div className="animate-fade-in" style={{ marginTop: '0.65rem' }}>
-                  <input type="text" name="procurement_quantity_other" value={formData.procurement_quantity_other || ''} onChange={handleChange} placeholder={t.procurementQuantityOtherPlaceholder} className="form-input" />
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* SECTION 5b: Peak Sales Seasons, Meat Cuts, Unsold Meat, Storage */}
+        {/* SECTION 7: Sales Seasons, Meat Cuts, Unsold Meat & Storage */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <ShoppingBag size={20} color="#d97706" />
             <div>
               <h2 style={{ fontSize: '1.2rem' }}>{t.sec7Title}</h2>
-              <p className="kannada-text">{lang === 'kn' ? 'ಮಾರಾಟ ಋತು, ಮಾಂಸ ವಿಧ, ಮತ್ತು ಶೇಖರಣಾ ವ್ಯವಸ್ಥೆ' : 'Peak selling seasons, top meat cuts and unsold meat management'}</p>
+              <p className="kannada-text">{t.sec7Sub}</p>
             </div>
           </div>
 
           {/* Peak Sales Seasons */}
           <div className="form-group" style={{ marginBottom: '1.5rem' }}>
             <label className="form-label" style={{ marginBottom: '0.6rem' }}>
-              {t.qPeakSeasons}
+              {t.q26}
             </label>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '0.6rem' }}>
               {PEAK_SEASON_OPTIONS.map(opt => {
@@ -1634,7 +1553,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           {/* Meat Cuts Sold Most */}
           <div className="form-group" style={{ marginBottom: '1.5rem' }}>
             <label className="form-label" style={{ marginBottom: '0.6rem' }}>
-              {t.qMeatCuts}
+              {t.q27}
             </label>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '0.6rem' }}>
               {MEAT_CUTS_OPTIONS.map(opt => {
@@ -1657,7 +1576,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           {/* Unsold Meat Handling */}
           <div className="form-group" style={{ marginBottom: '1.5rem' }}>
             <label className="form-label" style={{ marginBottom: '0.6rem' }}>
-              {t.qUnsoldMeat}
+              {t.q28}
             </label>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '0.6rem' }}>
               {UNSOLD_MEAT_OPTIONS.map(opt => {
@@ -1680,7 +1599,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           {/* Storage Capacity */}
           <div className="form-group" style={{ marginBottom: 0 }}>
             <label className="form-label" style={{ marginBottom: '0.5rem' }}>
-              {t.qStorageCapacity}
+              {t.q29}
             </label>
             <select
               name="storage_capacity"
@@ -1698,20 +1617,85 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           </div>
         </div>
 
+        {/* SECTION 8: Meat Procurement & Supply Source */}
+        <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
+            <DollarSign size={20} color="#d97706" />
+            <div>
+              <h2 style={{ fontSize: '1.2rem' }}>{t.sec8Title}</h2>
+              <p className="kannada-text">{t.sec8Sub}</p>
+            </div>
+          </div>
+
+          {/* Procurement Source – Multi-select */}
+          <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+            <label className="form-label" style={{ marginBottom: '0.6rem' }}>{t.q30}</label>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: '0.6rem' }}>
+              {PROCUREMENT_SOURCE_OPTIONS.map(opt => {
+                const isSelected = formData.procurement_sources.includes(opt.id);
+                return (
+                  <label key={opt.id} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.6rem 0.85rem', borderRadius: '10px', background: isSelected ? 'rgba(225,29,72,0.1)' : 'var(--bg-card-subtle)', border: isSelected ? '1px solid #d97706' : '1px solid var(--border-color)', cursor: 'pointer', transition: 'all 0.15s' }}>
+                    <input type="checkbox" checked={isSelected} onChange={() => handleMultiToggle('procurement_sources', opt.id)} style={{ accentColor: '#d97706' }} />
+                    <span style={{ fontSize: '0.88rem' }}>{lang === 'en' ? opt.en : lang === 'kn' ? opt.kn : opt.en}</span>
+                  </label>
+                );
+              })}
+            </div>
+            {formData.procurement_sources.includes('Other') && (
+              <div className="animate-fade-in" style={{ marginTop: '0.75rem' }}>
+                <input type="text" name="procurement_sources_other" value={formData.procurement_sources_other || ''} onChange={handleChange} placeholder={t.procurementSourceOtherPlaceholder} className="form-input" />
+              </div>
+            )}
+          </div>
+
+          {/* Procurement Frequency & Quantity in 2-column grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
+            <div className="form-group">
+              <label className="form-label" style={{ marginBottom: '0.5rem' }}>{t.q31}</label>
+              <select name="procurement_frequency" value={formData.procurement_frequency} onChange={handleChange} className="form-select">
+                <option value="">{lang === 'kn' ? 'ಆಯ್ಕೆ ಮಾಡಿ...' : 'Select frequency...'}</option>
+                {PROCUREMENT_FREQUENCY_OPTIONS.map(opt => (
+                  <option key={opt.id} value={opt.id}>{lang === 'en' ? opt.en : lang === 'kn' ? opt.kn : opt.en}</option>
+                ))}
+              </select>
+              {formData.procurement_frequency === 'Other' && (
+                <div className="animate-fade-in" style={{ marginTop: '0.65rem' }}>
+                  <input type="text" name="procurement_frequency_other" value={formData.procurement_frequency_other || ''} onChange={handleChange} placeholder={t.procurementFrequencyOtherPlaceholder} className="form-input" />
+                </div>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label className="form-label" style={{ marginBottom: '0.5rem' }}>{t.q32}</label>
+              <select name="procurement_quantity" value={formData.procurement_quantity} onChange={handleChange} className="form-select">
+                <option value="">{lang === 'kn' ? 'ಆಯ್ಕೆ ಮಾಡಿ...' : 'Select quantity...'}</option>
+                {PROCUREMENT_QUANTITY_OPTIONS.map(opt => (
+                  <option key={opt.id} value={opt.id}>{lang === 'en' ? opt.en : lang === 'kn' ? opt.kn : opt.en}</option>
+                ))}
+              </select>
+              {formData.procurement_quantity === 'Other' && (
+                <div className="animate-fade-in" style={{ marginTop: '0.65rem' }}>
+                  <input type="text" name="procurement_quantity_other" value={formData.procurement_quantity_other || ''} onChange={handleChange} placeholder={t.procurementQuantityOtherPlaceholder} className="form-input" />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
         {/* SECTION 6: Masala Availability (Q27) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <Sparkles size={20} color="#d97706" />
             <div>
-              <h2 style={{ fontSize: '1.2rem' }}>{t.sec6Title}</h2>
-              <p className="kannada-text">{t.sec6Sub}</p>
+              <h2 style={{ fontSize: '1.2rem' }}>{t.sec9Title}</h2>
+              <p className="kannada-text">{t.sec9Sub}</p>
             </div>
           </div>
 
           {/* STEP 1: Are masalas sold? (Yes / No) */}
           <div className="form-group" style={{ marginBottom: formData.has_masalas === 'Yes' ? '1.25rem' : '0' }}>
             <label className="form-label" style={{ marginBottom: '0.5rem' }}>
-              {t.q27}
+              {t.q33}
             </label>
             <div style={{ display: 'flex', gap: '1.5rem', marginTop: '0.4rem' }}>
               {['Yes', 'No'].map(val => (
@@ -1749,7 +1733,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
               margin: 0
             }}>
               <label className="form-label" style={{ marginBottom: '0.5rem' }}>
-                {t.q27Brand}
+                {t.q33Brand}
               </label>
               <select
                 name="masalas_available"
@@ -1817,7 +1801,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginBottom: formData.bbmp_license_issues === 'Yes' ? '1.25rem' : '0' }}>
             <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label">
-                {t.q28}
+                {t.q34}
               </label>
               <div style={{ display: 'flex', gap: '1rem', marginTop: '0.4rem' }}>
                 {['Yes', 'No'].map(val => (
@@ -1838,7 +1822,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
             <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label">
-                {t.q29}
+                {t.q35}
               </label>
               <div style={{ display: 'flex', gap: '1rem', marginTop: '0.4rem' }}>
                 {['Yes', 'No'].map(val => (
@@ -1888,7 +1872,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginBottom: formData.fssai_license_issues === 'Yes' ? '1.25rem' : '0' }}>
             <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label">
-                {t.q31}
+                {t.q37}
               </label>
               <div style={{ display: 'flex', gap: '1rem', marginTop: '0.4rem' }}>
                 {['Yes', 'No'].map(val => (
@@ -1909,7 +1893,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
             <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label">
-                {t.q32}
+                {t.q38}
               </label>
               <div style={{ display: 'flex', gap: '1rem', marginTop: '0.4rem' }}>
                 {['Yes', 'No'].map(val => (
@@ -1971,7 +1955,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
           {/* Business Challenges */}
           <div className="form-group" style={{ marginBottom: formData.has_challenges === 'Yes' ? '1.25rem' : '0' }}>
-            <label className="form-label" style={{ marginBottom: '0.5rem' }}>{t.qHasChallenges}</label>
+            <label className="form-label" style={{ marginBottom: '0.5rem' }}>{t.q41}</label>
             <div style={{ display: 'flex', gap: '1.5rem', marginTop: '0.4rem' }}>
               {['Yes', 'No'].map(val => (
                 <label key={val} style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', cursor: 'pointer', padding: '0.5rem 0.85rem', borderRadius: '8px', background: formData.has_challenges === val ? (val === 'Yes' ? 'rgba(225,29,72,0.1)' : 'rgba(16,185,129,0.1)') : 'var(--bg-card-subtle)', border: formData.has_challenges === val ? (val === 'Yes' ? '1px solid #d97706' : '1px solid #10b981') : '1px solid var(--border-color)', color: 'var(--text-main)', fontWeight: '500', transition: 'all 0.15s' }}>
@@ -1984,7 +1968,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
           {formData.has_challenges === 'Yes' && (
             <div className="form-group animate-fade-in" style={{ background: 'var(--bg-card-subtle)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '1.15rem', marginTop: '0.5rem' }}>
-              <label className="form-label" style={{ marginBottom: '0.6rem' }}>{t.q41}</label>
+              <label className="form-label" style={{ marginBottom: '0.6rem' }}>{t.q42}</label>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(270px, 1fr))', gap: '0.6rem' }}>
                 {BUSINESS_CHALLENGE_OPTIONS.map(opt => {
                   const isSelected = formData.business_challenges.includes(opt.id);
@@ -2018,7 +2002,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           {/* Does the shopkeeper want training? */}
           <div className="form-group" style={{ marginBottom: '1.25rem' }}>
             <label className="form-label" style={{ marginBottom: '0.5rem' }}>
-              {t.qWantsTraining}
+              {t.q43}
             </label>
             <div style={{ display: 'flex', gap: '1.5rem', marginTop: '0.4rem' }}>
               {['Yes', 'No'].map(val => (
@@ -2063,19 +2047,19 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           )}
         </div>
 
-        {/* SECTION 8: Shop Photos & Map Link (Q35, Q36) */}
+        {/* SECTION 14: Shop Photos & Map Link (Q45, Q46) */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '2rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <ImageIcon size={20} color="#d97706" />
             <div>
-              <h2 style={{ fontSize: '1.2rem' }}>{t.sec8Title}</h2>
-              <p className="kannada-text">{t.sec8Sub}</p>
+              <h2 style={{ fontSize: '1.2rem' }}>{t.sec14Title}</h2>
+              <p className="kannada-text">{t.sec14Sub}</p>
             </div>
           </div>
 
           <div className="form-group" style={{ marginBottom: '1.5rem' }}>
             <label className="form-label">
-              {t.q47Hint}
+              {t.q45}
             </label>
 
             <div style={{
@@ -2115,7 +2099,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                   borderRadius: '10px', fontWeight: '600', fontSize: '0.85rem',
                   color: '#d97706', transition: 'all 0.2s'
                 }}>
-                  📁 {t.q35UploadHint}
+                  📁 {t.q45UploadHint}
                 </label>
                 <button
                   type="button"
@@ -2142,12 +2126,12 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                     color: '#10b981', transition: 'all 0.2s'
                   }}
                 >
-                  📷 {t.q35CameraBtn}
+                  📷 {t.q45CameraBtn}
                 </button>
               </div>
 
               <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.75rem' }}>
-                {t.q35UploadSub}
+                {t.q45UploadSub}
               </div>
             </div>
 
@@ -2185,7 +2169,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
           <div className="form-group">
             <label className="form-label">
-              {t.q36}
+              {t.q46}
             </label>
             
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
@@ -2208,11 +2192,11 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 style={{ whiteSpace: 'nowrap', borderColor: '#d97706' }}
               >
                 <Navigation size={16} color="#d97706" />
-                <span>{isLocating ? t.q36Locating : t.q36GpsBtn}</span>
+                <span>{isLocating ? t.q46Locating : t.q46GpsBtn}</span>
               </button>
             </div>
             <small style={{ color: 'var(--text-muted)', fontSize: '0.78rem', marginTop: '0.35rem', display: 'block' }}>
-              {t.q36Hint}
+              {t.q46Hint}
             </small>
           </div>
         </div>
