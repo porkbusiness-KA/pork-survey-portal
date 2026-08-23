@@ -663,6 +663,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 maxLength="6"
                 className="form-input"
                 style={{ letterSpacing: '0.15em', fontWeight: '600', fontSize: '1rem' }}
+               
               />
               {isFetchingPincode && (
                 <span style={{ position: 'absolute', right: '14px', top: '50%', transform: 'translateY(-50%)', color: '#d97706' }}>
@@ -711,6 +712,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 placeholder="Auto-filled from pincode"
                 className="form-input"
                 style={{ background: formData.country ? '' : 'rgba(var(--bg-card-rgb, 18,18,26), 0.5)' }}
+               
               />
             </div>
             <div className="form-group" style={{ margin: 0 }}>
@@ -725,6 +727,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 placeholder="Auto-filled from pincode"
                 className="form-input"
                 style={{ background: formData.state ? '' : 'rgba(var(--bg-card-rgb, 18,18,26), 0.5)' }}
+               
               />
             </div>
           </div>
@@ -743,6 +746,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 placeholder="Auto-filled from pincode"
                 className="form-input"
                 style={{ background: formData.district ? '' : 'rgba(var(--bg-card-rgb, 18,18,26), 0.5)' }}
+               
               />
             </div>
             <div className="form-group" style={{ margin: 0 }}>
@@ -757,6 +761,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 placeholder="Auto-filled from pincode"
                 className="form-input"
                 style={{ background: formData.taluk ? '' : 'rgba(var(--bg-card-rgb, 18,18,26), 0.5)' }}
+               
               />
             </div>
           </div>
@@ -774,6 +779,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
               placeholder="Auto-filled · or tap a chip below to select"
               className="form-input"
               style={{ background: formData.village ? '' : 'rgba(var(--bg-card-rgb, 18,18,26), 0.5)' }}
+             
             />
           </div>
 
@@ -827,6 +833,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
               onChange={handleChange}
               placeholder="e.g. Arasinakunte Village, Nelamangala Taluk, Bengaluru Rural"
               className="form-input"
+             
             />
           </div>
 
@@ -854,6 +861,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 onChange={handleChange}
                 placeholder="e.g. St. Anthony Fresh Pork Meat Centre"
                 className="form-input"
+               
               />
             </div>
 
@@ -868,6 +876,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 onChange={handleChange}
                 placeholder="e.g. Francis Fernandes"
                 className="form-input"
+               
               />
             </div>
 
@@ -1114,6 +1123,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 name="opening_time"
                 value={formData.opening_time}
                 onChange={handleChange}
+               
               />
             </div>
 
@@ -1126,6 +1136,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 name="closing_time"
                 value={formData.closing_time}
                 onChange={handleChange}
+               
               />
             </div>
           </div>
@@ -1806,7 +1817,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginBottom: formData.bbmp_license_issues === 'Yes' ? '1.25rem' : '0' }}>
             <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label">
-                {t.q47}
+                {t.q28}
               </label>
               <div style={{ display: 'flex', gap: '1rem', marginTop: '0.4rem' }}>
                 {['Yes', 'No'].map(val => (
@@ -1827,7 +1838,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
             <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label">
-                {t.q47Hint}
+                {t.q29}
               </label>
               <div style={{ display: 'flex', gap: '1rem', marginTop: '0.4rem' }}>
                 {['Yes', 'No'].map(val => (
@@ -1877,7 +1888,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginBottom: formData.fssai_license_issues === 'Yes' ? '1.25rem' : '0' }}>
             <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label">
-                {t.q48}
+                {t.q31}
               </label>
               <div style={{ display: 'flex', gap: '1rem', marginTop: '0.4rem' }}>
                 {['Yes', 'No'].map(val => (
@@ -1898,7 +1909,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
             <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label">
-                {t.q48Hint}
+                {t.q32}
               </label>
               <div style={{ display: 'flex', gap: '1rem', marginTop: '0.4rem' }}>
                 {['Yes', 'No'].map(val => (
@@ -1947,7 +1958,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
           {/* Billing */}
           <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-            <label className="form-label" style={{ marginBottom: '0.6rem' }}>{t.qBilling}</label>
+            <label className="form-label" style={{ marginBottom: '0.6rem' }}>{t.q40}</label>
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
               {BILLING_OPTIONS.map(opt => (
                 <label key={opt.id} style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', cursor: 'pointer', padding: '0.5rem 0.85rem', borderRadius: '8px', background: formData.provides_billing === opt.id ? 'rgba(217,119,6,0.13)' : 'var(--bg-card-subtle)', border: formData.provides_billing === opt.id ? '1px solid #d97706' : '1px solid var(--border-color)', color: 'var(--text-main)', fontWeight: '500', transition: 'all 0.15s', fontSize: '0.88rem' }}>
@@ -1973,7 +1984,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
           {formData.has_challenges === 'Yes' && (
             <div className="form-group animate-fade-in" style={{ background: 'var(--bg-card-subtle)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '1.15rem', marginTop: '0.5rem' }}>
-              <label className="form-label" style={{ marginBottom: '0.6rem' }}>{t.qChallenges}</label>
+              <label className="form-label" style={{ marginBottom: '0.6rem' }}>{t.q41}</label>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(270px, 1fr))', gap: '0.6rem' }}>
                 {BUSINESS_CHALLENGE_OPTIONS.map(opt => {
                   const isSelected = formData.business_challenges.includes(opt.id);
@@ -2030,7 +2041,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           {formData.wants_training === 'Yes' && (
             <div className="form-group animate-fade-in" style={{ background: 'var(--bg-card-subtle)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '1.15rem' }}>
               <label className="form-label" style={{ marginBottom: '0.6rem' }}>
-                {t.qTrainingSkills}
+                {t.q44}
               </label>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '0.6rem' }}>
                 {TRAINING_SKILL_OPTIONS.map(opt => {
@@ -2115,7 +2126,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                     // setAttribute is more reliable than .capture = across all browsers/iOS
                     camInput.setAttribute('capture', 'environment');
                     camInput.style.display = 'none';
-                    // Appending to body is required for iOS Safari to work
+                    // Appending to body is for iOS Safari to work
                     document.body.appendChild(camInput);
                     camInput.onchange = (e) => {
                       handleImageChange(e);
