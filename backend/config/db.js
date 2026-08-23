@@ -35,14 +35,16 @@ async function initDatabase() {
         shop_ownership VARCHAR(100) DEFAULT '',
         shop_ownership_other VARCHAR(255) DEFAULT '',
         years_in_business INT DEFAULT 0,
+        owner_community VARCHAR(100) DEFAULT '',
+        owner_community_other VARCHAR(255) DEFAULT '',
+        handi_jogi_area VARCHAR(150) DEFAULT '',
+        handi_jogi_area_other VARCHAR(255) DEFAULT '',
         opening_time VARCHAR(50) NOT NULL,
         closing_time VARCHAR(50) NOT NULL,
         holiday_days JSON,
         workers_count VARCHAR(50) NOT NULL,
         daily_customers VARCHAR(50),
         peak_customer_days JSON,
-        peak_sales_seasons JSON,
-        peak_sales_seasons_other VARCHAR(255) DEFAULT '',
         regular_meat_rate DECIMAL(10, 2) NOT NULL,
         meat_types JSON NOT NULL,
         meat_cuts_sold_most JSON,
@@ -115,8 +117,10 @@ async function initDatabase() {
     await addColumnIfNotExists('owner_email', "VARCHAR(150) DEFAULT ''");
     await addColumnIfNotExists('shop_ownership', "VARCHAR(100) DEFAULT ''");
     await addColumnIfNotExists('shop_ownership_other', "VARCHAR(255) DEFAULT ''");
-    await addColumnIfNotExists('peak_sales_seasons', "JSON");
-    await addColumnIfNotExists('peak_sales_seasons_other', "VARCHAR(255) DEFAULT ''");
+    await addColumnIfNotExists('owner_community', "VARCHAR(100) DEFAULT ''");
+    await addColumnIfNotExists('owner_community_other', "VARCHAR(255) DEFAULT ''");
+    await addColumnIfNotExists('handi_jogi_area', "VARCHAR(150) DEFAULT ''");
+    await addColumnIfNotExists('handi_jogi_area_other', "VARCHAR(255) DEFAULT ''");
     await addColumnIfNotExists('meat_cuts_sold_most', "JSON");
     await addColumnIfNotExists('meat_cuts_sold_most_other', "VARCHAR(255) DEFAULT ''");
     await addColumnIfNotExists('unsold_meat_handling', "JSON");

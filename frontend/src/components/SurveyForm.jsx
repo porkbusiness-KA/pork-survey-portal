@@ -11,10 +11,11 @@ import {
   DAILY_CUSTOMER_OPTIONS, PEAK_DAY_OPTIONS, MEAT_TYPES_OPTIONS,
   PROCESSED_VOLUME_OPTIONS, PROCESSED_PRODUCT_TYPES,
   CUSTOMER_TYPE_OPTIONS, MASALA_OPTIONS, SPOC_SKILL_OPTIONS,
-  SHOP_OWNERSHIP_OPTIONS, PEAK_SEASON_OPTIONS, MEAT_CUTS_OPTIONS,
+  SHOP_OWNERSHIP_OPTIONS, MEAT_CUTS_OPTIONS,
   UNSOLD_MEAT_OPTIONS, STORAGE_CAPACITY_OPTIONS, TRAINING_SKILL_OPTIONS,
   PROCUREMENT_SOURCE_OPTIONS, PROCUREMENT_FREQUENCY_OPTIONS, PROCUREMENT_QUANTITY_OPTIONS,
-  BILLING_OPTIONS, BUSINESS_CHALLENGE_OPTIONS
+  BILLING_OPTIONS, BUSINESS_CHALLENGE_OPTIONS,
+  COMMUNITY_OPTIONS, HANDI_JOGI_AREA_OPTIONS
 } from '../data/surveyQuestions';
 import { TRANSLATIONS } from '../data/translations';
 import TimePicker from './TimePicker';
@@ -46,10 +47,11 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
     regular_meat_rate: '340',
     meat_types: ['Fresh meat (Pork)'],
     meat_types_other: '',
-    processed_meat_volume: '<1 Kg',
-    processed_meat_volume_other: '',
-    processed_meat_products: ['Ham'],
-    processed_meat_other: '',
+    processed_meat_none: false,
+    processed_meat_varieties: [],
+    processed_meat_volumes: {},
+    processed_meat_volume_custom: {},
+    processed_meat_other_name: '',
     average_daily_sale_kg: '50',
     procurement_source: '',
     customer_type: 'Both localities and non-Localities',
@@ -64,8 +66,10 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
     fssai_issue_reasons: '',
     shop_ownership: '',
     shop_ownership_other: '',
-    peak_sales_seasons: [],
-    peak_sales_seasons_other: '',
+    owner_community: '',
+    owner_community_other: '',
+    handi_jogi_area: '',
+    handi_jogi_area_other: '',
     meat_cuts_sold_most: [],
     meat_cuts_sold_most_other: '',
     unsold_meat_handling: [],
@@ -289,6 +293,71 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
       return;
     }
 
+    // Special logic for meat_types: 'All' selects/deselects all 3 core types
+    if (field === 'meat_types') {
+      setFormData(prev => {
+        const currentList = prev[field] || [];
+        const ALL_OPTION = 'All (Fresh meat, processed meat products and whole live pig)';
+        const CORE_TYPES = ['Fresh meat (Pork)', 'Processed meat products (Pork)', 'Whole live pig'];
+
+        if (item === ALL_OPTION) {
+          // If 'All' is already selected -> deselect core types and All (keep 'Other' if present)
+          if (currentList.includes(ALL_OPTION)) {
+            const onlyOther = currentList.filter(x => x === 'Other');
+            return { ...prev, [field]: onlyOther };
+          }
+          // Otherwise -> select all core types + ALL_OPTION + keep 'Other' if present
+          const otherSelected = currentList.includes('Other') ? ['Other'] : [];
+          return { ...prev, [field]: [...CORE_TYPES, ALL_OPTION, ...otherSelected] };
+        } else if (item === 'Other') {
+          // Toggle 'Other' independently
+          const hasOther = currentList.includes('Other');
+          return {
+            ...prev,
+            [field]: hasOther ? currentList.filter(x => x !== 'Other') : [...currentList, 'Other']
+          };
+        } else {
+          // Toggling one of the individual core items
+          const withoutAll = currentList.filter(x => x !== ALL_OPTION);
+          let newList;
+          if (withoutAll.includes(item)) {
+            newList = withoutAll.filter(x => x !== item);
+          } else {
+            newList = [...withoutAll, item];
+          }
+          // Auto-select ALL_OPTION if all 3 core types are checked
+          const allCoreSelected = CORE_TYPES.every(t => newList.includes(t));
+          if (allCoreSelected && !newList.includes(ALL_OPTION)) {
+            newList = [...newList, ALL_OPTION];
+          }
+          return { ...prev, [field]: newList };
+        }
+      });
+      return;
+    }
+
+    // Special logic for meat_cuts_sold_most: 'No idea' is exclusive
+    if (field === 'meat_cuts_sold_most') {
+      setFormData(prev => {
+        const currentList = prev[field] || [];
+        if (item === 'No idea') {
+          return {
+            ...prev,
+            [field]: currentList.includes('No idea') ? [] : ['No idea'],
+            meat_cuts_sold_most_other: ''
+          };
+        } else {
+          const withoutNoIdea = currentList.filter(x => x !== 'No idea');
+          if (withoutNoIdea.includes(item)) {
+            return { ...prev, [field]: withoutNoIdea.filter(x => x !== item) };
+          } else {
+            return { ...prev, [field]: [...withoutNoIdea, item] };
+          }
+        }
+      });
+      return;
+    }
+
     // Default toggle for other fields
     setFormData(prev => {
       const currentList = prev[field] || [];
@@ -298,6 +367,61 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
         return { ...prev, [field]: [...currentList, item] };
       }
     });
+  };
+
+  // Q24 Handlers: Processed Meat Varieties & Individual Volumes
+  const handleToggleProcessedNone = () => {
+    setFormData(prev => {
+      const willBeNone = !prev.processed_meat_none;
+      return {
+        ...prev,
+        processed_meat_none: willBeNone,
+        processed_meat_varieties: [],
+        processed_meat_volumes: {}
+      };
+    });
+  };
+
+  const handleToggleProcessedVariety = (varietyId) => {
+    setFormData(prev => {
+      const currentList = prev.processed_meat_varieties || [];
+      let nextList;
+      if (currentList.includes(varietyId)) {
+        nextList = currentList.filter(v => v !== varietyId);
+      } else {
+        nextList = [...currentList, varietyId];
+      }
+      const currentVolumes = { ...(prev.processed_meat_volumes || {}) };
+      if (!currentVolumes[varietyId]) {
+        currentVolumes[varietyId] = '<1 Kg';
+      }
+      return {
+        ...prev,
+        processed_meat_none: false,
+        processed_meat_varieties: nextList,
+        processed_meat_volumes: currentVolumes
+      };
+    });
+  };
+
+  const handleProcessedVolumeChange = (varietyId, volumeVal) => {
+    setFormData(prev => ({
+      ...prev,
+      processed_meat_volumes: {
+        ...(prev.processed_meat_volumes || {}),
+        [varietyId]: volumeVal
+      }
+    }));
+  };
+
+  const handleProcessedCustomVolumeChange = (varietyId, customVal) => {
+    setFormData(prev => ({
+      ...prev,
+      processed_meat_volume_custom: {
+        ...(prev.processed_meat_volume_custom || {}),
+        [varietyId]: customVal
+      }
+    }));
   };
 
   // SPOC management handlers
@@ -434,20 +558,28 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
       const effectiveSpocName = effectiveSpocs.map(s => s.name).filter(Boolean).join(', ') || '';
       const effectiveSpocMobile = effectiveSpocs.map(s => s.mobile).filter(Boolean).join(', ') || '';
       
-      const effectiveProcessedVolume = formData.processed_meat_volume === 'Other'
-        ? (formData.processed_meat_volume_other ? `${formData.processed_meat_volume_other} Kg` : 'Other')
-        : formData.processed_meat_volume;
-
-      const combinedProcessed = [
-        effectiveProcessedVolume,
-        ...formData.processed_meat_products,
-        formData.processed_meat_other
-      ].filter(Boolean);
+      let combinedProcessed = [];
+      if (formData.processed_meat_none || !formData.processed_meat_varieties || formData.processed_meat_varieties.length === 0) {
+        combinedProcessed = ['None'];
+      } else {
+        (formData.processed_meat_varieties || []).forEach(v => {
+          const rawVol = (formData.processed_meat_volumes && formData.processed_meat_volumes[v]) || '<1 Kg';
+          const customVol = (formData.processed_meat_volume_custom && formData.processed_meat_volume_custom[v]) || '';
+          const volDisplay = rawVol === 'Other' ? (customVol ? `${customVol} Kg` : 'Other') : rawVol;
+          
+          if (v === 'Other') {
+            const otherName = formData.processed_meat_other_name && formData.processed_meat_other_name.trim() ? formData.processed_meat_other_name.trim() : 'Other Variety';
+            combinedProcessed.push(`${otherName} (${volDisplay})`);
+          } else {
+            combinedProcessed.push(`${v} (${volDisplay})`);
+          }
+        });
+      }
 
       Object.keys(formData).forEach(key => {
         const jsonArrayFields = [
           'holiday_days', 'peak_customer_days', 'meat_types', 'masalas_available',
-          'peak_sales_seasons', 'meat_cuts_sold_most', 'unsold_meat_handling', 'training_skills',
+          'meat_cuts_sold_most', 'unsold_meat_handling', 'training_skills',
           'procurement_sources', 'business_challenges'
         ];
         if (jsonArrayFields.includes(key)) {
@@ -524,14 +656,14 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
           <div>
             <div className="badge badge-primary" style={{ marginBottom: '0.6rem' }}>
-              <Sparkles size={13} /> {lang === 'en' ? 'Official Retail Survey Form' : lang === 'kn' ? 'ಅಧಿಕೃತ ಚಿಲ್ಲರೆ ಸಮೀಕ್ಷಾ ನಮೂನೆ' : 'Official Retail Survey Form (ಅಧಿಕೃತ ಸಮೀಕ್ಷೆ)'}
+              <Sparkles size={13} /> {lang === 'en' ? 'Official Retail Survey Form' : lang === 'kn' ? 'ಅಧಿಕೃತ ಸಮೀಕ್ಷಾ ನಮೂನೆ' : 'Official Retail Survey Form (ಅಧಿಕೃತ ಸಮೀಕ್ಷೆ)'}
             </div>
             <h1 style={{ fontSize: '1.85rem', color: 'var(--text-main)', marginBottom: '0.35rem' }}>
-              {lang === 'kn' ? 'ಹಂದಿಮಾಂಸದ ಚಿಲ್ಲರೆ ಮಾರಾಟ ಅಂಗಡಿಗಳ ಸಮೀಕ್ಷಾ ನಮೂನೆ' : 'Pork Retail Shop Outlet Survey Form'}
+              {lang === 'kn' ? 'ಹಂದಿಮಾಂಸದ ಮಾರಾಟ ಅಂಗಡಿಗಳ ಸಮೀಕ್ಷಾ ನಮೂನೆ' : 'Pork Retail Shop Outlet Survey Form'}
             </h1>
             {lang !== 'en' && (
               <p className="kannada-text" style={{ fontSize: '1.05rem', color: 'var(--text-kannada)' }}>
-                {lang === 'both' ? 'ಹಂದಿಮಾಂಸದ ಚಿಲ್ಲರೆ ಮಾರಾಟ ಅಂಗಡಿಗಳ ಸಮಗ್ರ ಸಮೀಕ್ಷಾ ನಮೂನೆ' : 'ಕರ್ನಾಟಕ ಸರ್ಕಾರ - ಪಶುಸಂಗೋಪನೆ ಮತ್ತು ಪಶುವೈದ್ಯಕೀಯ ಸೇವಾ ಇಲಾಖೆ'}
+                {lang === 'both' ? 'ಹಂದಿಮಾಂಸದ ಮಾರಾಟ ಅಂಗಡಿಗಳ ಸಮಗ್ರ ಸಮೀಕ್ಷಾ ನಮೂನೆ' : 'ಕರ್ನಾಟಕ ಸರ್ಕಾರ - ಪಶುಸಂಗೋಪನೆ ಮತ್ತು ಪಶುವೈದ್ಯಕೀಯ ಸೇವಾ ಇಲಾಖೆ'}
               </p>
             )}
           </div>
@@ -927,7 +1059,105 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
             </div>
           </div>
 
-          {/* Q13: Contact Person(s) / SPOC Details & Skills (Optional) */}
+          {/* Q13: Shop Owner's Community */}
+          <div style={{ marginTop: '1.5rem', borderTop: '1px solid var(--border-color)', paddingTop: '1.25rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.85rem' }}>
+              <Users size={18} color="#d97706" />
+              <label className="form-label" style={{ margin: 0, fontSize: '1rem', fontWeight: '700' }}>
+                {t.qCommunity}
+              </label>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '0.55rem' }}>
+              {COMMUNITY_OPTIONS.map(opt => {
+                const isSelected = formData.owner_community === opt.id;
+                return (
+                  <label
+                    key={opt.id}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: '0.5rem',
+                      padding: '0.6rem 0.85rem', borderRadius: '10px',
+                      background: isSelected ? 'rgba(217,119,6,0.13)' : 'var(--bg-card-subtle)',
+                      border: isSelected ? '1px solid #d97706' : '1px solid var(--border-color)',
+                      cursor: 'pointer', transition: 'all 0.15s ease', userSelect: 'none'
+                    }}
+                  >
+                    <input
+                      type="radio"
+                      name="owner_community"
+                      value={opt.id}
+                      checked={isSelected}
+                      onChange={() => {
+                        setFormData(prev => ({
+                          ...prev,
+                          owner_community: opt.id,
+                          owner_community_other: opt.id !== 'Others' ? '' : prev.owner_community_other,
+                          handi_jogi_area: opt.id !== "Handi Jogi's" ? '' : prev.handi_jogi_area,
+                          handi_jogi_area_other: opt.id !== "Handi Jogi's" ? '' : prev.handi_jogi_area_other,
+                        }));
+                      }}
+                      style={{ accentColor: '#d97706' }}
+                    />
+                    <span style={{ fontSize: '0.88rem' }}>
+                      {lang === 'en' ? opt.en : lang === 'kn' ? opt.kn : `${opt.en} (${opt.kn})`}
+                    </span>
+                  </label>
+                );
+              })}
+            </div>
+            {formData.owner_community === 'Others' && (
+              <div className="animate-fade-in" style={{ marginTop: '0.75rem' }}>
+                <input
+                  type="text"
+                  value={formData.owner_community_other}
+                  onChange={e => setFormData(prev => ({ ...prev, owner_community_other: e.target.value }))}
+                  placeholder={t.communityOtherPlaceholder}
+                  className="form-input"
+                />
+              </div>
+            )}
+
+            {/* Q14: Area/Location — shown only if Handi Jogi's selected */}
+            {formData.owner_community === "Handi Jogi's" && (
+              <div className="animate-fade-in" style={{ marginTop: '1.25rem', padding: '1rem', borderRadius: '12px', background: 'rgba(217,119,6,0.06)', border: '1px solid rgba(217,119,6,0.25)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
+                  <MapPin size={16} color="#d97706" />
+                  <label className="form-label" style={{ margin: 0, fontWeight: '700', fontSize: '0.95rem' }}>
+                    {t.qArea}
+                  </label>
+                </div>
+                <select
+                  value={formData.handi_jogi_area}
+                  onChange={e => setFormData(prev => ({
+                    ...prev,
+                    handi_jogi_area: e.target.value,
+                    handi_jogi_area_other: e.target.value !== 'Others' ? '' : prev.handi_jogi_area_other
+                  }))}
+                  className="form-input"
+                  style={{ maxWidth: '360px' }}
+                >
+                  <option value="">-- Select Area / ಪ್ರದೇಶ ಆಯ್ಕೆ ಮಾಡಿ --</option>
+                  {HANDI_JOGI_AREA_OPTIONS.map(opt => (
+                    <option key={opt.id} value={opt.id}>
+                      {lang === 'en' ? opt.en : lang === 'kn' ? opt.kn : `${opt.en} (${opt.kn})`}
+                    </option>
+                  ))}
+                </select>
+                {formData.handi_jogi_area === 'Others' && (
+                  <div style={{ marginTop: '0.65rem' }}>
+                    <input
+                      type="text"
+                      value={formData.handi_jogi_area_other}
+                      onChange={e => setFormData(prev => ({ ...prev, handi_jogi_area_other: e.target.value }))}
+                      placeholder={t.areaOtherPlaceholder}
+                      className="form-input"
+                    />
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Q15: Contact Person(s) / SPOC Details & Skills (Optional) */}
           <div style={{ marginTop: '1.5rem', borderTop: '1px solid var(--border-color)', paddingTop: '1.25rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.75rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -1323,7 +1553,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                     onChange={handleChange}
                     style={{ accentColor: '#d97706' }}
                   />
-                  <span>{lang === 'en' ? opt.en : lang === 'kn' ? opt.kn : `${opt.en}`}</span>
+                  <span>{lang === 'en' ? opt.en : opt.kn}</span>
                 </label>
               ))}
             </div>
@@ -1420,82 +1650,147 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 );
               })}
             </div>
+            {formData.meat_types.includes('Other') && (
+              <div className="animate-fade-in" style={{ marginTop: '0.75rem' }}>
+                <input
+                  type="text"
+                  name="meat_types_other"
+                  value={formData.meat_types_other || ''}
+                  onChange={handleChange}
+                  placeholder={lang === 'kn' ? 'ಇತರ ಮಾಂಸದ ವಿಧಗಳನ್ನು ನಮೂದಿಸಿ...' : 'Specify other meat types...'}
+                  className="form-input"
+                />
+              </div>
+            )}
           </div>
 
-          {/* Q24: Processed Meat Products */}
-          <div className="form-group" style={{ marginBottom: '1.5rem', background: 'var(--bg-card-subtle)', padding: '1.25rem', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
-            <label className="form-label" style={{ marginBottom: '0.75rem', fontWeight: '700' }}>
-              {t.q24}
-            </label>
-            
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem' }}>
-              {/* Dropdown 1: Weekly Volume */}
-              <div>
-                <label className="form-label" style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '0.35rem' }}>
-                  {t.q24Volume}
-                </label>
-                <select
-                  name="processed_meat_volume"
-                  value={formData.processed_meat_volume}
-                  onChange={handleChange}
-                  className="form-select"
-                  style={{ fontSize: '0.92rem' }}
-                >
-                  {PROCESSED_VOLUME_OPTIONS.map(v => (
-                    <option key={v} value={v}>{v}</option>
-                  ))}
-                </select>
+          {/* Q24: Processed Meat Products with Individual Volumes */}
+          <div className="form-group" style={{ marginBottom: '1.5rem', background: 'var(--bg-card-subtle)', padding: '1.35rem', borderRadius: '14px', border: '1px solid var(--border-color)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.85rem' }}>
+              <label className="form-label" style={{ fontWeight: '700', margin: 0 }}>
+                {t.q24}
+              </label>
 
-                {formData.processed_meat_volume === 'Other' && (
-                  <div className="animate-fade-in" style={{ marginTop: '0.65rem' }}>
-                    <input
-                      type="text"
-                      name="processed_meat_volume_other"
-                      value={formData.processed_meat_volume_other || ''}
-                      onChange={handleChange}
-                      placeholder={lang === 'kn' ? 'ಉದಾಹರಣೆಗೆ: 15 ಕೆಜಿ ಅಥವಾ 25 ಕೆಜಿ' : 'e.g. 15 Kg or 25 Kg'}
-                      className="form-input"
-                     
-                    />
-                  </div>
-                )}
-              </div>
-
-              {/* Dropdown 2: Product Variety */}
-              <div>
-                <label className="form-label" style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '0.35rem' }}>
-                  {t.q24Varieties}
-                </label>
-                <select
-                  name="processed_meat_product"
-                  value={Array.isArray(formData.processed_meat_products) ? (formData.processed_meat_products[0] || 'Ham') : formData.processed_meat_products}
-                  onChange={(e) => {
-                    const val = e.target.value;
-                    setFormData(prev => ({ ...prev, processed_meat_products: [val] }));
-                  }}
-                  className="form-select"
-                  style={{ fontSize: '0.92rem' }}
-                >
-                  {PROCESSED_PRODUCT_TYPES.map(p => (
-                    <option key={p} value={p}>{p}</option>
-                  ))}
-                </select>
-
-                {(Array.isArray(formData.processed_meat_products) ? formData.processed_meat_products.includes('Others') : formData.processed_meat_products === 'Others') && (
-                  <div className="animate-fade-in" style={{ marginTop: '0.65rem' }}>
-                    <input
-                      type="text"
-                      name="processed_meat_other"
-                      value={formData.processed_meat_other || ''}
-                      onChange={handleChange}
-                      placeholder={lang === 'kn' ? 'ಇತರ ಸಂಸ್ಕರಿಸಿದ ಮಾಂಸದ ವಿಧ ನಮೂದಿಸಿ...' : 'Specify other processed meat product...'}
-                      className="form-input"
-                     
-                    />
-                  </div>
-                )}
-              </div>
+              {/* "None" Master Toggle */}
+              <label style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.45rem',
+                cursor: 'pointer',
+                padding: '0.4rem 0.8rem',
+                borderRadius: '8px',
+                background: formData.processed_meat_none ? 'rgba(239, 68, 68, 0.12)' : 'var(--bg-card)',
+                border: formData.processed_meat_none ? '1px solid #ef4444' : '1px solid var(--border-color)',
+                fontSize: '0.85rem',
+                fontWeight: '600',
+                color: formData.processed_meat_none ? '#ef4444' : 'var(--text-muted)'
+              }}>
+                <input
+                  type="checkbox"
+                  checked={Boolean(formData.processed_meat_none)}
+                  onChange={handleToggleProcessedNone}
+                  style={{ accentColor: '#ef4444' }}
+                />
+                <span>{t.q24None}</span>
+              </label>
             </div>
+
+            {!formData.processed_meat_none ? (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '0.2rem' }}>
+                  {lang === 'kn' ? 'ಲಭ್ಯವಿರುವ ವಿಧಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಿ ಮತ್ತು ಪ್ರತಿಯೊಂದಕ್ಕೂ ವಾರದ ಪ್ರಮಾಣವನ್ನು ನಮೂದಿಸಿ:' : 'Select varieties available in shop and specify weekly consumption volume for each:'}
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '0.75rem' }}>
+                  {PROCESSED_PRODUCT_TYPES.map(prod => {
+                    const isChecked = (formData.processed_meat_varieties || []).includes(prod.id);
+                    const selectedVolume = (formData.processed_meat_volumes && formData.processed_meat_volumes[prod.id]) || '<1 Kg';
+                    const customVol = (formData.processed_meat_volume_custom && formData.processed_meat_volume_custom[prod.id]) || '';
+
+                    return (
+                      <div
+                        key={prod.id}
+                        style={{
+                          padding: '0.85rem 1rem',
+                          borderRadius: '10px',
+                          background: isChecked ? 'rgba(217, 119, 6, 0.08)' : 'var(--bg-card)',
+                          border: isChecked ? '1.5px solid #d97706' : '1px solid var(--border-color)',
+                          transition: 'all 0.2s ease',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: '0.6rem'
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
+                          <label style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', cursor: 'pointer', flex: 1 }}>
+                            <input
+                              type="checkbox"
+                              checked={isChecked}
+                              onChange={() => handleToggleProcessedVariety(prod.id)}
+                              style={{ accentColor: '#d97706', width: '16px', height: '16px' }}
+                            />
+                            <div style={{ fontWeight: isChecked ? '700' : '500', color: 'var(--text-main)', fontSize: '0.92rem' }}>
+                              {lang === 'en' ? prod.en : lang === 'kn' ? prod.kn : `${prod.en} (${prod.kn})`}
+                            </div>
+                          </label>
+                        </div>
+
+                        {/* Individual Volume Selector for this Variety */}
+                        {isChecked && (
+                          <div className="animate-fade-in" style={{ paddingLeft: '1.6rem', display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
+                            {prod.id === 'Other' && (
+                              <input
+                                type="text"
+                                name="processed_meat_other_name"
+                                value={formData.processed_meat_other_name || ''}
+                                onChange={handleChange}
+                                placeholder={lang === 'kn' ? 'ಇತರ ಉತ್ಪನ್ನದ ಹೆಸರು ನಮೂದಿಸಿ...' : 'Enter custom product name (e.g. Jerky, Ribs)...'}
+                                className="form-input"
+                                style={{ fontSize: '0.85rem', padding: '0.45rem 0.75rem', marginBottom: '0.2rem' }}
+                              />
+                            )}
+
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                              <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: '600' }}>
+                                {t.q24Volume}
+                              </span>
+                              <select
+                                value={selectedVolume}
+                                onChange={(e) => handleProcessedVolumeChange(prod.id, e.target.value)}
+                                className="form-select"
+                                style={{ fontSize: '0.85rem', padding: '0.4rem 0.65rem', minWidth: '110px', flex: '0 0 auto' }}
+                              >
+                                {PROCESSED_VOLUME_OPTIONS.map(vol => (
+                                  <option key={vol} value={vol}>{vol}</option>
+                                ))}
+                              </select>
+
+                              {selectedVolume === 'Other' && (
+                                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                                  <input
+                                    type="text"
+                                    value={customVol}
+                                    onChange={(e) => handleProcessedCustomVolumeChange(prod.id, e.target.value)}
+                                    placeholder="e.g. 15"
+                                    className="form-input"
+                                    style={{ width: '80px', fontSize: '0.85rem', padding: '0.4rem 0.6rem' }}
+                                  />
+                                  <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: '600' }}>Kg</span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : (
+              <div style={{ textAlign: 'center', padding: '1rem', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+                ✓ {lang === 'kn' ? 'ಸಂಸ್ಕರಿಸಿದ ಮಾಂಸ ಉತ್ಪನ್ನಗಳನ್ನು ಮಾರಾಟ ಮಾಡುವುದಿಲ್ಲ ಎಂದು ಗುರುತಿಸಲಾಗಿದೆ.' : 'Marked as: No processed meat products sold.'}
+              </div>
+            )}
           </div>
 
           <div className="form-group" style={{ margin: 0 }}>
@@ -1517,7 +1812,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           </div>
         </div>
 
-        {/* SECTION 7: Sales Seasons, Meat Cuts, Unsold Meat & Storage */}
+        {/* SECTION 7: Meat Cuts, Unsold Meat & Storage */}
         <div className="glass-card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
             <ShoppingBag size={20} color="#d97706" />
@@ -1527,33 +1822,10 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
             </div>
           </div>
 
-          {/* Peak Sales Seasons */}
-          <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-            <label className="form-label" style={{ marginBottom: '0.6rem' }}>
-              {t.q26}
-            </label>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '0.6rem' }}>
-              {PEAK_SEASON_OPTIONS.map(opt => {
-                const isSelected = formData.peak_sales_seasons.includes(opt.id);
-                return (
-                  <label key={opt.id} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.6rem 0.85rem', borderRadius: '10px', background: isSelected ? 'rgba(225,29,72,0.1)' : 'var(--bg-card-subtle)', border: isSelected ? '1px solid #d97706' : '1px solid var(--border-color)', cursor: 'pointer', transition: 'all 0.15s' }}>
-                    <input type="checkbox" checked={isSelected} onChange={() => handleMultiToggle('peak_sales_seasons', opt.id)} style={{ accentColor: '#d97706' }} />
-                    <span style={{ fontSize: '0.88rem' }}>{lang === 'en' ? opt.en : lang === 'kn' ? opt.kn : opt.en}</span>
-                  </label>
-                );
-              })}
-            </div>
-            {formData.peak_sales_seasons.includes('Other') && (
-              <div className="animate-fade-in" style={{ marginTop: '0.75rem' }}>
-                <input type="text" name="peak_sales_seasons_other" value={formData.peak_sales_seasons_other || ''} onChange={handleChange} placeholder={t.peakSeasonOtherPlaceholder} className="form-input" />
-              </div>
-            )}
-          </div>
-
           {/* Meat Cuts Sold Most */}
           <div className="form-group" style={{ marginBottom: '1.5rem' }}>
             <label className="form-label" style={{ marginBottom: '0.6rem' }}>
-              {t.q27}
+              {t.q26}
             </label>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '0.6rem' }}>
               {MEAT_CUTS_OPTIONS.map(opt => {
@@ -1576,7 +1848,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           {/* Unsold Meat Handling */}
           <div className="form-group" style={{ marginBottom: '1.5rem' }}>
             <label className="form-label" style={{ marginBottom: '0.6rem' }}>
-              {t.q28}
+              {t.q27}
             </label>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '0.6rem' }}>
               {UNSOLD_MEAT_OPTIONS.map(opt => {
@@ -1599,7 +1871,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           {/* Storage Capacity */}
           <div className="form-group" style={{ marginBottom: 0 }}>
             <label className="form-label" style={{ marginBottom: '0.5rem' }}>
-              {t.q29}
+              {t.q28}
             </label>
             <select
               name="storage_capacity"
@@ -1629,7 +1901,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
           {/* Procurement Source – Multi-select */}
           <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-            <label className="form-label" style={{ marginBottom: '0.6rem' }}>{t.q30}</label>
+            <label className="form-label" style={{ marginBottom: '0.6rem' }}>{t.q29}</label>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: '0.6rem' }}>
               {PROCUREMENT_SOURCE_OPTIONS.map(opt => {
                 const isSelected = formData.procurement_sources.includes(opt.id);
@@ -1651,7 +1923,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           {/* Procurement Frequency & Quantity in 2-column grid */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
             <div className="form-group">
-              <label className="form-label" style={{ marginBottom: '0.5rem' }}>{t.q31}</label>
+              <label className="form-label" style={{ marginBottom: '0.5rem' }}>{t.q30}</label>
               <select name="procurement_frequency" value={formData.procurement_frequency} onChange={handleChange} className="form-select">
                 <option value="">{lang === 'kn' ? 'ಆಯ್ಕೆ ಮಾಡಿ...' : 'Select frequency...'}</option>
                 {PROCUREMENT_FREQUENCY_OPTIONS.map(opt => (
@@ -1666,7 +1938,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
             </div>
 
             <div className="form-group">
-              <label className="form-label" style={{ marginBottom: '0.5rem' }}>{t.q32}</label>
+              <label className="form-label" style={{ marginBottom: '0.5rem' }}>{t.q31}</label>
               <select name="procurement_quantity" value={formData.procurement_quantity} onChange={handleChange} className="form-select">
                 <option value="">{lang === 'kn' ? 'ಆಯ್ಕೆ ಮಾಡಿ...' : 'Select quantity...'}</option>
                 {PROCUREMENT_QUANTITY_OPTIONS.map(opt => (
@@ -1695,7 +1967,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           {/* STEP 1: Are masalas sold? (Yes / No) */}
           <div className="form-group" style={{ marginBottom: formData.has_masalas === 'Yes' ? '1.25rem' : '0' }}>
             <label className="form-label" style={{ marginBottom: '0.5rem' }}>
-              {t.q33}
+              {t.q32}
             </label>
             <div style={{ display: 'flex', gap: '1.5rem', marginTop: '0.4rem' }}>
               {['Yes', 'No'].map(val => (
@@ -1733,7 +2005,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
               margin: 0
             }}>
               <label className="form-label" style={{ marginBottom: '0.5rem' }}>
-                {t.q33Brand}
+                {t.q32Brand}
               </label>
               <select
                 name="masalas_available"
@@ -1801,7 +2073,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginBottom: formData.bbmp_license_issues === 'Yes' ? '1.25rem' : '0' }}>
             <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label">
-                {t.q34}
+                {t.q33}
               </label>
               <div style={{ display: 'flex', gap: '1rem', marginTop: '0.4rem' }}>
                 {['Yes', 'No'].map(val => (
@@ -1822,7 +2094,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
             <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label">
-                {t.q35}
+                {t.q34}
               </label>
               <div style={{ display: 'flex', gap: '1rem', marginTop: '0.4rem' }}>
                 {['Yes', 'No'].map(val => (
@@ -1845,7 +2117,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           {formData.bbmp_license_issues === 'Yes' && (
             <div className="form-group animate-fade-in" style={{ marginTop: '1.25rem', marginBottom: 0 }}>
               <label className="form-label">
-                {t.q36}
+                {t.q35}
               </label>
               <textarea
                 name="bbmp_issue_reasons"
@@ -1872,7 +2144,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginBottom: formData.fssai_license_issues === 'Yes' ? '1.25rem' : '0' }}>
             <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label">
-                {t.q37}
+                {t.q36}
               </label>
               <div style={{ display: 'flex', gap: '1rem', marginTop: '0.4rem' }}>
                 {['Yes', 'No'].map(val => (
@@ -1893,7 +2165,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
             <div className="form-group" style={{ margin: 0 }}>
               <label className="form-label">
-                {t.q38}
+                {t.q37}
               </label>
               <div style={{ display: 'flex', gap: '1rem', marginTop: '0.4rem' }}>
                 {['Yes', 'No'].map(val => (
@@ -1916,7 +2188,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           {formData.fssai_license_issues === 'Yes' && (
             <div className="form-group animate-fade-in" style={{ marginTop: '1.25rem', marginBottom: 0 }}>
               <label className="form-label">
-                {t.q39}
+                {t.q38}
               </label>
               <textarea
                 name="fssai_issue_reasons"
@@ -1942,7 +2214,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
           {/* Billing */}
           <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-            <label className="form-label" style={{ marginBottom: '0.6rem' }}>{t.q40}</label>
+            <label className="form-label" style={{ marginBottom: '0.6rem' }}>{t.q39}</label>
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
               {BILLING_OPTIONS.map(opt => (
                 <label key={opt.id} style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', cursor: 'pointer', padding: '0.5rem 0.85rem', borderRadius: '8px', background: formData.provides_billing === opt.id ? 'rgba(217,119,6,0.13)' : 'var(--bg-card-subtle)', border: formData.provides_billing === opt.id ? '1px solid #d97706' : '1px solid var(--border-color)', color: 'var(--text-main)', fontWeight: '500', transition: 'all 0.15s', fontSize: '0.88rem' }}>
@@ -1955,7 +2227,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
           {/* Business Challenges */}
           <div className="form-group" style={{ marginBottom: formData.has_challenges === 'Yes' ? '1.25rem' : '0' }}>
-            <label className="form-label" style={{ marginBottom: '0.5rem' }}>{t.q41}</label>
+            <label className="form-label" style={{ marginBottom: '0.5rem' }}>{t.q40}</label>
             <div style={{ display: 'flex', gap: '1.5rem', marginTop: '0.4rem' }}>
               {['Yes', 'No'].map(val => (
                 <label key={val} style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', cursor: 'pointer', padding: '0.5rem 0.85rem', borderRadius: '8px', background: formData.has_challenges === val ? (val === 'Yes' ? 'rgba(225,29,72,0.1)' : 'rgba(16,185,129,0.1)') : 'var(--bg-card-subtle)', border: formData.has_challenges === val ? (val === 'Yes' ? '1px solid #d97706' : '1px solid #10b981') : '1px solid var(--border-color)', color: 'var(--text-main)', fontWeight: '500', transition: 'all 0.15s' }}>
@@ -1968,7 +2240,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
           {formData.has_challenges === 'Yes' && (
             <div className="form-group animate-fade-in" style={{ background: 'var(--bg-card-subtle)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '1.15rem', marginTop: '0.5rem' }}>
-              <label className="form-label" style={{ marginBottom: '0.6rem' }}>{t.q42}</label>
+              <label className="form-label" style={{ marginBottom: '0.6rem' }}>{t.q41}</label>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(270px, 1fr))', gap: '0.6rem' }}>
                 {BUSINESS_CHALLENGE_OPTIONS.map(opt => {
                   const isSelected = formData.business_challenges.includes(opt.id);
@@ -2002,7 +2274,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           {/* Does the shopkeeper want training? */}
           <div className="form-group" style={{ marginBottom: '1.25rem' }}>
             <label className="form-label" style={{ marginBottom: '0.5rem' }}>
-              {t.q43}
+              {t.q42}
             </label>
             <div style={{ display: 'flex', gap: '1.5rem', marginTop: '0.4rem' }}>
               {['Yes', 'No'].map(val => (
@@ -2025,7 +2297,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           {formData.wants_training === 'Yes' && (
             <div className="form-group animate-fade-in" style={{ background: 'var(--bg-card-subtle)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '1.15rem' }}>
               <label className="form-label" style={{ marginBottom: '0.6rem' }}>
-                {t.q44}
+                {t.q43}
               </label>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '0.6rem' }}>
                 {TRAINING_SKILL_OPTIONS.map(opt => {
@@ -2059,7 +2331,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
           <div className="form-group" style={{ marginBottom: '1.5rem' }}>
             <label className="form-label">
-              {t.q45}
+              {t.q44}
             </label>
 
             <div style={{
@@ -2099,7 +2371,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                   borderRadius: '10px', fontWeight: '600', fontSize: '0.85rem',
                   color: '#d97706', transition: 'all 0.2s'
                 }}>
-                  📁 {t.q45UploadHint}
+                  📁 {t.q44UploadHint}
                 </label>
                 <button
                   type="button"
@@ -2126,12 +2398,12 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                     color: '#10b981', transition: 'all 0.2s'
                   }}
                 >
-                  📷 {t.q45CameraBtn}
+                  📷 {t.q44CameraBtn}
                 </button>
               </div>
 
               <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.75rem' }}>
-                {t.q45UploadSub}
+                {t.q44UploadSub}
               </div>
             </div>
 
@@ -2169,7 +2441,7 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
           <div className="form-group">
             <label className="form-label">
-              {t.q46}
+              {t.q45}
             </label>
             
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
@@ -2192,11 +2464,11 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 style={{ whiteSpace: 'nowrap', borderColor: '#d97706' }}
               >
                 <Navigation size={16} color="#d97706" />
-                <span>{isLocating ? t.q46Locating : t.q46GpsBtn}</span>
+                <span>{isLocating ? t.q45Locating : t.q45GpsBtn}</span>
               </button>
             </div>
             <small style={{ color: 'var(--text-muted)', fontSize: '0.78rem', marginTop: '0.35rem', display: 'block' }}>
-              {t.q46Hint}
+              {t.q45Hint}
             </small>
           </div>
         </div>

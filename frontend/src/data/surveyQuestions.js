@@ -67,22 +67,20 @@ export const PEAK_DAY_OPTIONS = [
 export const MEAT_TYPES_OPTIONS = [
   { id: 'Fresh meat (Pork)', en: 'Fresh meat (Pork)', kn: 'ತಾಜಾ ಮಾಂಸ (ಹಂದಿ)' },
   { id: 'Processed meat products (Pork)', en: 'Processed meat products (Pork)', kn: 'ಸಂಸ್ಕರಿಸಿದ ಮಾಂಸ ಉತ್ಪನ್ನಗಳು' },
-  { id: 'Whole pig', en: 'Whole pig', kn: 'ಸಂಪೂರ್ಣ ಹಂದಿ' },
-  { id: 'Both fresh meat, processed meat products and whole pig (Pork)', en: 'Both fresh meat, processed meat products and whole pig (Pork)', kn: 'ತಾಜಾ ಮಾಂಸ, ಸಂಸ್ಕರಿಸಿದ ಉತ್ಪನ್ನಗಳು ಮತ್ತು ಸಂಪೂರ್ಣ ಹಂದಿ' },
-  { id: 'Other', en: 'Other', kn: 'ಇತರ' }
+  { id: 'Whole live pig', en: 'Whole live pig', kn: 'ಸಂಪೂರ್ಣ ಜೀವಂತ ಹಂದಿ (Whole live pig)' },
+  { id: 'All (Fresh meat, processed meat products and whole live pig)', en: 'All (Fresh meat, processed meat products & whole live pig)', kn: 'ಎಲ್ಲವೂ (ತಾಜಾ ಮಾಂಸ, ಸಂಸ್ಕರಿಸಿದ ಉತ್ಪನ್ನಗಳು ಮತ್ತು ಜೀವಂತ ಹಂದಿ)' },
+  { id: 'Other', en: 'Other', kn: 'ಇತರೆ (Other)' }
 ];
 
 export const PROCESSED_VOLUME_OPTIONS = ['<1 Kg', '<3 Kg', '<5 Kg', '>5 Kg', '>10 Kg', 'Other'];
 
 export const PROCESSED_PRODUCT_TYPES = [
-  'Ham',
-  'Bacon',
-  'Salami',
-  'Pepperoni',
-  'Sausage',
-  'Ham & Bacon',
-  'All Varieties (Ham, Bacon, Salami, Pepperoni, Sausage)',
-  'Others'
+  { id: 'Ham', en: 'Ham', kn: 'ಹ್ಯಾಮ್' },
+  { id: 'Bacon', en: 'Bacon', kn: 'ಬೇಕನ್' },
+  { id: 'Salami', en: 'Salami', kn: 'ಸಲಾಮಿ' },
+  { id: 'Pepperoni', en: 'Pepperoni', kn: 'ಪೆಪ್ಪೆರೋನಿ' },
+  { id: 'Sausage', en: 'Sausage', kn: 'ಸಾಸೇಜ್' },
+  { id: 'Other', en: 'Other', kn: 'ಇತರೆ' }
 ];
 
 export const CUSTOMER_TYPE_OPTIONS = [
@@ -126,21 +124,65 @@ export const TRAINING_SKILL_OPTIONS = [
   { id: 'Other', en: 'Other', kn: 'ಇತರ' }
 ];
 
+export const COMMUNITY_OPTIONS = [
+  { id: "Handi Jogi's", en: "Handi Jogi's", kn: 'ಹಂದಿ ಜೋಗಿಗಳು' },
+  { id: 'Christian', en: 'Christian', kn: 'ಕ್ರೈಸ್ತರು' },
+  { id: "Gouda's", en: "Gouda's", kn: 'ಗೌಡರು' },
+  { id: "Tamilian's", en: "Tamilian's", kn: 'ತಮಿಳರು' },
+  { id: "Reddy's", en: "Reddy's", kn: 'ರೆಡ್ಡಿಗಳು' },
+  { id: 'Others', en: 'Others', kn: 'ಇತರರು' }
+];
+
+export const HANDI_JOGI_AREA_OPTIONS = [
+  { id: 'Anekal', en: 'Anekal', kn: 'ಆನೇಕಲ್' },
+  { id: 'Bannerghatta', en: 'Bannerghatta', kn: 'ಬನ್ನೇರುಘಟ್ಟ' },
+  { id: 'Bapuji Nagar', en: 'Bapuji Nagar', kn: 'ಬಾಪೂಜಿ ನಗರ' },
+  { id: 'Basanapura', en: 'Basanapura', kn: 'ಬಸನಪುರ' },
+  { id: 'Bidadi', en: 'Bidadi', kn: 'ಬಿಡದಿ' },
+  { id: 'Bidadi - Byramangala', en: 'Bidadi - Byramangala', kn: 'ಬಿಡದಿ - ಬೈರಮಂಗಲ' },
+  { id: 'Bidadi - Chatra', en: 'Bidadi - Chatra', kn: 'ಬಿಡದಿ - ಚತ್ರ' },
+  { id: 'Bileshivale', en: 'Bileshivale', kn: 'ಬಿಳೇಶಿವಾಲೆ' },
+  { id: 'Chandapura', en: 'Chandapura', kn: 'ಚಂದಾಪುರ' },
+  { id: 'Devanahalli', en: 'Devanahalli', kn: 'ದೇವನಹಳ್ಳಿ' },
+  { id: 'Doddaballapura', en: 'Doddaballapura', kn: 'ದೊಡ್ಡಬಳ್ಳಾಪುರ' },
+  { id: 'Gunjur', en: 'Gunjur', kn: 'ಗುಂಜೂರು' },
+  { id: 'Halasuru', en: 'Halasuru', kn: 'ಹಲಸೂರು' },
+  { id: 'Hebbal', en: 'Hebbal', kn: 'ಹೆಬ್ಬಾಳ' },
+  { id: 'Hoodi', en: 'Hoodi', kn: 'ಹೂಡಿ' },
+  { id: 'Hoskote', en: 'Hoskote', kn: 'ಹೊಸಕೋಟೆ' },
+  { id: 'Hosur (Tamil Nadu)', en: 'Hosur (Tamil Nadu)', kn: 'ಹೊಸೂರು - ತಮಿಳುನಾಡು' },
+  { id: 'Huskur', en: 'Huskur', kn: 'ಹುಸ್ಕೂರು' },
+  { id: 'Jayanagar', en: 'Jayanagar', kn: 'ಜಯನಗರ' },
+  { id: 'Jigani', en: 'Jigani', kn: 'ಜಿಗಣಿ' },
+  { id: 'Kammanahalli', en: 'Kammanahalli', kn: 'ಕಮ್ಮನಹಳ್ಳಿ' },
+  { id: 'Kengeri', en: 'Kengeri', kn: 'ಕೆಂಗೇರಿ' },
+  { id: 'Madapatna', en: 'Madapatna', kn: 'ಮಾದಾಪಟ್ಟಣ' },
+  { id: 'Madiwala Check Post', en: 'Madiwala Check Post', kn: 'ಮಾದಿವಾಳ ಚೆಕ್ ಪೋಸ್ಟ್' },
+  { id: 'Malur', en: 'Malur', kn: 'ಮಾಲೂರು' },
+  { id: 'Nagawara', en: 'Nagawara', kn: 'ನಾಗವಾರ' },
+  { id: 'Neleri', en: 'Neleri', kn: 'ನೆಲೇರಿ' },
+  { id: 'R.T. Nagar', en: 'R.T. Nagar', kn: 'ಆರ್.ಟಿ. ನಗರ' },
+  { id: 'Vijayanagar', en: 'Vijayanagar', kn: 'ವಿಜಯನಗರ' },
+  { id: 'Vijayapura', en: 'Vijayapura', kn: 'ವಿಜಯಪುರ' },
+  { id: 'Yelahanka', en: 'Yelahanka', kn: 'ಯಲಹಂಕ' },
+  { id: 'Yeshwanthpur', en: 'Yeshwanthpur', kn: 'ಯಶವಂತಪುರ' },
+  { id: 'Others', en: 'Others', kn: 'ಇತರರು' }
+];
+
 export const SHOP_OWNERSHIP_OPTIONS = [
-  { id: 'Family-owned', en: 'Family-owned', kn: 'ಕುಟುಂಬದ ಸ್ವಂತ ಅಂಗಡಿ (Family-owned)' },
-  { id: 'Rented', en: 'Rented', kn: 'ಬಾಡಿಗೆ ಅಂಗಡಿ (Rented)' },
-  { id: 'Other', en: 'Other', kn: 'ಇತರ (Other)' }
+  { id: 'Own shop', en: 'Own shop', kn: 'ಸ್ವಂತ ಅಂಗಡಿ (Own shop)' },
+  { id: 'Rent-shop', en: 'Rent-shop', kn: 'ಬಾಡಿಗೆ ಅಂಗಡಿ (Rent-shop)' },
+  { id: 'Lease', en: 'Lease', kn: 'ಲೀಸ್ / ಗುತ್ತಿಗೆ (Lease)' },
+  { id: 'Other', en: 'Other', kn: 'ಇತರೆ (Other)' }
 ];
 
 export const UNSOLD_MEAT_OPTIONS = [
-  { id: 'Refrigerated storage', en: 'Refrigerated storage', kn: 'ರೆಫ್ರಿಜರೇಟರ್ ಶೇಖರಣೆ (Fridge)' },
-  { id: 'Freezer storage', en: 'Freezer storage', kn: 'ಫ್ರೀಜರ್ ಶೇಖರಣೆ (Freezer)' },
-  { id: 'Deep freezer', en: 'Deep freezer', kn: 'ಡೀಪ್ ಫ್ರೀಜರ್ (Deep Freezer)' },
-  { id: 'Sold at a discounted price', en: 'Sold at a discounted price', kn: 'ರಿಯಾಯಿತಿ ದರದಲ್ಲಿ ಮಾರಾಟ (Discount)' },
-  { id: 'Processed into other meat products', en: 'Processed into other meat products', kn: 'ಇತರ ಮಾಂಸ ಉತ್ಪನ್ನಗಳಾಗಿ ಸಂಸ್ಕರಣೆ' },
-  { id: 'Returned to supplier', en: 'Returned to supplier', kn: 'ಸರಬರಾಜುದಾರರಿಗೆ ಹಿಂತಿರುಗಿಸುವುದು' },
-  { id: 'Used for personal/family consumption', en: 'Used for personal/family consumption', kn: 'ಸ್ವಂತ / ಕುಟುಂಬದ ಬಳಕೆಗೆ' },
-  { id: 'Disposed of', en: 'Disposed of', kn: 'ವಿಲೇವಾರಿ ಮಾಡಲಾಗುತ್ತದೆ (Disposed)' },
+  { id: 'Returned to the wholesale dealer', en: 'Returned to the wholesale dealer', kn: 'ಸಗಟು ವ್ಯಾಪಾರಿಗೆ ಹಿಂತಿರುಗಿಸಲಾಗುತ್ತದೆ (Wholesale dealer)' },
+  { id: 'Stored in a refrigerator/freezer', en: 'Stored in a refrigerator/freezer', kn: 'ರೆಫ್ರಿಜರೇಟರ್ / ಫ್ರೀಜರ್‌ನಲ್ಲಿ ಶೇಖರಿಸಲಾಗುತ್ತದೆ (Fridge/Freezer)' },
+  { id: 'Sold at a discounted price', en: 'Sold at a discounted price', kn: 'ರಿಯಾಯಿತಿ ದರದಲ್ಲಿ ಮಾರಾಟ (Discounted price)' },
+  { id: 'Processed into other meat products', en: 'Processed into other meat products', kn: 'ಇತರ ಮಾಂಸ ಉತ್ಪನ್ನಗಳಾಗಿ ಸಂಸ್ಕರಣೆ ಮಾಡಲಾಗುತ್ತದೆ' },
+  { id: 'Disposed of', en: 'Disposed of', kn: 'ವಿಲೇವಾರಿ ಮಾಡಲಾಗುತ್ತದೆ (Disposed of)' },
+  { id: 'Supplied to hotels', en: 'Supplied to hotels', kn: 'ಹೋಟೆಲ್‌ಗಳಿಗೆ ಸರಬರಾಜು ಮಾಡಲಾಗುತ್ತದೆ (Supplied to hotels)' },
   { id: 'Other', en: 'Other', kn: 'ಇತರ ವಿಧಾನ' }
 ];
 
@@ -152,17 +194,6 @@ export const STORAGE_CAPACITY_OPTIONS = [
   { id: '101–250 kg', en: '101–250 kg', kn: '101–250 ಕೆಜಿ' },
   { id: 'More than 250 kg', en: 'More than 250 kg', kn: '250 ಕೆಜಿಗಿಂತ ಹೆಚ್ಚು (> 250 kg)' },
   { id: 'No storage facility', en: 'No storage facility', kn: 'ಯಾವುದೇ ಶೇಖರಣಾ ಸೌಲಭ್ಯವಿಲ್ಲ (No storage)' }
-];
-
-export const PEAK_SEASON_OPTIONS = [
-  { id: 'Summer', en: 'Summer', kn: 'ಬೇಸಿಗೆ ಕಾಲ (Summer)' },
-  { id: 'Monsoon / Rainy Season', en: 'Monsoon / Rainy Season', kn: 'ಮಳೆಗಾಲ (Monsoon / Rainy)' },
-  { id: 'Winter', en: 'Winter', kn: 'ಚಳಿಗಾಲ (Winter)' },
-  { id: 'Festival Season', en: 'Festival Season', kn: 'ಹಬ್ಬದ ಸಮಯ (Festival Season)' },
-  { id: 'Wedding Season', en: 'Wedding Season', kn: 'ಮದುವೆ ಸಮಾರಂಭಗಳ ಕಾಲ (Wedding Season)' },
-  { id: 'Holiday / Vacation Period', en: 'Holiday / Vacation Period', kn: 'ರಜಾ ದಿನಗಳು (Holiday / Vacation)' },
-  { id: 'Sales remain consistent throughout the year', en: 'Sales remain consistent throughout the year', kn: 'ವರ್ಷಪೂರ್ತಿ ಸ್ಥಿರ ಮಾರಾಟ (Consistent all year)' },
-  { id: 'Other', en: 'Other', kn: 'ಇತರ ಕಾಲ' }
 ];
 
 export const MEAT_CUTS_OPTIONS = [
@@ -178,6 +209,7 @@ export const MEAT_CUTS_OPTIONS = [
   { id: 'Liver', en: 'Liver', kn: 'ಲಿವರ್ / ಯಕೃತ್ತು (Liver)' },
   { id: 'Heart', en: 'Heart', kn: 'ಗುಂಡಿಗೆ / ಹೃದಯ (Heart)' },
   { id: 'Kidney', en: 'Kidney', kn: 'ಮೂತ್ರಪಿಂಡ / ಕಿಡ್ನಿ (Kidney)' },
+  { id: 'No idea', en: 'No idea', kn: 'ಮಾಹಿತಿ ಇಲ್ಲ / ಗೊತ್ತಿಲ್ಲ (No idea)' },
   { id: 'Other', en: 'Other', kn: 'ಇತರ ಭಾಗಗಳು' }
 ];
 

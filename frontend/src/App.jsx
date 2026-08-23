@@ -135,7 +135,7 @@ export default function App() {
             Pork Retail Shop Outlet Survey Portal • Department of Animal Husbandry & Veterinary Services
           </div>
           <div className="kannada-text" style={{ fontSize: '0.78rem' }}>
-            ಕರ್ನಾಟಕ ಹಂದಿಮಾಂಸದ ಚಿಲ್ಲರೆ ಅಂಗಡಿಗಳ ಸಮೀಕ್ಷೆ
+            ಕರ್ನಾಟಕ ಹಂದಿಮಾಂಸದ ಮಾರಾಟ ಅಂಗಡಿಗಳ ಸಮೀಕ್ಷೆ
           </div>
         </div>
       </footer>

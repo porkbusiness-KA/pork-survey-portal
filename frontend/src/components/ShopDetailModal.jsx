@@ -266,9 +266,6 @@ export default function ShopDetailModal({ survey, onClose }) {
               {survey.shop_ownership && (
                 <div><strong style={{ color: 'var(--text-muted)' }}>Shop Ownership:</strong> <span style={{ color: 'var(--text-main)' }}>{survey.shop_ownership}{survey.shop_ownership_other ? ` – ${survey.shop_ownership_other}` : ''}</span></div>
               )}
-              {Array.isArray(survey.peak_sales_seasons) && survey.peak_sales_seasons.length > 0 && (
-                <div><strong style={{ color: 'var(--text-muted)' }}>Peak Sales Seasons:</strong> <span style={{ color: 'var(--text-main)' }}>{survey.peak_sales_seasons.join(', ')}{survey.peak_sales_seasons_other ? `, ${survey.peak_sales_seasons_other}` : ''}</span></div>
-              )}
               {Array.isArray(survey.meat_cuts_sold_most) && survey.meat_cuts_sold_most.length > 0 && (
                 <div><strong style={{ color: 'var(--text-muted)' }}>Top Selling Cuts:</strong> <span style={{ color: 'var(--text-main)' }}>{survey.meat_cuts_sold_most.join(', ')}{survey.meat_cuts_sold_most_other ? `, ${survey.meat_cuts_sold_most_other}` : ''}</span></div>
               )}

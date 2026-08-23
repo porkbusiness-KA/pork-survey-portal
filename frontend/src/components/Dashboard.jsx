@@ -54,7 +54,7 @@ export default function Dashboard({ stats, surveys, onSelectSurvey, onRefresh, o
             <span className="badge badge-emerald">Live Metrics</span>
           </div>
           <p className="kannada-text" style={{ fontSize: '0.95rem' }}>
-            ಹಂದಿಮಾಂಸದ ಚಿಲ್ಲರೆ ಮಾರಾಟ ಅಂಗಡಿಗಳ ದತ್ತಾಂಶ ವಿಶ್ಲೇಷಣೆ ಮತ್ತು ಒಳನೋಟಗಳು
+            ಹಂದಿಮಾಂಸದ ಮಾರಾಟ ಅಂಗಡಿಗಳ ದತ್ತಾಂಶ ವಿಶ್ಲೇಷಣೆ ಮತ್ತು ಒಳನೋಟಗಳು
           </p>
         </div>
 

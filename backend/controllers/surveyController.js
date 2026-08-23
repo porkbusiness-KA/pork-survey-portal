@@ -29,7 +29,6 @@ exports.createSurvey = async (req, res) => {
 
     const holidayDays = JSON.stringify(parseJSONField(body.holiday_days, []));
     const peakDays = JSON.stringify(parseJSONField(body.peak_customer_days, []));
-    const peakSeasons = JSON.stringify(parseJSONField(body.peak_sales_seasons, []));
     const meatTypes = JSON.stringify(parseJSONField(body.meat_types, []));
     const meatCuts = JSON.stringify(parseJSONField(body.meat_cuts_sold_most, []));
     const unsoldHandling = JSON.stringify(parseJSONField(body.unsold_meat_handling, []));
@@ -58,8 +57,9 @@ exports.createSurvey = async (req, res) => {
       INSERT INTO surveys (
         country, state, district, taluk, village, place, pincode, shop_name, owner_name, owner_mobile, owner_email,
         shop_ownership, shop_ownership_other, years_in_business,
+        owner_community, owner_community_other, handi_jogi_area, handi_jogi_area_other,
         opening_time, closing_time, holiday_days, workers_count, daily_customers,
-        peak_customer_days, peak_sales_seasons, peak_sales_seasons_other,
+        peak_customer_days,
         regular_meat_rate, meat_types, meat_cuts_sold_most, meat_cuts_sold_most_other, processed_meat_consumption,
         average_daily_sale_kg, unsold_meat_handling, unsold_meat_handling_other, storage_capacity,
         procurement_source, procurement_sources, procurement_sources_other,
@@ -72,7 +72,7 @@ exports.createSurvey = async (req, res) => {
         wants_training, training_skills, training_skills_other,
         cleanliness_rating, behavior_rating,
         spocs, spoc_name, spoc_mobile, location_link, latitude, longitude, shop_images
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const values = [
@@ -90,14 +90,16 @@ exports.createSurvey = async (req, res) => {
       body.shop_ownership || '',
       body.shop_ownership_other || '',
       parseInt(body.years_in_business || 0, 10),
+      body.owner_community || '',
+      body.owner_community_other || '',
+      body.handi_jogi_area || '',
+      body.handi_jogi_area_other || '',
       body.opening_time || '',
       body.closing_time || '',
       holidayDays,
       body.workers_count || '1',
       body.daily_customers || '10-20',
       peakDays,
-      peakSeasons,
-      body.peak_sales_seasons_other || '',
       parseFloat(body.regular_meat_rate || 0),
       meatTypes,
       meatCuts,
@@ -195,7 +197,6 @@ exports.getAllSurveys = async (req, res) => {
       ...r,
       holiday_days: parseJSONField(r.holiday_days, []),
       peak_customer_days: parseJSONField(r.peak_customer_days, []),
-      peak_sales_seasons: parseJSONField(r.peak_sales_seasons, []),
       meat_types: parseJSONField(r.meat_types, []),
       meat_cuts_sold_most: parseJSONField(r.meat_cuts_sold_most, []),
       unsold_meat_handling: parseJSONField(r.unsold_meat_handling, []),
@@ -238,7 +239,6 @@ exports.getSurveyById = async (req, res) => {
       ...r,
       holiday_days: parseJSONField(r.holiday_days, []),
       peak_customer_days: parseJSONField(r.peak_customer_days, []),
-      peak_sales_seasons: parseJSONField(r.peak_sales_seasons, []),
       meat_types: parseJSONField(r.meat_types, []),
       meat_cuts_sold_most: parseJSONField(r.meat_cuts_sold_most, []),
       unsold_meat_handling: parseJSONField(r.unsold_meat_handling, []),
@@ -386,8 +386,9 @@ exports.exportCSV = async (req, res) => {
     const headers = [
       'Survey ID', 'Country', 'State', 'District', 'Taluk', 'Village', 'Place', 'Pincode', 'Shop Name', 'Owner Name', 'Owner Mobile', 'Owner Email',
       'Shop Ownership', 'Ownership Details',
-      'Years in Business', 'Opening Time', 'Closing Time', 'Weekly Holidays',
-      'Workers Count', 'Daily Customers', 'Peak Days', 'Peak Seasons',
+      'Years in Business', 'Owner Community', 'Community Other', 'Handi Jogi Area', 'Handi Jogi Area Other',
+      'Opening Time', 'Closing Time', 'Weekly Holidays',
+      'Workers Count', 'Daily Customers', 'Peak Days',
       'Meat Rate (Rs/Kg)', 'Meat Types Sold', 'Top Selling Meat Cuts',
       'Processed Meat Consumption', 'Daily Sales (Kg)', 'Unsold Meat Handling', 'Storage Capacity',
       'Procurement Sources', 'Procurement Source (Old Text)', 'Procurement Frequency', 'Procurement Quantity',
@@ -426,13 +427,16 @@ exports.exportCSV = async (req, res) => {
         escapeCSV(r.shop_ownership || ''),
         escapeCSV(r.shop_ownership_other || ''),
         escapeCSV(r.years_in_business),
+        escapeCSV(r.owner_community || ''),
+        escapeCSV(r.owner_community_other || ''),
+        escapeCSV(r.handi_jogi_area || ''),
+        escapeCSV(r.handi_jogi_area_other || ''),
         escapeCSV(r.opening_time),
         escapeCSV(r.closing_time),
         escapeCSV(parseJSONField(r.holiday_days, []).join('; ')),
         escapeCSV(r.workers_count),
         escapeCSV(r.daily_customers),
         escapeCSV(parseJSONField(r.peak_customer_days, []).join('; ')),
-        escapeCSV(parseJSONField(r.peak_sales_seasons, []).join('; ')),
         escapeCSV(r.regular_meat_rate),
         escapeCSV(parseJSONField(r.meat_types, []).join('; ')),
         escapeCSV(parseJSONField(r.meat_cuts_sold_most, []).join('; ')),
