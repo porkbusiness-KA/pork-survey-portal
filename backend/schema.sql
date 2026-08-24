@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS surveys (
     closing_time VARCHAR(50) NOT NULL,
     holiday_days JSON,
     workers_count VARCHAR(50) NOT NULL,
+    workers_other VARCHAR(100) DEFAULT '',
     daily_customers VARCHAR(50),
     peak_customer_days JSON,
     regular_meat_rate DECIMAL(10, 2) NOT NULL,

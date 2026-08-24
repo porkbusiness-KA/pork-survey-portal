@@ -592,10 +592,20 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
           data.append('spoc_name', effectiveSpocName);
         } else if (key === 'spoc_mobile') {
           data.append('spoc_mobile', effectiveSpocMobile);
+        } else if (key === 'workers_count') {
+          // If "Other" selected, send the actual custom value typed by user
+          const effectiveWorkers = formData.workers_count === 'Other'
+            ? (formData.workers_other && formData.workers_other.trim() ? formData.workers_other.trim() : 'Other')
+            : formData.workers_count;
+          data.append('workers_count', effectiveWorkers);
+        } else if (key === 'workers_other') {
+          // Always send workers_other as well for reference
+          data.append('workers_other', formData.workers_other || '');
         } else {
           data.append(key, formData[key]);
         }
       });
+
 
       data.append('processed_meat_consumption', JSON.stringify(combinedProcessed));
 

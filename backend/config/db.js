@@ -142,6 +142,7 @@ async function initDatabase() {
     await addColumnIfNotExists('training_skills', "JSON");
     await addColumnIfNotExists('training_skills_other', "VARCHAR(255) DEFAULT ''");
     await addColumnIfNotExists('customer_type', "VARCHAR(100) DEFAULT 'Localities'");
+    await addColumnIfNotExists('workers_other', "VARCHAR(100) DEFAULT ''");
     await addColumnIfNotExists('sells_pork_fry', "VARCHAR(10) DEFAULT 'No'");
     await addColumnIfNotExists('pork_fry_kg', "VARCHAR(50) DEFAULT ''");
     await addColumnIfNotExists('fssai_license_issued', "VARCHAR(10) DEFAULT 'No'");

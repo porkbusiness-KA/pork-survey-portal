@@ -165,7 +165,11 @@ export default function ShopDetailModal({ survey, onClose }) {
               <Users size={16} /> Staff & Customer Footfall
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.88rem' }}>
-              <div><strong style={{ color: 'var(--text-muted)' }}>Number of Workers:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.workers_count}</span></div>
+              <div><strong style={{ color: 'var(--text-muted)' }}>Number of Workers:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>
+                {survey.workers_count === 'Other' && survey.workers_other
+                  ? survey.workers_other
+                  : survey.workers_count}
+              </span></div>
               <div><strong style={{ color: 'var(--text-muted)' }}>Daily Customer Footfall:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.daily_customers}</span></div>
               <div><strong style={{ color: 'var(--text-muted)' }}>Customer Demographics:</strong> <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{survey.customer_type}</span></div>
               <div>
