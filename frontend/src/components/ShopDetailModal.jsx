@@ -214,6 +214,12 @@ export default function ShopDetailModal({ survey, onClose }) {
                 </div>
               </div>
               <div style={{ marginTop: '0.4rem' }}>
+                <strong style={{ color: 'var(--text-muted)' }}>Sells Pork Fry & Food:</strong>{' '}
+                <span style={{ color: survey.sells_pork_fry === 'Yes' ? '#059669' : 'var(--text-main)', fontWeight: '600' }}>
+                  {survey.sells_pork_fry || 'No'}{survey.sells_pork_fry === 'Yes' && survey.pork_fry_kg ? ` (${survey.pork_fry_kg} Kg/day)` : ''}
+                </span>
+              </div>
+              <div style={{ marginTop: '0.4rem' }}>
                 <strong style={{ color: 'var(--text-muted)' }}>Processed Meat Consumption:</strong>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem', marginTop: '0.3rem' }}>
                   {processedConsumption.map((p, i) => (

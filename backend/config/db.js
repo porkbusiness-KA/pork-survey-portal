@@ -62,6 +62,8 @@ async function initDatabase() {
         procurement_quantity VARCHAR(100) DEFAULT '',
         procurement_quantity_other VARCHAR(255) DEFAULT '',
         customer_type VARCHAR(100),
+        sells_pork_fry VARCHAR(10) DEFAULT 'No',
+        pork_fry_kg VARCHAR(50) DEFAULT '',
         masalas_available JSON,
         bbmp_license_issued VARCHAR(10) DEFAULT 'No',
         bbmp_license_issues VARCHAR(10) DEFAULT 'No',
@@ -139,6 +141,9 @@ async function initDatabase() {
     await addColumnIfNotExists('wants_training', "VARCHAR(10) DEFAULT 'No'");
     await addColumnIfNotExists('training_skills', "JSON");
     await addColumnIfNotExists('training_skills_other', "VARCHAR(255) DEFAULT ''");
+    await addColumnIfNotExists('customer_type', "VARCHAR(100) DEFAULT 'Localities'");
+    await addColumnIfNotExists('sells_pork_fry', "VARCHAR(10) DEFAULT 'No'");
+    await addColumnIfNotExists('pork_fry_kg', "VARCHAR(50) DEFAULT ''");
     await addColumnIfNotExists('fssai_license_issued', "VARCHAR(10) DEFAULT 'No'");
     await addColumnIfNotExists('fssai_license_issues', "VARCHAR(10) DEFAULT 'No'");
     await addColumnIfNotExists('fssai_issue_reasons', "TEXT");

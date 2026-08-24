@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   ClipboardList, LayoutDashboard, Database, PlusCircle,
-  Sun, Moon, ShieldCheck, Globe
+  Sun, Moon, ShieldCheck, Globe, Printer
 } from 'lucide-react';
 import { TRANSLATIONS } from '../data/translations';
 
@@ -244,6 +244,25 @@ export default function Navbar({ activeTab, setActiveTab, totalCount = 0, theme 
             >
               <Database size={15} />
               <span>{t.recordsTab} <span className="badge badge-emerald" style={{ marginLeft: '4px', padding: '1px 5px', fontSize: '0.7rem' }}>{totalCount}</span></span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('print')}
+              className="btn"
+              style={{
+                padding: '0.45rem 0.9rem',
+                fontSize: '0.82rem',
+                borderRadius: '9px',
+                border: 'none',
+                background: activeTab === 'print' ? 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)' : 'transparent',
+                color: activeTab === 'print' ? '#fff' : 'var(--text-muted)',
+                boxShadow: activeTab === 'print' ? '0 4px 10px rgba(217, 119, 6, 0.25)' : 'none',
+                cursor: 'pointer',
+                whiteSpace: 'nowrap'
+              }}
+            >
+              <Printer size={15} />
+              <span>{t.physicalFormTab}</span>
             </button>
           </nav>
         </div>

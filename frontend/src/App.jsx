@@ -4,6 +4,7 @@ import SurveyForm from './components/SurveyForm';
 import Dashboard from './components/Dashboard';
 import DataTable from './components/DataTable';
 import ShopDetailModal from './components/ShopDetailModal';
+import PhysicalSurveyForm from './components/PhysicalSurveyForm';
 import { fetchSurveys, fetchSurveyStats } from './services/api';
 
 export default function App() {
@@ -84,6 +85,7 @@ export default function App() {
             onSurveySubmitted={handleSurveySubmitted}
             onSwitchToDashboard={() => setActiveTab('dashboard')}
             onSwitchToRecords={() => setActiveTab('records')}
+            onSwitchToPrint={() => setActiveTab('print')}
             lang={lang}
             onSetLang={setLang}
           />
@@ -107,6 +109,12 @@ export default function App() {
             onSurveyDeleted={handleSurveyDeleted}
             onRefresh={loadData}
             lang={lang}
+          />
+        )}
+
+        {activeTab === 'print' && (
+          <PhysicalSurveyForm
+            onBackToForm={() => setActiveTab('form')}
           />
         )}
       </main>

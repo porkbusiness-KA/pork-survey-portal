@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pork Retail Shop Physical Survey Questionnaire (ಹಂದಿ ಮಾಂಸ ಮಾರಾಟ ಸಮೀಕ್ಷಾ ನಮೂನೆ)</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 12.5px;
+      line-height: 1.45;
+      color: #000000;
+      background: #f1f5f9;
+      padding: 20px;
+    }
+    .print-container {
+      max-width: 850px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 30px 40px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    .no-print-bar {
+      max-width: 850px;
+      margin: 0 auto 15px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ffffff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+    }
+    .btn-print {
+      background: #d97706;
+      color: #ffffff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .doc-header {
+      text-align: center;
+      border-bottom: 2px solid #000000;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+    .meta-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      padding: 6px 10px;
+      margin-top: 10px;
+      font-size: 11.5px;
+      text-align: left;
+    }
+    .section-title {
+      font-size: 13px;
+      font-weight: 800;
+      background: #e2e8f0;
+      padding: 4px 8px;
+      border-left: 4px solid #000000;
+      margin: 12px 0 8px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 16px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px 10px;
+    }
+    .table-spoc {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 4px;
+      font-size: 11.5px;
+    }
+    .table-spoc th, .table-spoc td {
+      border: 1px solid #94a3b8;
+      padding: 5px 8px;
+    }
+    .table-spoc th {
+      background: #f1f5f9;
+      font-weight: bold;
+      text-align: left;
+    }
+    .sig-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 30px;
+      padding-top: 15px;
+      border-top: 1px dashed #94a3b8;
+      text-align: center;
+    }
+    .sig-line {
+      border-bottom: 1px solid #000000;
+      height: 35px;
+      margin: 0 30px 6px 30px;
+    }
+
+    @media print {
+      body {
+        background: #ffffff !important;
+        padding: 0 !important;
+      }
+      .no-print-bar {
+        display: none !important;
+      }
+      .print-container {
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        padding: 10mm 15mm !important;
+        max-width: 100% !important;
+      }
+      .section-block {
+        page-break-inside: avoid;
+      }
+      @page {
+        size: A4 portrait;
+        margin: 10mm 10mm;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- No-Print Toolbar -->
+  <div class="no-print-bar">
+    <div>
+      <strong style="font-size: 15px;">🥩 Pork Survey Physical Questionnaire</strong>
+      <div style="font-size: 12px; color: #64748b;">Ready to print or export as PDF (A4 Format)</div>
+    </div>
+    <button class="btn-print" onclick="window.print()">🖨️ Print Form / Save as PDF</button>
+  </div>
+
+  <!-- Document Sheet -->
+  <div class="print-container">
+    <div class="doc-header">
+      <div style="font-size: 11px; font-weight: bold; letter-spacing: 1px; color: #475569;">
+        DEPARTMENT OF ANIMAL HUSBANDRY & VETERINARY SERVICES / RESEARCH STUDY
+      </div>
+      <h1 style="font-size: 17px; font-weight: 900; margin: 4px 0; text-transform: uppercase;">
+        Pork Retail Shop & Business Survey Questionnaire
+      </h1>
+      <h2 style="font-size: 14px; font-weight: 700; color: #334155;">
+        ಹಂದಿ ಮಾಂಸ ಮಾರಾಟ ಮಳಿಗೆ ಮತ್ತು ವ್ಯಾಪಾರ ಸಮೀಕ್ಷಾ ನಮೂನೆ
+      </h2>
+      <div style="font-size: 11px; color: #64748b;">
+        State: Karnataka (ಕರ್ನಾಟಕ) | Focus: Bengaluru Urban, Rural, Kolar, Ramanagara
+      </div>
+
+      <div class="meta-bar">
+        <div><strong>Survey / Shop ID:</strong> _________________</div>
+        <div><strong>Survey Date (ದಿನಾಂಕ):</strong> _____ / _____ / 2026</div>
+        <div><strong>Surveyor Name (ಸಮೀಕ್ಷಕರು):</strong> _________________</div>
+      </div>
+    </div>
+
+    <!-- Section 1 -->
+    <div class="section-block">
+      <div class="section-title">1. Geographic Location Details (ಭೌಗೋಳಿಕ ವಿವರಗಳು)</div>
+      <div class="grid-2">
+        <div><strong>1. Pincode (ಪಿನ್‌ಕೋಡ್):</strong> <span style="display: inline-block; min-width: 160px; border-bottom: 1px solid #000; height: 18px;"></span></div>
+        <div><strong>2. Country (ದೇಶ):</strong> [ ✓ ] India &nbsp;&nbsp; [ &nbsp; ] Other: <span style="display: inline-block; min-width: 100px; border-bottom: 1px solid #000; height: 18px;"></span></div>
+        <div><strong>3. State (ರಾಜ್ಯ):</strong> [ ✓ ] Karnataka &nbsp;&nbsp; [ &nbsp; ] Other: <span style="display: inline-block; min-width: 100px; border-bottom: 1px solid #000; height: 18px;"></span></div>
+        <div><strong>4. District (ಜಿಲ್ಲೆ):</strong> [ ] Bengaluru Urban &nbsp; [ ] Bengaluru Rural &nbsp; [ ] Kolar &nbsp; [ ] Ramanagara &nbsp; [ ] Other: <span style="display: inline-block; min-width: 80px; border-bottom: 1px solid #000; height: 18px;"></span></div>
+        <div><strong>5. Taluk / Block (ತಾಲ್ಲೂಕು):</strong> <span style="display: inline-block; min-width: 180px; border-bottom: 1px solid #000; height: 18px;"></span></div>
+        <div><strong>6. Village / Town / Locality (ಗ್ರಾಮ / ಪಟ್ಟಣ):</strong> <span style="display: inline-block; min-width: 180px; border-bottom: 1px solid #000; height: 18px;"></span></div>
+        <div style="grid-column: span 2;">
+          <strong>7. Complete Shop Address (ಅಂಗಡಿಯ ಸಂಪೂರ್ಣ ವಿಳಾಸ):</strong><br>
+          <div style="border-bottom: 1px solid #000; height: 22px; margin-top: 2px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2 -->
+    <div class="section-block">
+      <div class="section-title">2. Shop & Owner Information (ಅಂಗಡಿ ಮತ್ತು ಮಾಲೀಕರ ವಿವರಗಳು)</div>
+      <div class="grid-2">
+        <div><strong>8. Name of Pork Shop (ಅಂಗಡಿಯ ಹೆಸರು):</strong><br><div style="border-bottom: 1px solid #000; height: 22px; margin-top: 2px;"></div></div>
+        <div><strong>9. Shop Owner Name (ಮಾಲೀಕರ ಹೆಸರು):</strong><br><div style="border-bottom: 1px solid #000; height: 22px; margin-top: 2px;"></div></div>
+        <div><strong>10. Owner Mobile (ಮೊಬೈಲ್ ಸಂಖ್ಯೆ):</strong><br><div style="border-bottom: 1px solid #000; height: 22px; margin-top: 2px; max-width: 240px;"></div></div>
+        <div><strong>11. Owner Email ID (ಇಮೇಲ್ ಐಡಿ - ಐಚ್ಛಿಕ):</strong><br><div style="border-bottom: 1px solid #000; height: 22px; margin-top: 2px;"></div></div>
+        <div><strong>12. Years in Business (ಅಂಗಡಿ ಎಷ್ಟು ವರ್ಷದಿಂದ ಇದೆ?):</strong> <span style="display: inline-block; min-width: 80px; border-bottom: 1px solid #000; height: 18px;"></span> Years (ವರ್ಷಗಳು)</div>
+        <div>
+          <strong>13. Shop Owner's Community (ಮಾಲೀಕರ ಸಮುದಾಯ):</strong><br>
+          [ &nbsp; ] Handi Jogi's (ಹಂದಿ ಜೋಗಿಗಳು) &nbsp;&nbsp; [ &nbsp; ] Christian (ಕ್ರೈಸ್ತರು)<br>
+          [ &nbsp; ] Gouda's (ಗೌಡರು) &nbsp;&nbsp; [ &nbsp; ] Tamilian's (ತಮಿಳರು)<br>
+          [ &nbsp; ] Reddy's (ರೆಡ್ಡಿಗಳು) &nbsp;&nbsp; [ &nbsp; ] Others (ಇತರರು): __________________
+        </div>
+        <div style="grid-column: span 2; padding: 6px 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; font-size: 11px;">
+          <strong>14. Area / Location (ಪ್ರದೇಶ/ಸ್ಥಳ) — <em>If Handi Jogi's selected</em>:</strong><br>
+          [ ] Anekal &nbsp; [ ] Bannerghatta &nbsp; [ ] Bapuji Nagar &nbsp; [ ] Basanapura &nbsp; [ ] Bidadi &nbsp; [ ] Bidadi-Byramangala &nbsp; [ ] Bidadi-Chatra &nbsp; [ ] Bileshivale &nbsp; [ ] Chandapura &nbsp; [ ] Devanahalli &nbsp; [ ] Doddaballapura &nbsp; [ ] Electronic City &nbsp; [ ] Goripalya &nbsp; [ ] Harohalli &nbsp; [ ] Hegganahalli &nbsp; [ ] Hoskote &nbsp; [ ] Jigani &nbsp; [ ] Kamakshipalya &nbsp; [ ] Kengeri &nbsp; [ ] KGF &nbsp; [ ] Kolar &nbsp; [ ] Magadi &nbsp; [ ] Malur &nbsp; [ ] Nelamangala &nbsp; [ ] Peenya &nbsp; [ ] Ramanagara &nbsp; [ ] Sarjapura &nbsp; [ ] Shivajinagar &nbsp; [ ] Singasandra &nbsp; [ ] Sumanahalli &nbsp; [ ] Tavarekere &nbsp; [ ] Whitefield &nbsp; [ ] Yeshwanthpur &nbsp; [ ] Other: ______
+        </div>
+        <div style="grid-column: span 2; margin-top: 4px;">
+          <strong>15. Contact Person(s) / SPOC Details & Skills (ಸಂಪರ್ಕ ವ್ಯಕ್ತಿಗಳ ವಿವರಗಳು - ಐಚ್ಛಿಕ):</strong>
+          <table class="table-spoc">
+            <thead>
+              <tr>
+                <th style="width: 35px; text-align: center;">Sl</th>
+                <th>SPOC Full Name (ಪೂರ್ಣ ಹೆಸರು)</th>
+                <th style="width: 140px;">Mobile No (ಮೊಬೈಲ್)</th>
+                <th>Role / Skills (ಪಾತ್ರ / ಕೌಶಲ್ಯಗಳು)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="text-align: center;">1</td>
+                <td></td>
+                <td></td>
+                <td>[ ] Butchery &nbsp; [ ] Sales &nbsp; [ ] Sourcing &nbsp; [ ] Other</td>
+              </tr>
+              <tr>
+                <td style="text-align: center;">2</td>
+                <td></td>
+                <td></td>
+                <td>[ ] Butchery &nbsp; [ ] Sales &nbsp; [ ] Sourcing &nbsp; [ ] Other</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3, 4, 5 -->
+    <div class="section-block">
+      <div class="section-title">3, 4 & 5. Operations, Holidays, Workers & Ownership</div>
+      <div class="grid-2">
+        <div><strong>16. Opening Time:</strong> ____:____ AM/PM</div>
+        <div><strong>17. Closing Time:</strong> ____:____ AM/PM</div>
+        <div style="grid-column: span 2;">
+          <strong>18. Weekly Holiday (ರಜೆ ದಿನ):</strong>
+          [ ] Mon &nbsp; [ ] Tue &nbsp; [ ] Wed &nbsp; [ ] Thu &nbsp; [ ] Fri &nbsp; [ ] Sat &nbsp; [ ] Sun &nbsp; [ ] No holiday (ರಜೆ ಇಲ್ಲ) &nbsp; [ ] Festival only
+        </div>
+        <div><strong>19. Workers (ಕಾರ್ಮಿಕರು):</strong> [ ] 1 &nbsp; [ ] 2 &nbsp; [ ] 3 &nbsp; [ ] 4 &nbsp; [ ] 5 &nbsp; [ ] Other: ___</div>
+        <div><strong>20. Daily Customers (ಗ್ರಾಹಕರು):</strong> [ ] 1-10 &nbsp; [ ] 10-20 &nbsp; [ ] 20-30 &nbsp; [ ] 30-50 &nbsp; [ ] 50-100 &nbsp; [ ] >100</div>
+        <div><strong>21. Peak Customer Day:</strong> [ ] Mon &nbsp; [ ] Tue &nbsp; [ ] Wed &nbsp; [ ] Thu &nbsp; [ ] Fri &nbsp; [ ] Sat &nbsp; [ ] Sun &nbsp; [ ] All days</div>
+        <div><strong>22. Ownership Status:</strong> [ ] Rented (ಬಾಡಿಗೆ) &nbsp; [ ] Leased (ಲೀಸ್) &nbsp; [ ] Owned (ಸ್ವಂತ) &nbsp; [ ] Other: ___</div>
+      </div>
+    </div>
+
+    <!-- Section 6 -->
+    <div class="section-block">
+      <div class="section-title">6. Meat Products, Pricing & Sales Volume</div>
+      <div class="grid-2">
+        <div><strong>23. Regular Meat Rate:</strong> ₹ ____________ / Kg</div>
+        <div><strong>24. Average Daily Sale:</strong> ____________ Kg / day</div>
+        <div style="grid-column: span 2;">
+          <strong>25. Types of Meat Available:</strong>
+          [ ] Fresh meat (Pork) &nbsp;&nbsp; [ ] Processed meat products &nbsp;&nbsp; [ ] Whole live pig &nbsp;&nbsp; [ ] All &nbsp;&nbsp; [ ] Other: ______
+        </div>
+        <div style="grid-column: span 2;">
+          <strong>26. Processed Meat Consumption/Week:</strong> &nbsp; [ ] None / Not Sold<br>
+          <div class="grid-3" style="font-size: 11px; margin-top: 3px;">
+            <div>• Ham: [ ] &lt;1Kg [ ] &lt;3Kg [ ] &gt;5Kg</div>
+            <div>• Bacon: [ ] &lt;1Kg [ ] &lt;3Kg [ ] &gt;5Kg</div>
+            <div>• Salami: [ ] &lt;1Kg [ ] &lt;3Kg [ ] &gt;5Kg</div>
+            <div>• Pepperoni: [ ] &lt;1Kg [ ] &lt;3Kg [ ] &gt;5Kg</div>
+            <div>• Sausage: [ ] &lt;1Kg [ ] &lt;3Kg [ ] &gt;5Kg</div>
+            <div>• Other: ____________________</div>
+          </div>
+        </div>
+        <div><strong>27. Customer Profile:</strong> [ ] Localities &nbsp;&nbsp; [ ] Non-Localities &nbsp;&nbsp; [ ] Both</div>
+        <div>
+          <strong>28. Sell Pork Fry & Food?:</strong> [ ] Yes &nbsp;&nbsp; [ ] No<br>
+          <em>If Yes, <strong>29. Quantity:</strong></em> _________ Kg/day
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 7 -->
+    <div class="section-block">
+      <div class="section-title">7. Meat Cuts, Unsold Meat Handling & Storage</div>
+      <div>
+        <strong>30. Top Selling Pork Cuts (ಯಾವ ಭಾಗಗಳು ಹೆಚ್ಚು ಮಾರಾಟವಾಗುತ್ತವೆ?):</strong>
+        <div class="grid-3" style="font-size: 11px; margin-top: 3px;">
+          <div>[ ] Pork Belly (ಹೊಟ್ಟೆ ಭಾಗ)</div>
+          <div>[ ] Pork Chops (ಚಾಪ್ಸ್)</div>
+          <div>[ ] Pork Ribs (ಪಕ್ಕೆಲುಬು)</div>
+          <div>[ ] Shoulder / Butt (ಭುಜ)</div>
+          <div>[ ] Leg / Ham (ಕಾಲು/ತೊಡೆ)</div>
+          <div>[ ] Pork Loin (ಬೆನ್ನು)</div>
+          <div>[ ] Head Meat (ತಲೆ)</div>
+          <div>[ ] Trotters / Legs (ಕಾಲುಗಳು)</div>
+          <div>[ ] Liver / Organs (ಲಿವರ್)</div>
+          <div>[ ] Skin / Rind (ಚರ್ಮ)</div>
+          <div>[ ] Fat / Lard (ಕೊಬ್ಬು)</div>
+          <div>[ ] Bone Meat (ಮೂಳೆ)</div>
+          <div>[ ] Boneless Meat (ಬೋನ್ಲೆಸ್)</div>
+          <div>[ ] Minced Pork (ಖೀಮಾ)</div>
+          <div>[ ] No idea (ಗೊತ್ತಿಲ್ಲ)</div>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-top: 8px;">
+        <div style="font-size: 11px;">
+          <strong>31. Unsold Meat Handling (ಮಾರಾಟವಾಗದ ಮಾಂಸ):</strong><br>
+          [ ] Returned to wholesale dealer &nbsp;&nbsp; [ ] Stored in refrigerator/freezer<br>
+          [ ] Sold at discounted price &nbsp;&nbsp; [ ] Processed into other products<br>
+          [ ] Disposed of &nbsp;&nbsp; [ ] Supplied to hotels &nbsp;&nbsp; [ ] Other: _______
+        </div>
+        <div style="font-size: 11px;">
+          <strong>32. Meat Storage Capacity:</strong><br>
+          [ ] 10-25 Kg &nbsp; [ ] 25-50 Kg &nbsp; [ ] 50-100 Kg<br>
+          [ ] 100-200 Kg &nbsp; [ ] 200-500 Kg &nbsp; [ ] &gt;500 Kg &nbsp; [ ] No Cold Storage
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 8, 9, 10, 11 -->
+    <div class="section-block">
+      <div class="section-title">8, 9, 10 & 11. Procurement, Masalas & Trade Licensing</div>
+      <div class="grid-2" style="font-size: 11.5px;">
+        <div>
+          <strong>33. Procurement Source:</strong><br>
+          [ ] Local Farmers &nbsp; [ ] Wholesale Market &nbsp; [ ] Farm Contract &nbsp; [ ] Middlemen &nbsp; [ ] Own Farm &nbsp; [ ] Other: ______
+        </div>
+        <div>
+          <strong>34. Frequency:</strong> [ ] Daily &nbsp; [ ] 2-3x/Wk &nbsp; [ ] Weekly &nbsp; [ ] Fortnightly<br>
+          <strong>35. Quantity/Order:</strong> [ ] 20-50Kg &nbsp; [ ] 50-100Kg &nbsp; [ ] 100-200Kg &nbsp; [ ] 1-2 Pigs &nbsp; [ ] >3 Pigs
+        </div>
+        <div>
+          <strong>36. Pork Masalas:</strong><br>
+          [ ] Chandrakala & Jeevith &nbsp; [ ] Chandrakala Only &nbsp; [ ] Jeevith Only &nbsp; [ ] None &nbsp; [ ] Other: ______
+        </div>
+        <div>
+          <strong>37. BBMP License:</strong> [ ] Yes &nbsp; [ ] No &nbsp; | &nbsp; <strong>38. Issues:</strong> [ ] Yes &nbsp; [ ] No<br>
+          <strong>40. FSSAI License:</strong> [ ] Yes &nbsp; [ ] No &nbsp; | &nbsp; <strong>41. Issues:</strong> [ ] Yes &nbsp; [ ] No
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 12 & 13 -->
+    <div class="section-block">
+      <div class="section-title">12 & 13. Billing, Challenges & Training Desired</div>
+      <div style="font-size: 11.5px;">
+        <div>
+          <strong>43. Bill / Receipt:</strong> [ ] Printed Tax Invoice &nbsp; [ ] Handwritten Cash Bill &nbsp; [ ] No Bill Provided &nbsp; [ ] On Request Only
+        </div>
+        <div style="margin-top: 4px;">
+          <strong>44. Facing Business Challenges?:</strong> [ ] Yes &nbsp; [ ] No &nbsp; | &nbsp; <strong>45. Topics:</strong><br>
+          <span style="font-size: 11px;">
+            [ ] High live pig prices &nbsp; [ ] Pig supply shortage &nbsp; [ ] Lack of modern slaughterhouses &nbsp; [ ] Cold storage & power issues &nbsp; [ ] Waste disposal pressure &nbsp; [ ] Working capital / Loan shortage &nbsp; [ ] Social stigma &nbsp; [ ] Competition &nbsp; [ ] Other: ______
+          </span>
+        </div>
+        <div style="margin-top: 6px;">
+          <strong>46. Want pig-related skills training?:</strong> [ ] Yes &nbsp; [ ] No &nbsp; | &nbsp; <strong>47. Desired Topics:</strong><br>
+          <span style="font-size: 11px;">
+            [ ] Pig Rearing & Farm Mgmt &nbsp; [ ] Breeding & Genetics &nbsp; [ ] Feeding & Nutrition &nbsp; [ ] Disease & Vaccination &nbsp; [ ] Shed Housing & Hygiene &nbsp; [ ] Hygienic Slaughtering & Butchery &nbsp; [ ] Value Addition (Sausage/Ham) &nbsp; [ ] Preservation & Freezing &nbsp; [ ] Packaging & FSSAI Compliance &nbsp; [ ] Shop Marketing & Pricing &nbsp; [ ] Other: ______
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 14 -->
+    <div class="section-block" style="border-top: 2px solid #000; padding-top: 10px; margin-top: 12px;">
+      <div class="section-title">14. Verification, Photo Proof & Rating</div>
+      <div class="grid-2" style="font-size: 11.5px;">
+        <div>
+          <strong>48. Shop Photos Attached:</strong> [ ] Nameboard &nbsp; [ ] Meat Counter &nbsp; [ ] Cutting Area &nbsp; [ ] Freezer<br>
+          <strong>49. GPS Coordinates:</strong> Lat: _________________ &nbsp; Lng: _________________
+        </div>
+        <div>
+          <strong>50. Shop Cleanliness Rating:</strong> [ ] 1★ &nbsp; [ ] 2★ &nbsp; [ ] 3★ &nbsp; [ ] 4★ &nbsp; [ ] 5★<br>
+          <strong>51. Shopkeeper Attitude Rating:</strong> [ ] 1★ &nbsp; [ ] 2★ &nbsp; [ ] 3★ &nbsp; [ ] 4★ &nbsp; [ ] 5★
+        </div>
+      </div>
+
+      <div class="sig-grid">
+        <div>
+          <div class="sig-line"></div>
+          <strong>Signature / Seal of Shopkeeper (ಅಂಗಡಿಯವರ ಸಹಿ / ಮೊಹರು)</strong>
+        </div>
+        <div>
+          <div class="sig-line"></div>
+          <strong>Signature of Field Surveyor (ಸಮೀಕ್ಷಕರ ಸಹಿ)</strong>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

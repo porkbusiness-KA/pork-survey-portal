@@ -46,6 +46,8 @@ CREATE TABLE IF NOT EXISTS surveys (
     procurement_quantity VARCHAR(100) DEFAULT '',
     procurement_quantity_other VARCHAR(255) DEFAULT '',
     customer_type VARCHAR(100),
+    sells_pork_fry VARCHAR(10) DEFAULT 'No',
+    pork_fry_kg VARCHAR(50) DEFAULT '',
     masalas_available JSON,
     bbmp_license_issued VARCHAR(10) DEFAULT 'No',
     bbmp_license_issues VARCHAR(10) DEFAULT 'No',

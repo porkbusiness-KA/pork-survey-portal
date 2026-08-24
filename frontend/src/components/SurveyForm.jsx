@@ -4,7 +4,7 @@ import {
   DollarSign, CheckSquare, Award, Phone, Image as ImageIcon,
   Send, Sparkles, Navigation, AlertCircle, CheckCircle2, Trash2,
   FileCheck, ShieldAlert, X, LayoutDashboard, Database, ArrowRight,
-  Search, Check, Loader2, Compass, Plus, Briefcase
+  Search, Check, Loader2, Compass, Plus, Briefcase, Printer
 } from 'lucide-react';
 import {
   DISTRICTS, PINCODE_DATABASE, HOLIDAY_OPTIONS, WORKER_OPTIONS,
@@ -21,7 +21,7 @@ import { TRANSLATIONS } from '../data/translations';
 import TimePicker from './TimePicker';
 import { submitSurvey } from '../services/api';
 
-export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onSwitchToRecords, lang = 'en', onSetLang }) {
+export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onSwitchToRecords, onSwitchToPrint, lang = 'en', onSetLang }) {
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
   const initialFormState = {
     country: '',
@@ -55,6 +55,8 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
     average_daily_sale_kg: '50',
     procurement_source: '',
     customer_type: 'Both localities and non-Localities',
+    sells_pork_fry: 'No',
+    pork_fry_kg: '',
     has_masalas: 'Yes',
     masalas_available: ['Both Chandrakala and Jeevith masala'],
     masala_other: '',
@@ -737,6 +739,18 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
             >
               📊 {lang === 'en' ? 'View Dashboard' : lang === 'kn' ? 'ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ ವೀಕ್ಷಿಸಿ' : 'View Dashboard (ಡ್ಯಾಶ್‌ಬೋರ್ಡ್)'}
             </button>
+
+            {onSwitchToPrint && (
+              <button
+                type="button"
+                onClick={onSwitchToPrint}
+                className="btn btn-secondary"
+                style={{ fontSize: '0.88rem', display: 'flex', alignItems: 'center', gap: '0.4rem', borderColor: '#d97706', color: '#d97706' }}
+              >
+                <Printer size={16} />
+                <span>{lang === 'en' ? 'Physical Form (Print)' : lang === 'kn' ? 'ಭೌತಿಕ ಫಾರ್ಮ್ (ಪ್ರಿಂಟ್)' : 'Physical Form (ಭೌತಿಕ ಫಾರ್ಮ್)'}</span>
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -1809,6 +1823,73 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 </option>
               ))}
             </select>
+          </div>
+
+          {/* Q26: Does the shop sell pork fry and other types of food? */}
+          <div style={{ marginTop: '1.5rem', borderTop: '1px solid var(--border-color)', paddingTop: '1.25rem' }}>
+            <label className="form-label" style={{ marginBottom: '0.65rem' }}>
+              {t.qPorkFry}
+            </label>
+            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+              {[
+                { id: 'Yes', en: 'Yes', kn: 'ಹೌದು' },
+                { id: 'No', en: 'No', kn: 'ಇಲ್ಲ' }
+              ].map(opt => {
+                const isSelected = formData.sells_pork_fry === opt.id;
+                return (
+                  <label
+                    key={opt.id}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: '0.5rem',
+                      padding: '0.6rem 1.25rem', borderRadius: '10px',
+                      background: isSelected ? 'rgba(217,119,6,0.13)' : 'var(--bg-card-subtle)',
+                      border: isSelected ? '1px solid #d97706' : '1px solid var(--border-color)',
+                      cursor: 'pointer', transition: 'all 0.15s ease', userSelect: 'none'
+                    }}
+                  >
+                    <input
+                      type="radio"
+                      name="sells_pork_fry"
+                      value={opt.id}
+                      checked={isSelected}
+                      onChange={() => {
+                        setFormData(prev => ({
+                          ...prev,
+                          sells_pork_fry: opt.id,
+                          pork_fry_kg: opt.id === 'Yes' ? prev.pork_fry_kg : ''
+                        }));
+                      }}
+                      style={{ accentColor: '#d97706' }}
+                    />
+                    <span style={{ fontSize: '0.9rem', fontWeight: isSelected ? '600' : 'normal' }}>
+                      {lang === 'en' ? opt.en : lang === 'kn' ? opt.kn : `${opt.en} (${opt.kn})`}
+                    </span>
+                  </label>
+                );
+              })}
+            </div>
+
+            {/* Q27: Conditional field for Pork Fry Kilograms */}
+            {formData.sells_pork_fry === 'Yes' && (
+              <div className="animate-fade-in" style={{ marginTop: '1rem', padding: '1rem', borderRadius: '12px', background: 'rgba(217,119,6,0.06)', border: '1px solid rgba(217,119,6,0.25)', maxWidth: '400px' }}>
+                <label className="form-label" style={{ marginBottom: '0.5rem', fontSize: '0.9rem' }}>
+                  {t.qPorkFryKg}
+                </label>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <input
+                    type="number"
+                    step="any"
+                    min="0"
+                    name="pork_fry_kg"
+                    value={formData.pork_fry_kg || ''}
+                    onChange={handleChange}
+                    placeholder={t.porkFryKgPlaceholder || 'e.g. 10 kg'}
+                    className="form-input"
+                  />
+                  <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: '600', whiteSpace: 'nowrap' }}>Kg / day</span>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 

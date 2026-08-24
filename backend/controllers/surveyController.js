@@ -65,14 +65,14 @@ exports.createSurvey = async (req, res) => {
         procurement_source, procurement_sources, procurement_sources_other,
         procurement_frequency, procurement_frequency_other,
         procurement_quantity, procurement_quantity_other,
-        customer_type, masalas_available,
+        customer_type, sells_pork_fry, pork_fry_kg, masalas_available,
         bbmp_license_issued, bbmp_license_issues, bbmp_issue_reasons,
         fssai_license_issued, fssai_license_issues, fssai_issue_reasons,
         provides_billing, has_challenges, business_challenges, business_challenges_other,
         wants_training, training_skills, training_skills_other,
         cleanliness_rating, behavior_rating,
         spocs, spoc_name, spoc_mobile, location_link, latitude, longitude, shop_images
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const values = [
@@ -117,6 +117,8 @@ exports.createSurvey = async (req, res) => {
       body.procurement_quantity || '',
       body.procurement_quantity_other || '',
       body.customer_type || 'Localities',
+      body.sells_pork_fry || 'No',
+      body.pork_fry_kg || '',
       masalas,
       body.bbmp_license_issued || 'No',
       body.bbmp_license_issues || 'No',
@@ -392,7 +394,7 @@ exports.exportCSV = async (req, res) => {
       'Meat Rate (Rs/Kg)', 'Meat Types Sold', 'Top Selling Meat Cuts',
       'Processed Meat Consumption', 'Daily Sales (Kg)', 'Unsold Meat Handling', 'Storage Capacity',
       'Procurement Sources', 'Procurement Source (Old Text)', 'Procurement Frequency', 'Procurement Quantity',
-      'Procurement Source', 'Customer Profile', 'Masalas Available',
+      'Customer Profile', 'Sells Pork Fry & Food', 'Pork Fry Daily Quantity (Kg)', 'Masalas Available',
       'BBMP License Issued', 'BBMP Issues Faced', 'BBMP Issue Reasons',
       'FSSAI License Issued', 'FSSAI Issues Faced', 'FSSAI Issue Reasons',
       'Provides Billing/Receipt', 'Has Business Challenges', 'Business Challenges',
@@ -449,6 +451,8 @@ exports.exportCSV = async (req, res) => {
         escapeCSV(r.procurement_frequency || ''),
         escapeCSV(r.procurement_quantity || ''),
         escapeCSV(r.customer_type),
+        escapeCSV(r.sells_pork_fry || 'No'),
+        escapeCSV(r.pork_fry_kg || ''),
         escapeCSV(parseJSONField(r.masalas_available, []).join('; ')),
         escapeCSV(r.bbmp_license_issued),
         escapeCSV(r.bbmp_license_issues),
