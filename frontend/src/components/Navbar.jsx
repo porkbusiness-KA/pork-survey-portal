@@ -1,11 +1,22 @@
 import React from 'react';
 import {
   ClipboardList, LayoutDashboard, Database, PlusCircle,
-  Sun, Moon, ShieldCheck, Globe, Printer
+  Sun, Moon, ShieldCheck, Globe, Printer, Lock, LogOut
 } from 'lucide-react';
 import { TRANSLATIONS } from '../data/translations';
 
-export default function Navbar({ activeTab, setActiveTab, totalCount = 0, theme = 'light', onToggleTheme, lang = 'en', onSetLang }) {
+export default function Navbar({
+  activeTab,
+  setActiveTab,
+  totalCount = 0,
+  theme = 'light',
+  onToggleTheme,
+  lang = 'en',
+  onSetLang,
+  isAdmin = false,
+  onOpenAdminLogin,
+  onAdminLogout
+}) {
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
   return (
@@ -28,22 +39,40 @@ export default function Navbar({ activeTab, setActiveTab, totalCount = 0, theme 
         flexWrap: 'wrap',
         gap: '0.75rem'
       }}>
-        {/* Brand Logo & Title */}
+        {/* Brand Logo & Title (with Secret Admin Trigger on logo) */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <div style={{
-            width: '40px',
-            height: '40px',
-            minWidth: '40px',
-            borderRadius: '12px',
-            background: 'linear-gradient(135deg, #f59e0b 0%, #b45309 100%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: '0 4px 14px rgba(244, 63, 94, 0.3)',
-            color: 'white',
-            fontWeight: '800',
-            fontSize: '1.2rem'
-          }}>
+          <div
+            onClick={(e) => {
+              if (onOpenAdminLogin) {
+                // Secret Multi-Click Trigger (3 quick clicks within 2 seconds opens Admin Login)
+                window._logoClickCount = (window._logoClickCount || 0) + 1;
+                clearTimeout(window._logoClickTimer);
+                window._logoClickTimer = setTimeout(() => {
+                  window._logoClickCount = 0;
+                }, 2000);
+                if (window._logoClickCount >= 3) {
+                  window._logoClickCount = 0;
+                  onOpenAdminLogin();
+                }
+              }
+            }}
+            style={{
+              width: '40px',
+              height: '40px',
+              minWidth: '40px',
+              borderRadius: '12px',
+              background: 'linear-gradient(135deg, #f59e0b 0%, #b45309 100%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 4px 14px rgba(244, 63, 94, 0.3)',
+              color: 'white',
+              fontWeight: '800',
+              fontSize: '1.2rem',
+              cursor: 'pointer',
+              userSelect: 'none'
+            }}
+          >
             🥩
           </div>
           <div>
@@ -59,9 +88,49 @@ export default function Navbar({ activeTab, setActiveTab, totalCount = 0, theme 
           </div>
         </div>
 
-        {/* Right Section: Language Switcher, Theme Toggle & DB Badge */}
+        {/* Right Section: Language Switcher, Theme Toggle, Admin Status (Only when logged in) & DB Badge */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginLeft: 'auto', flexWrap: 'wrap' }}>
           
+          {/* Admin Status & Logout - Only shown when Admin is actively authenticated */}
+          {isAdmin && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+              <span
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.3rem',
+                  padding: '0.3rem 0.65rem',
+                  background: 'rgba(217, 119, 6, 0.15)',
+                  border: '1px solid rgba(217, 119, 6, 0.4)',
+                  borderRadius: '10px',
+                  color: '#d97706',
+                  fontSize: '0.78rem',
+                  fontWeight: '700'
+                }}
+              >
+                <ShieldCheck size={14} />
+                <span>{lang === 'kn' ? 'ಅಡ್ಮಿನ್' : 'Admin'}</span>
+              </span>
+              <button
+                onClick={onAdminLogout}
+                className="btn btn-secondary"
+                style={{
+                  padding: '0.3rem 0.6rem',
+                  fontSize: '0.76rem',
+                  borderRadius: '10px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.3rem',
+                  color: 'var(--text-muted)'
+                }}
+                title={lang === 'kn' ? 'ಅಡ್ಮಿನ್ ಲಾಗೌಟ್' : 'Logout Admin'}
+              >
+                <LogOut size={13} />
+                <span>{lang === 'kn' ? 'ಲಾಗೌಟ್' : 'Logout'}</span>
+              </button>
+            </div>
+          )}
+
           {/* LANGUAGE SELECTOR (English / ಕನ್ನಡ / Both) */}
           <div style={{
             display: 'inline-flex',
@@ -208,24 +277,27 @@ export default function Navbar({ activeTab, setActiveTab, totalCount = 0, theme 
               <span>{t.newSurveyTab}</span>
             </button>
 
-            <button
-              onClick={() => setActiveTab('dashboard')}
-              className="btn"
-              style={{
-                padding: '0.45rem 0.9rem',
-                fontSize: '0.82rem',
-                borderRadius: '9px',
-                border: 'none',
-                background: activeTab === 'dashboard' ? 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)' : 'transparent',
-                color: activeTab === 'dashboard' ? '#fff' : 'var(--text-muted)',
-                boxShadow: activeTab === 'dashboard' ? '0 4px 10px rgba(217, 119, 6, 0.25)' : 'none',
-                cursor: 'pointer',
-                whiteSpace: 'nowrap'
-              }}
-            >
-              <LayoutDashboard size={15} />
-              <span>{t.dashboardTab}</span>
-            </button>
+            {/* Dashboard Tab - Only visible to authenticated Admin */}
+            {isAdmin && (
+              <button
+                onClick={() => setActiveTab('dashboard')}
+                className="btn"
+                style={{
+                  padding: '0.45rem 0.9rem',
+                  fontSize: '0.82rem',
+                  borderRadius: '9px',
+                  border: 'none',
+                  background: activeTab === 'dashboard' ? 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)' : 'transparent',
+                  color: activeTab === 'dashboard' ? '#fff' : 'var(--text-muted)',
+                  boxShadow: activeTab === 'dashboard' ? '0 4px 10px rgba(217, 119, 6, 0.25)' : 'none',
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                <LayoutDashboard size={15} />
+                <span>{t.dashboardTab}</span>
+              </button>
+            )}
 
             <button
               onClick={() => setActiveTab('records')}
@@ -271,3 +343,4 @@ export default function Navbar({ activeTab, setActiveTab, totalCount = 0, theme 
     </header>
   );
 }
+

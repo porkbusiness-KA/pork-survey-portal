@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import {
   Search, Filter, Download, ExternalLink, Trash2, Eye,
-  MapPin, Store, CheckCircle, XCircle, ChevronLeft, ChevronRight
+  MapPin, Store, CheckCircle, XCircle, ChevronLeft, ChevronRight, Lock
 } from 'lucide-react';
 import { DISTRICTS } from '../data/surveyQuestions';
 import { getExportCSVUrl, deleteSurvey } from '../services/api';
 
-export default function DataTable({ surveys, onSelectSurvey, onSurveyDeleted, onRefresh }) {
+export default function DataTable({ surveys, onSelectSurvey, onSurveyDeleted, onRefresh, isAdmin = false, onOpenAdminLogin }) {
   const [search, setSearch] = useState('');
   const [selectedDistrict, setSelectedDistrict] = useState('All');
   const [selectedLicense, setSelectedLicense] = useState('All');
@@ -53,6 +53,10 @@ export default function DataTable({ surveys, onSelectSurvey, onSurveyDeleted, on
   };
 
   const handleExport = () => {
+    if (!isAdmin) {
+      if (onOpenAdminLogin) onOpenAdminLogin();
+      return;
+    }
     window.location.href = getExportCSVUrl();
   };
 
@@ -77,14 +81,16 @@ export default function DataTable({ surveys, onSelectSurvey, onSurveyDeleted, on
           </p>
         </div>
 
-        <button
-          onClick={handleExport}
-          className="btn btn-primary"
-          style={{ fontSize: '0.9rem' }}
-        >
-          <Download size={17} />
-          <span>Export All Data to CSV (ಡೌನ್‌ಲೋಡ್)</span>
-        </button>
+        {isAdmin && (
+          <button
+            onClick={handleExport}
+            className="btn btn-primary"
+            style={{ fontSize: '0.9rem' }}
+          >
+            <Download size={17} />
+            <span>Export All Data to CSV (ಡೌನ್‌ಲೋಡ್)</span>
+          </button>
+        )}
       </div>
 
       {/* Filter & Search Bar */}
@@ -241,15 +247,17 @@ export default function DataTable({ surveys, onSelectSurvey, onSurveyDeleted, on
                         >
                           <Eye size={14} /> View
                         </button>
-                        <button
-                          type="button"
-                          onClick={(e) => handleDelete(e, item.id, item.shop_name)}
-                          className="btn btn-danger"
-                          style={{ padding: '0.35rem 0.65rem', fontSize: '0.8rem' }}
-                          title="Delete Survey"
-                        >
-                          <Trash2 size={14} />
-                        </button>
+                        {isAdmin && (
+                          <button
+                            type="button"
+                            onClick={(e) => handleDelete(e, item.id, item.shop_name)}
+                            className="btn btn-danger"
+                            style={{ padding: '0.35rem 0.65rem', fontSize: '0.8rem' }}
+                            title="Delete Survey"
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        )}
                       </div>
                     </td>
                   </tr>

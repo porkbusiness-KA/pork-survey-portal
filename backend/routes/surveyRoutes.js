@@ -4,6 +4,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const surveyController = require('../controllers/surveyController');
+const { requireAdmin } = require('../middleware/authMiddleware');
 
 // Ensure uploads directory exists
 const uploadsDir = path.join(__dirname, '..', 'uploads');
@@ -37,14 +38,26 @@ const upload = multer({
   }
 });
 
-// API Routes
-router.get('/surveys/stats', surveyController.getSurveyStats);
-router.get('/stats', surveyController.getSurveyStats);
-router.get('/surveys/export', surveyController.exportCSV);
-router.get('/export', surveyController.exportCSV);
+// Auth Routes
+router.post('/auth/verify', (req, res) => {
+  const configuredPin = process.env.ADMIN_PIN || 'porkadmin2026';
+  const { pin } = req.body;
+  if (pin && pin.trim() === configuredPin.trim()) {
+    return res.json({ success: true, message: 'Admin authenticated successfully', token: pin.trim() });
+  }
+  return res.status(401).json({ success: false, message: 'Incorrect Admin PIN. Please try again.' });
+});
+
+// Protected Admin API Routes (Analytics, Excel Export, Record Deletion)
+router.get('/surveys/stats', requireAdmin, surveyController.getSurveyStats);
+router.get('/stats', requireAdmin, surveyController.getSurveyStats);
+router.get('/surveys/export', requireAdmin, surveyController.exportCSV);
+router.get('/export', requireAdmin, surveyController.exportCSV);
+router.delete('/surveys/:id', requireAdmin, surveyController.deleteSurvey);
+
+// Public / Field Team Routes (Survey Submission, Records List & Details)
 router.post('/surveys', upload.array('images', 5), surveyController.createSurvey);
 router.get('/surveys', surveyController.getAllSurveys);
 router.get('/surveys/:id', surveyController.getSurveyById);
-router.delete('/surveys/:id', surveyController.deleteSurvey);
 
 module.exports = router;
