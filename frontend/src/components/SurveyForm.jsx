@@ -132,9 +132,110 @@ export default function SurveyForm({
   const [updateSuccessModal, setUpdateSuccessModal] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
+  // Helper to ensure array parsing
+  const ensureArray = (val, fallback = []) => {
+    if (!val) return fallback;
+    if (Array.isArray(val)) return val;
+    if (typeof val === 'string') {
+      try {
+        const p = JSON.parse(val);
+        return Array.isArray(p) ? p : [val];
+      } catch {
+        return val.split(',').map(s => s.trim()).filter(Boolean);
+      }
+    }
+    return fallback;
+  };
+
+  // Helper to parse Processed Meat Consumption from DB back to Form State
+  const parseProcessedMeat = (raw) => {
+    const items = ensureArray(raw, []);
+    if (items.length === 0) {
+      return {
+        none: false,
+        varieties: [],
+        volumes: {},
+        volume_custom: {},
+        other_name: ''
+      };
+    }
+
+    const hasNone = items.some(i => typeof i === 'string' && (i.toLowerCase() === 'none' || i.toLowerCase().includes('not sold')));
+    if (hasNone) {
+      return {
+        none: true,
+        varieties: [],
+        volumes: {},
+        volume_custom: {},
+        other_name: ''
+      };
+    }
+
+    const standardVarieties = ['Ham', 'Bacon', 'Salami', 'Pepperoni', 'Sausage'];
+    const standardVols = ['<1 Kg', '1–2 Kg', '2–3 Kg', '3–5 Kg', '5–10 Kg', '>10 Kg'];
+    const varieties = [];
+    const volumes = {};
+    const volume_custom = {};
+    let other_name = '';
+
+    items.forEach(item => {
+      if (!item) return;
+      const str = String(item).trim();
+      if (!str) return;
+
+      const match = str.match(/^(.+?)\s*\((.+?)\)$/);
+      let name = str;
+      let vol = '<1 Kg';
+      if (match) {
+        name = match[1].trim();
+        vol = match[2].trim();
+      }
+
+      const matchedStd = standardVarieties.find(v => v.toLowerCase() === name.toLowerCase());
+      if (matchedStd) {
+        if (!varieties.includes(matchedStd)) varieties.push(matchedStd);
+        if (standardVols.includes(vol)) {
+          volumes[matchedStd] = vol;
+        } else {
+          volumes[matchedStd] = 'Other';
+          volume_custom[matchedStd] = vol.replace(/kg/i, '').trim();
+        }
+      } else {
+        if (!varieties.includes('Other')) varieties.push('Other');
+        other_name = (name === 'Other' || name === 'Other Variety') ? '' : name;
+        if (standardVols.includes(vol)) {
+          volumes['Other'] = vol;
+        } else {
+          volumes['Other'] = 'Other';
+          volume_custom['Other'] = vol.replace(/kg/i, '').trim();
+        }
+      }
+    });
+
+    return {
+      none: false,
+      varieties,
+      volumes,
+      volume_custom,
+      other_name
+    };
+  };
+
   // Pre-fill form when editSurveyData is provided
   useEffect(() => {
     if (editSurveyData) {
+      const parsedProcessed = parseProcessedMeat(editSurveyData.processed_meat_consumption);
+      const rawSpocs = ensureArray(editSurveyData.spocs, []);
+      const effectiveSpocs = rawSpocs.length > 0 ? rawSpocs : [
+        {
+          name: editSurveyData.spoc_name || editSurveyData.owner_name || '',
+          mobile: editSurveyData.spoc_mobile || editSurveyData.owner_mobile || '',
+          same_as_owner: !editSurveyData.spoc_name || editSurveyData.spoc_name === editSurveyData.owner_name,
+          skills: ['Butchery / Meat Cutting'],
+          skills_other: ''
+        }
+      ];
+
       setFormData({
         country: editSurveyData.country || 'India',
         state: editSurveyData.state || 'Karnataka',
@@ -150,27 +251,27 @@ export default function SurveyForm({
         years_in_business: editSurveyData.years_in_business !== undefined && editSurveyData.years_in_business !== null ? String(editSurveyData.years_in_business) : '',
         opening_time: editSurveyData.opening_time || '08:00',
         closing_time: editSurveyData.closing_time || '20:30',
-        holiday_days: Array.isArray(editSurveyData.holiday_days) ? editSurveyData.holiday_days : ['No holiday'],
+        holiday_days: ensureArray(editSurveyData.holiday_days, ['No holiday']),
         workers_count: editSurveyData.workers_count || '2',
         workers_other: editSurveyData.workers_other || '',
         daily_customers: editSurveyData.daily_customers || '20–30',
         daily_customers_other: '',
-        peak_customer_days: Array.isArray(editSurveyData.peak_customer_days) ? editSurveyData.peak_customer_days : ['Sunday'],
+        peak_customer_days: ensureArray(editSurveyData.peak_customer_days, ['Sunday']),
         regular_meat_rate: editSurveyData.regular_meat_rate !== undefined && editSurveyData.regular_meat_rate !== null ? String(editSurveyData.regular_meat_rate) : '340',
-        meat_types: Array.isArray(editSurveyData.meat_types) ? editSurveyData.meat_types : ['Fresh meat (Pork)'],
+        meat_types: ensureArray(editSurveyData.meat_types, ['Fresh meat (Pork)']),
         meat_types_other: '',
-        processed_meat_none: Array.isArray(editSurveyData.processed_meat_consumption) && editSurveyData.processed_meat_consumption.includes('None'),
-        processed_meat_varieties: [],
-        processed_meat_volumes: {},
-        processed_meat_volume_custom: {},
-        processed_meat_other_name: '',
+        processed_meat_none: parsedProcessed.none,
+        processed_meat_varieties: parsedProcessed.varieties,
+        processed_meat_volumes: parsedProcessed.volumes,
+        processed_meat_volume_custom: parsedProcessed.volume_custom,
+        processed_meat_other_name: parsedProcessed.other_name,
         average_daily_sale_kg: editSurveyData.average_daily_sale_kg !== undefined && editSurveyData.average_daily_sale_kg !== null ? String(editSurveyData.average_daily_sale_kg) : '50',
         procurement_source: editSurveyData.procurement_source || '',
         customer_type: editSurveyData.customer_type || 'Both localities and non-Localities',
         sells_pork_fry: editSurveyData.sells_pork_fry || 'No',
         pork_fry_kg: editSurveyData.pork_fry_kg || '',
-        has_masalas: Array.isArray(editSurveyData.masalas_available) && editSurveyData.masalas_available.length > 0 ? 'Yes' : 'No',
-        masalas_available: Array.isArray(editSurveyData.masalas_available) ? editSurveyData.masalas_available : ['Both Chandrakala and Jeevith masala'],
+        has_masalas: (ensureArray(editSurveyData.masalas_available, []).length > 0) ? 'Yes' : (editSurveyData.has_masalas || 'No'),
+        masalas_available: ensureArray(editSurveyData.masalas_available, ['Both Chandrakala and Jeevith masala']),
         masala_other: '',
         bbmp_license_issued: editSurveyData.bbmp_license_issued || 'No',
         bbmp_license_issues: editSurveyData.bbmp_license_issues || 'No',
@@ -184,15 +285,15 @@ export default function SurveyForm({
         owner_community_other: editSurveyData.owner_community_other || '',
         handi_jogi_area: editSurveyData.handi_jogi_area || '',
         handi_jogi_area_other: editSurveyData.handi_jogi_area_other || '',
-        meat_cuts_sold_most: Array.isArray(editSurveyData.meat_cuts_sold_most) ? editSurveyData.meat_cuts_sold_most : [],
+        meat_cuts_sold_most: ensureArray(editSurveyData.meat_cuts_sold_most, []),
         meat_cuts_sold_most_other: editSurveyData.meat_cuts_sold_most_other || '',
-        unsold_meat_handling: Array.isArray(editSurveyData.unsold_meat_handling) ? editSurveyData.unsold_meat_handling : [],
+        unsold_meat_handling: ensureArray(editSurveyData.unsold_meat_handling, []),
         unsold_meat_handling_other: editSurveyData.unsold_meat_handling_other || '',
         storage_capacity: editSurveyData.storage_capacity || '',
         wants_training: editSurveyData.wants_training || 'No',
-        training_skills: Array.isArray(editSurveyData.training_skills) ? editSurveyData.training_skills : [],
+        training_skills: ensureArray(editSurveyData.training_skills, []),
         training_skills_other: editSurveyData.training_skills_other || '',
-        procurement_sources: Array.isArray(editSurveyData.procurement_sources) ? editSurveyData.procurement_sources : [],
+        procurement_sources: ensureArray(editSurveyData.procurement_sources, []),
         procurement_sources_other: editSurveyData.procurement_sources_other || '',
         procurement_frequency: editSurveyData.procurement_frequency || '',
         procurement_frequency_other: editSurveyData.procurement_frequency_other || '',
@@ -200,19 +301,11 @@ export default function SurveyForm({
         procurement_quantity_other: editSurveyData.procurement_quantity_other || '',
         provides_billing: editSurveyData.provides_billing || '',
         has_challenges: editSurveyData.has_challenges || 'No',
-        business_challenges: Array.isArray(editSurveyData.business_challenges) ? editSurveyData.business_challenges : [],
+        business_challenges: ensureArray(editSurveyData.business_challenges, []),
         business_challenges_other: editSurveyData.business_challenges_other || '',
         cleanliness_rating: editSurveyData.cleanliness_rating || 3,
         behavior_rating: editSurveyData.behavior_rating || 4,
-        spocs: Array.isArray(editSurveyData.spocs) && editSurveyData.spocs.length > 0 ? editSurveyData.spocs : [
-          {
-            name: editSurveyData.owner_name || '',
-            mobile: editSurveyData.owner_mobile || '',
-            same_as_owner: true,
-            skills: ['Butchery / Meat Cutting'],
-            skills_other: ''
-          }
-        ],
+        spocs: effectiveSpocs,
         spoc_same_as_owner: false,
         spoc_name: editSurveyData.spoc_name || '',
         spoc_mobile: editSurveyData.spoc_mobile || '',
