@@ -317,7 +317,7 @@ h1, h2, h3, h4, h5, h6 {
   animation: pulseGlow 2s infinite ease-in-out;
 }
 
-/* Desktop vs Mobile Table / Cards Layout */
+/* Desktop vs Mobile Layout Elements */
 .desktop-table-view {
   display: block;
 }
@@ -325,31 +325,19 @@ h1, h2, h3, h4, h5, h6 {
   display: none;
 }
 
-/* Responsive Nav Tabs */
-.nav-tabs-wrapper {
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  padding-bottom: 2px;
+.desktop-nav-controls {
+  display: flex !important;
 }
-.nav-tabs-wrapper::-webkit-scrollbar {
-  display: none;
+.desktop-tabs-wrapper {
+  display: block !important;
+}
+.mobile-header-actions {
+  display: none !important;
 }
 
-.nav-tabs-container {
-  display: inline-flex;
-  align-items: center;
-  background: var(--bg-card-subtle);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 3px;
-  gap: 3px;
-  min-width: max-content;
-}
-
-/* MOBILE & RESPONSIVE BREAKPOINTS */
+/* MOBILE & RESPONSIVE BREAKPOINTS (Screens <= 768px) */
 @media (max-width: 768px) {
+  /* Hide Desktop Table & Show Mobile Cards */
   .desktop-table-view {
     display: none !important;
   }
@@ -359,29 +347,25 @@ h1, h2, h3, h4, h5, h6 {
     gap: 0.85rem;
   }
 
-  .nav-tabs-container {
+  /* Hide Desktop Nav Header Controls & Tabs Bar */
+  .desktop-nav-controls {
+    display: none !important;
+  }
+  .desktop-tabs-wrapper {
+    display: none !important;
+  }
+
+  /* Show Mobile Header Hamburger & Quick Actions */
+  .mobile-header-actions {
     display: flex !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    gap: 2px !important;
-    padding: 2px !important;
   }
 
-  .nav-tab-btn {
-    flex: 1 1 0px !important;
-    min-width: 0 !important;
-    padding: 0.42rem 0.25rem !important;
-    font-size: 0.76rem !important;
-    justify-content: center !important;
-    gap: 0.25rem !important;
-  }
-
-  h1 { font-size: 1.5rem !important; }
-  h2 { font-size: 1.25rem !important; }
-  h3 { font-size: 1.1rem !important; }
+  h1 { font-size: 1.45rem !important; }
+  h2 { font-size: 1.2rem !important; }
+  h3 { font-size: 1.05rem !important; }
 
   .glass-card {
-    padding: 1.25rem !important;
+    padding: 1.15rem !important;
     border-radius: 14px !important;
   }
 
@@ -392,15 +376,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 480px) {
-  h1 { font-size: 1.35rem !important; }
-  .kannada-text { font-size: 0.78rem !important; }
+  h1 { font-size: 1.3rem !important; }
+  .kannada-text { font-size: 0.76rem !important; }
 
   .glass-card {
-    padding: 1rem !important;
-  }
-
-  .nav-tab-btn {
-    padding: 0.4rem 0.15rem !important;
-    font-size: 0.72rem !important;
+    padding: 0.95rem !important;
   }
 }

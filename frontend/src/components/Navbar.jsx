@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ClipboardList, LayoutDashboard, Database, PlusCircle,
-  Sun, Moon, ShieldCheck, Globe, Printer, Lock, LogOut
+  Sun, Moon, ShieldCheck, Globe, Printer, Lock, LogOut,
+  Menu, X
 } from 'lucide-react';
 import { TRANSLATIONS } from '../data/translations';
 
@@ -18,6 +19,12 @@ export default function Navbar({
   onAdminLogout
 }) {
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+    setIsMobileMenuOpen(false);
+  };
 
   return (
     <header style={{
@@ -88,10 +95,10 @@ export default function Navbar({
           </div>
         </div>
 
-        {/* Right Section: Language Switcher, Theme Toggle, Admin Status (Only when logged in) & DB Badge */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginLeft: 'auto', flexWrap: 'wrap' }}>
+        {/* Desktop Controls (hidden on mobile) */}
+        <div className="desktop-nav-controls" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginLeft: 'auto', flexWrap: 'wrap' }}>
           
-          {/* Admin Status & Logout - Only shown when Admin is actively authenticated */}
+          {/* Admin Status & Logout */}
           {isAdmin && (
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
               <span
@@ -131,7 +138,7 @@ export default function Navbar({
             </div>
           )}
 
-          {/* LANGUAGE SELECTOR (English / ಕನ್ನಡ / Both) */}
+          {/* LANGUAGE SELECTOR */}
           <div style={{
             display: 'inline-flex',
             alignItems: 'center',
@@ -246,8 +253,57 @@ export default function Navbar({
           </div>
         </div>
 
-        {/* Navigation Tabs (Responsive grid on mobile, inline-flex on desktop) */}
-        <div className="nav-tabs-wrapper">
+        {/* Mobile Header Actions (Visible ONLY on mobile screens <= 768px) */}
+        <div className="mobile-header-actions" style={{ display: 'none', alignItems: 'center', gap: '0.5rem', marginLeft: 'auto' }}>
+          <button
+            onClick={onToggleTheme}
+            className="btn btn-secondary"
+            style={{
+              padding: '0.45rem',
+              borderRadius: '10px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer'
+            }}
+            title="Toggle theme"
+          >
+            {theme === 'light' ? <Moon size={16} color="#4f46e5" /> : <Sun size={16} color="#f59e0b" />}
+          </button>
+
+          {/* Mobile Hamburger Menu Toggle Button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(prev => !prev)}
+            className="btn btn-primary"
+            style={{
+              padding: '0.45rem 0.85rem',
+              fontSize: '0.88rem',
+              borderRadius: '10px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              fontWeight: '700'
+            }}
+            aria-label="Open Navigation Menu"
+          >
+            {isMobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+            <span>{isMobileMenuOpen ? 'Close' : 'Menu'}</span>
+            {!isMobileMenuOpen && (
+              <span style={{
+                background: 'rgba(255,255,255,0.3)',
+                borderRadius: '999px',
+                padding: '1px 6px',
+                fontSize: '0.7rem',
+                fontWeight: '800'
+              }}>
+                {totalCount}
+              </span>
+            )}
+          </button>
+        </div>
+
+        {/* Desktop Horizontal Navigation Tabs (Hidden on Mobile) */}
+        <div className="desktop-tabs-wrapper" style={{ width: '100%', overflowX: 'auto', paddingBottom: '2px' }}>
           <nav className="nav-tabs-container">
             <button
               onClick={() => setActiveTab('form')}
@@ -345,6 +401,207 @@ export default function Navbar({
         </div>
 
       </div>
+
+      {/* Mobile Slide-Down Menu Drawer (Opens when Menu button is clicked) */}
+      {isMobileMenuOpen && (
+        <div className="mobile-menu-drawer animate-fade-in" style={{
+          borderTop: '1px solid var(--border-color)',
+          background: 'var(--bg-card)',
+          padding: '1rem',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '0.6rem',
+          boxShadow: '0 10px 25px rgba(0,0,0,0.15)'
+        }}>
+          {/* Navigation Links */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <button
+              onClick={() => handleTabClick('form')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '0.85rem 1rem',
+                borderRadius: '10px',
+                border: '1px solid',
+                borderColor: activeTab === 'form' ? '#d97706' : 'var(--border-color)',
+                background: activeTab === 'form' ? 'rgba(217, 119, 6, 0.12)' : 'var(--bg-card-subtle)',
+                color: activeTab === 'form' ? '#d97706' : 'var(--text-main)',
+                fontWeight: activeTab === 'form' ? '700' : '600',
+                fontSize: '0.95rem',
+                cursor: 'pointer'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                <PlusCircle size={18} color="#d97706" />
+                <span>{t.newSurveyTab}</span>
+              </div>
+              {activeTab === 'form' && <span style={{ fontSize: '0.75rem', fontWeight: '800' }}>● Active</span>}
+            </button>
+
+            <button
+              onClick={() => handleTabClick('records')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '0.85rem 1rem',
+                borderRadius: '10px',
+                border: '1px solid',
+                borderColor: activeTab === 'records' ? '#d97706' : 'var(--border-color)',
+                background: activeTab === 'records' ? 'rgba(217, 119, 6, 0.12)' : 'var(--bg-card-subtle)',
+                color: activeTab === 'records' ? '#d97706' : 'var(--text-main)',
+                fontWeight: activeTab === 'records' ? '700' : '600',
+                fontSize: '0.95rem',
+                cursor: 'pointer'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                <Database size={18} color="#d97706" />
+                <span>{t.recordsTab}</span>
+              </div>
+              <span className="badge badge-emerald" style={{ padding: '0.2rem 0.6rem', fontSize: '0.75rem' }}>
+                {totalCount} Records
+              </span>
+            </button>
+
+            {/* Admin Dashboard */}
+            {isAdmin && (
+              <button
+                onClick={() => handleTabClick('dashboard')}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '0.85rem 1rem',
+                  borderRadius: '10px',
+                  border: '1px solid',
+                  borderColor: activeTab === 'dashboard' ? '#d97706' : 'var(--border-color)',
+                  background: activeTab === 'dashboard' ? 'rgba(217, 119, 6, 0.12)' : 'var(--bg-card-subtle)',
+                  color: activeTab === 'dashboard' ? '#d97706' : 'var(--text-main)',
+                  fontWeight: activeTab === 'dashboard' ? '700' : '600',
+                  fontSize: '0.95rem',
+                  cursor: 'pointer'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                  <LayoutDashboard size={18} color="#d97706" />
+                  <span>{t.dashboardTab}</span>
+                </div>
+                {activeTab === 'dashboard' && <span style={{ fontSize: '0.75rem', fontWeight: '800' }}>● Active</span>}
+              </button>
+            )}
+
+            <button
+              onClick={() => handleTabClick('print')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '0.85rem 1rem',
+                borderRadius: '10px',
+                border: '1px solid',
+                borderColor: activeTab === 'print' ? '#d97706' : 'var(--border-color)',
+                background: activeTab === 'print' ? 'rgba(217, 119, 6, 0.12)' : 'var(--bg-card-subtle)',
+                color: activeTab === 'print' ? '#d97706' : 'var(--text-main)',
+                fontWeight: activeTab === 'print' ? '700' : '600',
+                fontSize: '0.95rem',
+                cursor: 'pointer'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                <Printer size={18} color="#d97706" />
+                <span>{t.physicalFormTab}</span>
+              </div>
+            </button>
+          </div>
+
+          {/* Divider */}
+          <div style={{ borderTop: '1px solid var(--border-color)', margin: '0.4rem 0' }}></div>
+
+          {/* Language Switcher in Mobile Drawer */}
+          <div>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: '700', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>
+              Language / ಭಾಷೆ
+            </span>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.35rem' }}>
+              <button
+                type="button"
+                onClick={() => onSetLang('en')}
+                style={{
+                  padding: '0.5rem',
+                  fontSize: '0.82rem',
+                  fontWeight: lang === 'en' ? '700' : '500',
+                  borderRadius: '8px',
+                  border: '1px solid var(--border-color)',
+                  cursor: 'pointer',
+                  background: lang === 'en' ? '#d97706' : 'var(--bg-card-subtle)',
+                  color: lang === 'en' ? '#fff' : 'var(--text-main)',
+                  textAlign: 'center'
+                }}
+              >
+                English
+              </button>
+
+              <button
+                type="button"
+                onClick={() => onSetLang('kn')}
+                style={{
+                  padding: '0.5rem',
+                  fontSize: '0.82rem',
+                  fontWeight: lang === 'kn' ? '700' : '500',
+                  borderRadius: '8px',
+                  border: '1px solid var(--border-color)',
+                  cursor: 'pointer',
+                  background: lang === 'kn' ? '#d97706' : 'var(--bg-card-subtle)',
+                  color: lang === 'kn' ? '#fff' : 'var(--text-main)',
+                  textAlign: 'center'
+                }}
+              >
+                ಕನ್ನಡ
+              </button>
+
+              <button
+                type="button"
+                onClick={() => onSetLang('both')}
+                style={{
+                  padding: '0.5rem',
+                  fontSize: '0.82rem',
+                  fontWeight: lang === 'both' ? '700' : '500',
+                  borderRadius: '8px',
+                  border: '1px solid var(--border-color)',
+                  cursor: 'pointer',
+                  background: lang === 'both' ? '#d97706' : 'var(--bg-card-subtle)',
+                  color: lang === 'both' ? '#fff' : 'var(--text-main)',
+                  textAlign: 'center'
+                }}
+              >
+                Both
+              </button>
+            </div>
+          </div>
+
+          {/* Admin Info / Logout in Mobile Drawer */}
+          {isAdmin && (
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '0.5rem', borderTop: '1px solid var(--border-color)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#d97706', fontWeight: '700', fontSize: '0.85rem' }}>
+                <ShieldCheck size={16} />
+                <span>Admin Logged In</span>
+              </div>
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  onAdminLogout();
+                }}
+                className="btn btn-secondary"
+                style={{ padding: '0.35rem 0.75rem', fontSize: '0.8rem', color: 'var(--text-muted)' }}
+              >
+                <LogOut size={14} /> Logout
+              </button>
+            </div>
+          )}
+        </div>
+      )}
     </header>
   );
 }
