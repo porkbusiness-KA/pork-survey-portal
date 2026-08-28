@@ -154,9 +154,11 @@ export default function DataTable({ surveys, onSelectSurvey, onSurveyDeleted, on
         </div>
       </div>
 
-      {/* Data Table */}
-      <div className="glass-card" style={{ overflow: 'hidden' }}>
-        <div style={{ overflowX: 'auto' }}>
+      {/* Data Display: Desktop Table View + Mobile Card View */}
+      <div className="glass-card" style={{ overflow: 'hidden', padding: 0 }}>
+        
+        {/* 1. Desktop Table View (screens > 768px) */}
+        <div className="desktop-table-view" style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
             <thead>
               <tr style={{ background: 'var(--bg-card-subtle)', borderBottom: '1px solid var(--border-color)' }}>
@@ -198,7 +200,7 @@ export default function DataTable({ surveys, onSelectSurvey, onSurveyDeleted, on
                       <div style={{ fontWeight: '700', color: 'var(--text-main)', fontSize: '0.95rem' }}>{item.shop_name}</div>
                       <div style={{ color: 'var(--text-muted)', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '0.3rem', marginTop: '2px' }}>
                         <MapPin size={12} color="#d97706" />
-                        <span>{item.place} ({item.pincode}) • <strong style={{ color: 'var(--text-main)' }}>{item.district}</strong></span>
+                        <span>{item.place || item.village} ({item.pincode}) • <strong style={{ color: 'var(--text-main)' }}>{item.district}</strong></span>
                       </div>
                     </td>
 
@@ -276,6 +278,132 @@ export default function DataTable({ surveys, onSelectSurvey, onSurveyDeleted, on
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* 2. Mobile Cards View (screens <= 768px) */}
+        <div className="mobile-cards-view" style={{ padding: '0.85rem' }}>
+          {currentItems.length === 0 ? (
+            <div style={{ padding: '2rem 1rem', textAlign: 'center', color: 'var(--text-muted)' }}>
+              No survey records match the current filter criteria.
+            </div>
+          ) : (
+            currentItems.map((item) => (
+              <div
+                key={item.id}
+                onClick={() => onSelectSurvey(item)}
+                style={{
+                  background: 'var(--bg-card-subtle)',
+                  border: '1px solid var(--border-color)',
+                  borderRadius: '12px',
+                  padding: '1rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '0.75rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+                }}
+              >
+                {/* Card Top: ID, Shop Name, Status */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.5rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    <span style={{
+                      background: 'rgba(217, 119, 6, 0.15)',
+                      color: '#d97706',
+                      fontWeight: '800',
+                      fontSize: '0.85rem',
+                      padding: '0.2rem 0.55rem',
+                      borderRadius: '6px'
+                    }}>
+                      #{item.id}
+                    </span>
+                    <h3 style={{ fontSize: '1.05rem', fontWeight: '700', color: 'var(--text-main)', margin: 0 }}>
+                      {item.shop_name}
+                    </h3>
+                  </div>
+
+                  {item.bbmp_license_issued === 'Yes' ? (
+                    <span className="badge badge-emerald" style={{ fontSize: '0.72rem', padding: '0.15rem 0.45rem', whiteSpace: 'nowrap' }}>
+                      <CheckCircle size={10} /> Licensed
+                    </span>
+                  ) : (
+                    <span className="badge badge-amber" style={{ fontSize: '0.72rem', padding: '0.15rem 0.45rem', whiteSpace: 'nowrap' }}>
+                      <XCircle size={10} /> No License
+                    </span>
+                  )}
+                </div>
+
+                {/* Location */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--text-muted)', fontSize: '0.82rem' }}>
+                  <MapPin size={13} color="#d97706" style={{ flexShrink: 0 }} />
+                  <span>
+                    {[item.place, item.taluk, item.district].filter(Boolean).join(', ')} {item.pincode ? `(${item.pincode})` : ''}
+                  </span>
+                </div>
+
+                {/* Key Metrics Grid */}
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr',
+                  gap: '0.5rem',
+                  background: 'var(--bg-card)',
+                  padding: '0.65rem 0.75rem',
+                  borderRadius: '8px',
+                  border: '1px solid var(--border-color)',
+                  fontSize: '0.82rem'
+                }}>
+                  <div>
+                    <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.72rem' }}>Owner / Contact</span>
+                    <span style={{ fontWeight: '600', color: 'var(--text-main)' }}>{item.owner_name}</span>
+                    {item.spoc_mobile && (
+                      <span style={{ color: 'var(--text-dim)', fontSize: '0.75rem', display: 'block' }}>📞 {item.spoc_mobile}</span>
+                    )}
+                  </div>
+
+                  <div>
+                    <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.72rem' }}>Rate & Volume</span>
+                    <span style={{ fontWeight: '700', color: '#059669' }}>₹{item.regular_meat_rate}/Kg</span>
+                    <span style={{ color: 'var(--text-main)', fontSize: '0.78rem', display: 'block' }}>⚡ {item.average_daily_sale_kg} Kg/day</span>
+                  </div>
+                </div>
+
+                {/* Card Actions */}
+                <div style={{ display: 'flex', gap: '0.5rem', paddingTop: '0.25rem' }}>
+                  <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); onSelectSurvey(item); }}
+                    className="btn btn-secondary"
+                    style={{ flex: 1, padding: '0.45rem', fontSize: '0.82rem', justifyContent: 'center' }}
+                  >
+                    <Eye size={14} /> View Details
+                  </button>
+
+                  {onEditSurvey && (
+                    <button
+                      type="button"
+                      onClick={(e) => { e.stopPropagation(); onEditSurvey(item); }}
+                      className="btn btn-secondary"
+                      style={{ flex: 1, padding: '0.45rem', fontSize: '0.82rem', borderColor: '#d97706', color: '#d97706', justifyContent: 'center' }}
+                    >
+                      <Edit3 size={14} /> Edit
+                    </button>
+                  )}
+
+                  {isAdmin && (
+                    <button
+                      type="button"
+                      onClick={(e) => handleDelete(e, item.id, item.shop_name)}
+                      className="btn btn-danger"
+                      style={{ padding: '0.45rem 0.75rem', fontSize: '0.82rem' }}
+                      title="Delete Survey"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))
+          )}
         </div>
 
         {/* Pagination Bar */}

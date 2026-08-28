@@ -317,8 +317,25 @@ h1, h2, h3, h4, h5, h6 {
   animation: pulseGlow 2s infinite ease-in-out;
 }
 
+/* Desktop vs Mobile Table / Cards Layout */
+.desktop-table-view {
+  display: block;
+}
+.mobile-cards-view {
+  display: none;
+}
+
 /* MOBILE & RESPONSIVE BREAKPOINTS */
 @media (max-width: 768px) {
+  .desktop-table-view {
+    display: none !important;
+  }
+  .mobile-cards-view {
+    display: flex !important;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
   h1 { font-size: 1.5rem !important; }
   h2 { font-size: 1.25rem !important; }
   h3 { font-size: 1.1rem !important; }
@@ -340,10 +357,5 @@ h1, h2, h3, h4, h5, h6 {
 
   .glass-card {
     padding: 1rem !important;
-  }
-
-  .btn {
-    width: 100%;
-    justify-content: center;
   }
 }
