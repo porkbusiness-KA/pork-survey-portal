@@ -82,7 +82,7 @@ async function initDatabase() {
         behavior_rating INT DEFAULT 3,
         spocs JSON,
         spoc_name VARCHAR(255) DEFAULT '',
-        spoc_mobile VARCHAR(20) DEFAULT '',
+        spoc_mobile VARCHAR(255) DEFAULT '',
         location_link TEXT NOT NULL,
         latitude DECIMAL(10, 8),
         longitude DECIMAL(11, 8),
@@ -150,6 +150,18 @@ async function initDatabase() {
     await addColumnIfNotExists('fssai_issue_reasons', "TEXT");
     await addColumnIfNotExists('behavior_rating', "INT DEFAULT 3");
     await addColumnIfNotExists('spocs', "JSON");
+
+    // Auto-modify column sizes for existing tables
+    const modifyColumn = async (columnName, columnDefinition) => {
+      try {
+        await connection.query(`ALTER TABLE surveys MODIFY COLUMN ${columnName} ${columnDefinition}`);
+      } catch (err) {
+        console.warn(`Column modify warning for ${columnName}:`, err.message);
+      }
+    };
+
+    await modifyColumn('spoc_mobile', "VARCHAR(255) DEFAULT ''");
+    await modifyColumn('spoc_name', "VARCHAR(255) DEFAULT ''");
 
     console.log(' Surveys table verified/created successfully.');
     connection.release();

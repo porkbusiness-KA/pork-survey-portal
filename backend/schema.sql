@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS surveys (
     cleanliness_rating INT DEFAULT 3,
     spocs JSON,
     spoc_name VARCHAR(255) DEFAULT '',
-    spoc_mobile VARCHAR(20) DEFAULT '',
+    spoc_mobile VARCHAR(255) DEFAULT '',
     location_link TEXT NOT NULL,
     latitude DECIMAL(10, 8),
     longitude DECIMAL(11, 8),
