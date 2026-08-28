@@ -162,6 +162,170 @@ exports.createSurvey = async (req, res) => {
   }
 };
 
+// Update an existing survey record
+exports.updateSurvey = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const body = req.body;
+
+    // Check if survey exists
+    const [existingRows] = await pool.query('SELECT * FROM surveys WHERE id = ?', [id]);
+    if (existingRows.length === 0) {
+      return res.status(404).json({ success: false, message: 'Survey record not found' });
+    }
+
+    const existingSurvey = existingRows[0];
+    let existingImages = parseJSONField(existingSurvey.shop_images, []);
+
+    // Handle existing images passed as JSON string
+    if (body.existing_images) {
+      existingImages = parseJSONField(body.existing_images, existingImages);
+    }
+
+    // Process new uploaded images
+    let newImages = [];
+    if (req.files && req.files.length > 0) {
+      newImages = req.files.map(file => `/uploads/${file.filename}`);
+    }
+
+    const combinedImages = [...existingImages, ...newImages];
+    const shopImages = JSON.stringify(combinedImages);
+
+    const holidayDays = JSON.stringify(parseJSONField(body.holiday_days, []));
+    const peakDays = JSON.stringify(parseJSONField(body.peak_customer_days, []));
+    const meatTypes = JSON.stringify(parseJSONField(body.meat_types, []));
+    const meatCuts = JSON.stringify(parseJSONField(body.meat_cuts_sold_most, []));
+    const unsoldHandling = JSON.stringify(parseJSONField(body.unsold_meat_handling, []));
+    const procurementSources = JSON.stringify(parseJSONField(body.procurement_sources, []));
+    const businessChallenges = JSON.stringify(parseJSONField(body.business_challenges, []));
+    const trainingSkills = JSON.stringify(parseJSONField(body.training_skills, []));
+    const processedConsumption = JSON.stringify(parseJSONField(body.processed_meat_consumption, []));
+    const masalas = JSON.stringify(parseJSONField(body.masalas_available, []));
+
+    // Process SPOCs list
+    let spocsList = parseJSONField(body.spocs, []);
+    if (!Array.isArray(spocsList) || spocsList.length === 0) {
+      spocsList = [{
+        name: body.spoc_name || '',
+        mobile: body.spoc_mobile || '',
+        skills: parseJSONField(body.spoc_skills, []),
+        skills_other: ''
+      }].filter(s => s.name || s.mobile || (s.skills && s.skills.length > 0));
+    }
+    const spocsJSON = JSON.stringify(spocsList);
+    const primarySpocName = spocsList.map(s => s.name).filter(Boolean).join(', ') || body.spoc_name || '';
+    const primarySpocMobile = spocsList.map(s => s.mobile).filter(Boolean).join(', ') || body.spoc_mobile || '';
+
+    const query = `
+      UPDATE surveys SET
+        country = ?, state = ?, district = ?, taluk = ?, village = ?, place = ?, pincode = ?, shop_name = ?, owner_name = ?, owner_mobile = ?, owner_email = ?,
+        shop_ownership = ?, shop_ownership_other = ?, years_in_business = ?,
+        owner_community = ?, owner_community_other = ?, handi_jogi_area = ?, handi_jogi_area_other = ?,
+        opening_time = ?, closing_time = ?, holiday_days = ?, workers_count = ?, workers_other = ?, daily_customers = ?,
+        peak_customer_days = ?,
+        regular_meat_rate = ?, meat_types = ?, meat_cuts_sold_most = ?, meat_cuts_sold_most_other = ?, processed_meat_consumption = ?,
+        average_daily_sale_kg = ?, unsold_meat_handling = ?, unsold_meat_handling_other = ?, storage_capacity = ?,
+        procurement_source = ?, procurement_sources = ?, procurement_sources_other = ?,
+        procurement_frequency = ?, procurement_frequency_other = ?,
+        procurement_quantity = ?, procurement_quantity_other = ?,
+        customer_type = ?, sells_pork_fry = ?, pork_fry_kg = ?, masalas_available = ?,
+        bbmp_license_issued = ?, bbmp_license_issues = ?, bbmp_issue_reasons = ?,
+        fssai_license_issued = ?, fssai_license_issues = ?, fssai_issue_reasons = ?,
+        provides_billing = ?, has_challenges = ?, business_challenges = ?, business_challenges_other = ?,
+        wants_training = ?, training_skills = ?, training_skills_other = ?,
+        cleanliness_rating = ?, behavior_rating = ?,
+        spocs = ?, spoc_name = ?, spoc_mobile = ?, location_link = ?, latitude = ?, longitude = ?, shop_images = ?
+      WHERE id = ?
+    `;
+
+    const values = [
+      body.country || 'India',
+      body.state || 'Karnataka',
+      body.district || existingSurvey.district || 'Bengaluru Urban',
+      body.taluk || '',
+      body.village || '',
+      body.place || '',
+      body.pincode || '',
+      body.shop_name || existingSurvey.shop_name,
+      body.owner_name || existingSurvey.owner_name,
+      body.owner_mobile || '',
+      body.owner_email || '',
+      body.shop_ownership || '',
+      body.shop_ownership_other || '',
+      parseInt(body.years_in_business || 0, 10),
+      body.owner_community || '',
+      body.owner_community_other || '',
+      body.handi_jogi_area || '',
+      body.handi_jogi_area_other || '',
+      body.opening_time || '',
+      body.closing_time || '',
+      holidayDays,
+      body.workers_count || '1',
+      body.workers_other || '',
+      body.daily_customers || '10-20',
+      peakDays,
+      parseFloat(body.regular_meat_rate || 0),
+      meatTypes,
+      meatCuts,
+      body.meat_cuts_sold_most_other || '',
+      processedConsumption,
+      parseFloat(body.average_daily_sale_kg || 0),
+      unsoldHandling,
+      body.unsold_meat_handling_other || '',
+      body.storage_capacity || '',
+      body.procurement_source || '',
+      procurementSources,
+      body.procurement_sources_other || '',
+      body.procurement_frequency || '',
+      body.procurement_frequency_other || '',
+      body.procurement_quantity || '',
+      body.procurement_quantity_other || '',
+      body.customer_type || 'Localities',
+      body.sells_pork_fry || 'No',
+      body.pork_fry_kg || '',
+      masalas,
+      body.bbmp_license_issued || 'No',
+      body.bbmp_license_issues || 'No',
+      body.bbmp_issue_reasons || '',
+      body.fssai_license_issued || 'No',
+      body.fssai_license_issues || 'No',
+      body.fssai_issue_reasons || '',
+      body.provides_billing || '',
+      body.has_challenges || 'No',
+      businessChallenges,
+      body.business_challenges_other || '',
+      body.wants_training || 'No',
+      trainingSkills,
+      body.training_skills_other || '',
+      parseInt(body.cleanliness_rating || 3, 10),
+      parseInt(body.behavior_rating || 4, 10),
+      spocsJSON,
+      primarySpocName,
+      primarySpocMobile,
+      body.location_link || '',
+      body.latitude ? parseFloat(body.latitude) : null,
+      body.longitude ? parseFloat(body.longitude) : null,
+      shopImages,
+      id
+    ];
+
+    await pool.query(query, values);
+
+    return res.json({
+      success: true,
+      message: 'Survey updated successfully!',
+      surveyId: id
+    });
+  } catch (error) {
+    console.error('Error in updateSurvey:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to update survey record',
+      error: error.message
+    });
+  }
+};
+
 // Get all surveys with filtering, search, pagination
 exports.getAllSurveys = async (req, res) => {
   try {

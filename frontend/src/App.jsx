@@ -21,6 +21,7 @@ export default function App() {
   const [surveys, setSurveys] = useState([]);
   const [stats, setStats] = useState(null);
   const [selectedSurvey, setSelectedSurvey] = useState(null);
+  const [editingSurvey, setEditingSurvey] = useState(null);
   const [loading, setLoading] = useState(true);
 
   // Apply theme to document element
@@ -118,6 +119,24 @@ export default function App() {
     loadData();
   };
 
+  const handleEditSurvey = (survey) => {
+    setSelectedSurvey(null);
+    setEditingSurvey(survey);
+    setActiveTab('form');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleCancelEdit = () => {
+    setEditingSurvey(null);
+    setActiveTab('records');
+  };
+
+  const handleSurveyUpdated = () => {
+    setEditingSurvey(null);
+    loadData();
+    setActiveTab('records');
+  };
+
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--bg-main)', color: 'var(--text-main)' }}>
       {/* Sticky Header Navigation */}
@@ -150,6 +169,9 @@ export default function App() {
             onSwitchToPrint={() => setActiveTab('print')}
             lang={lang}
             onSetLang={setLang}
+            editSurveyData={editingSurvey}
+            onCancelEdit={handleCancelEdit}
+            onSurveyUpdated={handleSurveyUpdated}
           />
         )}
 
@@ -195,6 +217,7 @@ export default function App() {
             lang={lang}
             isAdmin={isAdmin}
             onOpenAdminLogin={() => setIsLoginModalOpen(true)}
+            onEditSurvey={handleEditSurvey}
           />
         )}
 
@@ -211,6 +234,8 @@ export default function App() {
           survey={selectedSurvey}
           onClose={() => setSelectedSurvey(null)}
           lang={lang}
+          isAdmin={isAdmin}
+          onEditSurvey={handleEditSurvey}
         />
       )}
 

@@ -62,6 +62,28 @@ export async function submitSurvey(formData) {
   return response.json();
 }
 
+export async function updateSurvey(id, formData) {
+  const isMultipart = formData instanceof FormData;
+  const token = getAdminToken();
+  const headers = isMultipart ? {} : { 'Content-Type': 'application/json' };
+  if (token) {
+    headers['x-admin-pin'] = token;
+  }
+  
+  const response = await fetch(`${API_BASE_URL}/surveys/${id}`, {
+    method: 'PUT',
+    body: formData,
+    headers
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.message || 'Failed to update survey');
+  }
+
+  return response.json();
+}
+
 export async function fetchSurveys(params = {}) {
   const query = new URLSearchParams();
   if (params.district && params.district !== 'All') query.append('district', params.district);

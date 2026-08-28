@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import {
-  Search, Filter, Download, ExternalLink, Trash2, Eye,
+  Search, Filter, Download, ExternalLink, Trash2, Eye, Edit3,
   MapPin, Store, CheckCircle, XCircle, ChevronLeft, ChevronRight, Lock
 } from 'lucide-react';
 import { DISTRICTS } from '../data/surveyQuestions';
 import { getExportCSVUrl, deleteSurvey } from '../services/api';
 
-export default function DataTable({ surveys, onSelectSurvey, onSurveyDeleted, onRefresh, isAdmin = false, onOpenAdminLogin }) {
+export default function DataTable({ surveys, onSelectSurvey, onSurveyDeleted, onRefresh, isAdmin = false, onOpenAdminLogin, onEditSurvey }) {
   const [search, setSearch] = useState('');
   const [selectedDistrict, setSelectedDistrict] = useState('All');
   const [selectedLicense, setSelectedLicense] = useState('All');
@@ -247,6 +247,17 @@ export default function DataTable({ surveys, onSelectSurvey, onSurveyDeleted, on
                         >
                           <Eye size={14} /> View
                         </button>
+                        {onEditSurvey && (
+                          <button
+                            type="button"
+                            onClick={(e) => { e.stopPropagation(); onEditSurvey(item); }}
+                            className="btn btn-secondary"
+                            style={{ padding: '0.35rem 0.65rem', fontSize: '0.8rem', borderColor: '#d97706', color: '#d97706' }}
+                            title="Edit Survey"
+                          >
+                            <Edit3 size={14} /> Edit
+                          </button>
+                        )}
                         {isAdmin && (
                           <button
                             type="button"

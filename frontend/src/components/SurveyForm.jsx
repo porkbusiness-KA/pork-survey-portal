@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   MapPin, Store, User, Clock, Calendar, Users, ShoppingBag,
   DollarSign, CheckSquare, Award, Phone, Image as ImageIcon,
   Send, Sparkles, Navigation, AlertCircle, CheckCircle2, Trash2,
   FileCheck, ShieldAlert, X, LayoutDashboard, Database, ArrowRight,
-  Search, Check, Loader2, Compass, Plus, Briefcase, Printer
+  Search, Check, Loader2, Compass, Plus, Briefcase, Printer, Edit3, Save
 } from 'lucide-react';
 import {
   DISTRICTS, PINCODE_DATABASE, HOLIDAY_OPTIONS, WORKER_OPTIONS,
@@ -19,9 +19,19 @@ import {
 } from '../data/surveyQuestions';
 import { TRANSLATIONS } from '../data/translations';
 import TimePicker from './TimePicker';
-import { submitSurvey } from '../services/api';
+import { submitSurvey, updateSurvey } from '../services/api';
 
-export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onSwitchToRecords, onSwitchToPrint, lang = 'en', onSetLang }) {
+export default function SurveyForm({
+  onSurveySubmitted,
+  onSwitchToDashboard,
+  onSwitchToRecords,
+  onSwitchToPrint,
+  lang = 'en',
+  onSetLang,
+  editSurveyData = null,
+  onCancelEdit = null,
+  onSurveyUpdated = null
+}) {
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
   const initialFormState = {
     country: '',
@@ -112,13 +122,115 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
   const [formData, setFormData] = useState(initialFormState);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [previewUrls, setPreviewUrls] = useState([]);
+  const [existingImages, setExistingImages] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLocating, setIsLocating] = useState(false);
   const [isFetchingPincode, setIsFetchingPincode] = useState(false);
   const [pincodeSuccess, setPincodeSuccess] = useState(null);
   const [pincodeAreas, setPincodeAreas] = useState([]);
   const [successModalData, setSuccessModalData] = useState(null);
+  const [updateSuccessModal, setUpdateSuccessModal] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
+
+  // Pre-fill form when editSurveyData is provided
+  useEffect(() => {
+    if (editSurveyData) {
+      setFormData({
+        country: editSurveyData.country || 'India',
+        state: editSurveyData.state || 'Karnataka',
+        district: editSurveyData.district || '',
+        taluk: editSurveyData.taluk || '',
+        village: editSurveyData.village || '',
+        place: editSurveyData.place || '',
+        pincode: editSurveyData.pincode || '',
+        shop_name: editSurveyData.shop_name || '',
+        owner_name: editSurveyData.owner_name || '',
+        owner_mobile: editSurveyData.owner_mobile || '',
+        owner_email: editSurveyData.owner_email || '',
+        years_in_business: editSurveyData.years_in_business !== undefined && editSurveyData.years_in_business !== null ? String(editSurveyData.years_in_business) : '',
+        opening_time: editSurveyData.opening_time || '08:00',
+        closing_time: editSurveyData.closing_time || '20:30',
+        holiday_days: Array.isArray(editSurveyData.holiday_days) ? editSurveyData.holiday_days : ['No holiday'],
+        workers_count: editSurveyData.workers_count || '2',
+        workers_other: editSurveyData.workers_other || '',
+        daily_customers: editSurveyData.daily_customers || '20–30',
+        daily_customers_other: '',
+        peak_customer_days: Array.isArray(editSurveyData.peak_customer_days) ? editSurveyData.peak_customer_days : ['Sunday'],
+        regular_meat_rate: editSurveyData.regular_meat_rate !== undefined && editSurveyData.regular_meat_rate !== null ? String(editSurveyData.regular_meat_rate) : '340',
+        meat_types: Array.isArray(editSurveyData.meat_types) ? editSurveyData.meat_types : ['Fresh meat (Pork)'],
+        meat_types_other: '',
+        processed_meat_none: Array.isArray(editSurveyData.processed_meat_consumption) && editSurveyData.processed_meat_consumption.includes('None'),
+        processed_meat_varieties: [],
+        processed_meat_volumes: {},
+        processed_meat_volume_custom: {},
+        processed_meat_other_name: '',
+        average_daily_sale_kg: editSurveyData.average_daily_sale_kg !== undefined && editSurveyData.average_daily_sale_kg !== null ? String(editSurveyData.average_daily_sale_kg) : '50',
+        procurement_source: editSurveyData.procurement_source || '',
+        customer_type: editSurveyData.customer_type || 'Both localities and non-Localities',
+        sells_pork_fry: editSurveyData.sells_pork_fry || 'No',
+        pork_fry_kg: editSurveyData.pork_fry_kg || '',
+        has_masalas: Array.isArray(editSurveyData.masalas_available) && editSurveyData.masalas_available.length > 0 ? 'Yes' : 'No',
+        masalas_available: Array.isArray(editSurveyData.masalas_available) ? editSurveyData.masalas_available : ['Both Chandrakala and Jeevith masala'],
+        masala_other: '',
+        bbmp_license_issued: editSurveyData.bbmp_license_issued || 'No',
+        bbmp_license_issues: editSurveyData.bbmp_license_issues || 'No',
+        bbmp_issue_reasons: editSurveyData.bbmp_issue_reasons || '',
+        fssai_license_issued: editSurveyData.fssai_license_issued || 'No',
+        fssai_license_issues: editSurveyData.fssai_license_issues || 'No',
+        fssai_issue_reasons: editSurveyData.fssai_issue_reasons || '',
+        shop_ownership: editSurveyData.shop_ownership || '',
+        shop_ownership_other: editSurveyData.shop_ownership_other || '',
+        owner_community: editSurveyData.owner_community || '',
+        owner_community_other: editSurveyData.owner_community_other || '',
+        handi_jogi_area: editSurveyData.handi_jogi_area || '',
+        handi_jogi_area_other: editSurveyData.handi_jogi_area_other || '',
+        meat_cuts_sold_most: Array.isArray(editSurveyData.meat_cuts_sold_most) ? editSurveyData.meat_cuts_sold_most : [],
+        meat_cuts_sold_most_other: editSurveyData.meat_cuts_sold_most_other || '',
+        unsold_meat_handling: Array.isArray(editSurveyData.unsold_meat_handling) ? editSurveyData.unsold_meat_handling : [],
+        unsold_meat_handling_other: editSurveyData.unsold_meat_handling_other || '',
+        storage_capacity: editSurveyData.storage_capacity || '',
+        wants_training: editSurveyData.wants_training || 'No',
+        training_skills: Array.isArray(editSurveyData.training_skills) ? editSurveyData.training_skills : [],
+        training_skills_other: editSurveyData.training_skills_other || '',
+        procurement_sources: Array.isArray(editSurveyData.procurement_sources) ? editSurveyData.procurement_sources : [],
+        procurement_sources_other: editSurveyData.procurement_sources_other || '',
+        procurement_frequency: editSurveyData.procurement_frequency || '',
+        procurement_frequency_other: editSurveyData.procurement_frequency_other || '',
+        procurement_quantity: editSurveyData.procurement_quantity || '',
+        procurement_quantity_other: editSurveyData.procurement_quantity_other || '',
+        provides_billing: editSurveyData.provides_billing || '',
+        has_challenges: editSurveyData.has_challenges || 'No',
+        business_challenges: Array.isArray(editSurveyData.business_challenges) ? editSurveyData.business_challenges : [],
+        business_challenges_other: editSurveyData.business_challenges_other || '',
+        cleanliness_rating: editSurveyData.cleanliness_rating || 3,
+        behavior_rating: editSurveyData.behavior_rating || 4,
+        spocs: Array.isArray(editSurveyData.spocs) && editSurveyData.spocs.length > 0 ? editSurveyData.spocs : [
+          {
+            name: editSurveyData.owner_name || '',
+            mobile: editSurveyData.owner_mobile || '',
+            same_as_owner: true,
+            skills: ['Butchery / Meat Cutting'],
+            skills_other: ''
+          }
+        ],
+        spoc_same_as_owner: false,
+        spoc_name: editSurveyData.spoc_name || '',
+        spoc_mobile: editSurveyData.spoc_mobile || '',
+        location_link: editSurveyData.location_link || '',
+        latitude: editSurveyData.latitude || '',
+        longitude: editSurveyData.longitude || ''
+      });
+
+      if (Array.isArray(editSurveyData.shop_images)) {
+        setExistingImages(editSurveyData.shop_images);
+      } else {
+        setExistingImages([]);
+      }
+      setSelectedFiles([]);
+      setPreviewUrls([]);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [editSurveyData]);
 
   // AUTO-FETCH FULL LOCATION HIERARCHY (Country, State, District, Taluk, Village)
   const handlePincodeLookup = async (code) => {
@@ -609,27 +721,44 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
       data.append('processed_meat_consumption', JSON.stringify(combinedProcessed));
 
+      if (editSurveyData && editSurveyData.id) {
+        data.append('existing_images', JSON.stringify(existingImages));
+      }
+
       selectedFiles.forEach(file => {
         data.append('images', file);
       });
 
-      const response = await submitSurvey(data);
+      let response;
+      if (editSurveyData && editSurveyData.id) {
+        response = await updateSurvey(editSurveyData.id, data);
+      } else {
+        response = await submitSurvey(data);
+      }
 
       if (response.success) {
-        setSuccessModalData({
-          surveyId: response.surveyId,
-          shop_name: formData.shop_name,
-          owner_name: formData.owner_name,
-          district: formData.district,
-          place: formData.place
-        });
+        if (editSurveyData && editSurveyData.id) {
+          setUpdateSuccessModal({
+            surveyId: response.surveyId || editSurveyData.id,
+            shop_name: formData.shop_name,
+            owner_name: formData.owner_name
+          });
+        } else {
+          setSuccessModalData({
+            surveyId: response.surveyId,
+            shop_name: formData.shop_name,
+            owner_name: formData.owner_name,
+            district: formData.district,
+            place: formData.place
+          });
 
-        setFormData(initialFormState);
-        setSelectedFiles([]);
-        setPreviewUrls([]);
-        setPincodeAreas([]);
-        setPincodeSuccess(null);
-        if (onSurveySubmitted) onSurveySubmitted();
+          setFormData(initialFormState);
+          setSelectedFiles([]);
+          setPreviewUrls([]);
+          setPincodeAreas([]);
+          setPincodeSuccess(null);
+          if (onSurveySubmitted) onSurveySubmitted();
+        }
       }
     } catch (err) {
       console.error(err);
@@ -658,6 +787,56 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
   return (
     <div style={{ maxWidth: '1050px', margin: '2rem auto', padding: '0 1rem' }}>
       
+      {/* Edit Mode Banner */}
+      {editSurveyData && editSurveyData.id && (
+        <div style={{
+          background: 'linear-gradient(135deg, #d97706, #b45309)',
+          color: '#fff',
+          borderRadius: '12px',
+          padding: '1rem 1.5rem',
+          marginBottom: '1.25rem',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '1rem',
+          flexWrap: 'wrap',
+          boxShadow: '0 4px 20px rgba(217,119,6,0.35)'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <Edit3 size={20} />
+            <div>
+              <div style={{ fontWeight: '700', fontSize: '1.05rem' }}>
+                ✏️ Edit Mode – Record #{editSurveyData.id}
+              </div>
+              <div style={{ fontSize: '0.85rem', opacity: 0.9 }}>
+                Editing: <strong>{editSurveyData.shop_name || 'Survey Record'}</strong>
+                {editSurveyData.owner_name ? ` · ${editSurveyData.owner_name}` : ''}
+              </div>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={onCancelEdit}
+            style={{
+              background: 'rgba(255,255,255,0.2)',
+              border: '1px solid rgba(255,255,255,0.4)',
+              color: '#fff',
+              borderRadius: '8px',
+              padding: '0.5rem 1.1rem',
+              fontWeight: '600',
+              cursor: 'pointer',
+              fontSize: '0.9rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              whiteSpace: 'nowrap'
+            }}
+          >
+            ✕ Cancel Edit
+          </button>
+        </div>
+      )}
+
       {/* Header Banner */}
       <div className="glass-card" style={{
         padding: '2rem',
@@ -2566,14 +2745,25 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
 
         {/* Submit Action Bar */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', paddingBottom: '3rem' }}>
-          <button
-            type="button"
-            onClick={() => setFormData(initialFormState)}
-            className="btn btn-secondary"
-            disabled={isSubmitting}
-          >
-            {t.resetBtn}
-          </button>
+          {editSurveyData && editSurveyData.id ? (
+            <button
+              type="button"
+              onClick={onCancelEdit}
+              className="btn btn-secondary"
+              disabled={isSubmitting}
+            >
+              ✕ Cancel Edit
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setFormData(initialFormState)}
+              className="btn btn-secondary"
+              disabled={isSubmitting}
+            >
+              {t.resetBtn}
+            </button>
+          )}
 
           <button
             type="submit"
@@ -2582,11 +2772,11 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
             style={{ padding: '0.85rem 2rem', fontSize: '1.05rem', minWidth: '220px' }}
           >
             {isSubmitting ? (
-              <span>{t.submittingBtn}</span>
+              <span>{editSurveyData && editSurveyData.id ? 'Updating...' : t.submittingBtn}</span>
             ) : (
               <>
-                <Send size={18} />
-                <span>{t.submitBtn}</span>
+                {editSurveyData && editSurveyData.id ? <Save size={18} /> : <Send size={18} />}
+                <span>{editSurveyData && editSurveyData.id ? '💾 Update Record' : t.submitBtn}</span>
               </>
             )}
           </button>
@@ -2779,6 +2969,133 @@ export default function SurveyForm({ onSurveySubmitted, onSwitchToDashboard, onS
                 }}
               >
                 + {t.submitAnotherBtn}
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
+
+      {/* POPUP CONFIRMATION MODAL ON EDIT / UPDATE SUCCESS */}
+      {updateSuccessModal && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          background: 'rgba(0, 0, 0, 0.7)',
+          backdropFilter: 'blur(8px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 120,
+          padding: '1.5rem'
+        }}>
+          <div
+            className="glass-card animate-fade-in"
+            style={{
+              width: '100%',
+              maxWidth: '540px',
+              padding: '2.25rem',
+              textAlign: 'center',
+              position: 'relative',
+              background: 'var(--modal-bg)',
+              border: '2px solid #d97706',
+              boxShadow: '0 25px 50px -12px rgba(217, 119, 6, 0.35)'
+            }}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => {
+                const id = updateSuccessModal.surveyId;
+                setUpdateSuccessModal(null);
+                if (onSurveyUpdated) onSurveyUpdated(id);
+              }}
+              style={{
+                position: 'absolute',
+                top: '1rem',
+                right: '1rem',
+                background: 'var(--bg-card-subtle)',
+                border: '1px solid var(--border-color)',
+                color: 'var(--text-main)',
+                borderRadius: '50%',
+                width: '32px',
+                height: '32px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer'
+              }}
+            >
+              <X size={18} />
+            </button>
+
+            {/* Success Icon */}
+            <div style={{
+              width: '72px',
+              height: '72px',
+              borderRadius: '50%',
+              background: 'rgba(217, 119, 6, 0.15)',
+              color: '#d97706',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 1.25rem auto'
+            }}>
+              <CheckCircle2 size={44} />
+            </div>
+
+            {/* Title */}
+            <h2 style={{ fontSize: '1.6rem', color: 'var(--text-main)', marginBottom: '0.35rem' }}>
+              {lang === 'kn' ? 'ದಾಖಲೆ ಯಶಸ್ವಿಯಾಗಿ ನವೀಕರಿಸಲಾಗಿದೆ!' : 'Survey Record Updated!'}
+            </h2>
+            <p className="kannada-text" style={{ fontSize: '0.95rem', color: '#d97706', marginBottom: '1.25rem', fontWeight: '600' }}>
+              {lang === 'kn'
+                ? 'ಬದಲಾವಣೆಗಳನ್ನು ಡೇಟಾಬೇಸ್‌ನಲ್ಲಿ ಯಶಸ್ವಿಯಾಗಿ ಉಳಿಸಲಾಗಿದೆ.'
+                : 'All modified changes have been successfully saved to the database.'}
+            </p>
+
+            {/* Stored Details Card */}
+            <div style={{
+              background: 'var(--bg-card-subtle)',
+              border: '1px solid var(--border-color)',
+              borderRadius: '12px',
+              padding: '1rem 1.25rem',
+              textAlign: 'left',
+              marginBottom: '1.5rem',
+              fontSize: '0.9rem'
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
+                <span style={{ color: 'var(--text-muted)' }}>Survey Record ID:</span>
+                <span style={{ fontWeight: '800', color: '#d97706' }}>#{updateSuccessModal.surveyId}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
+                <span style={{ color: 'var(--text-muted)' }}>Shop Name:</span>
+                <span style={{ fontWeight: '700', color: 'var(--text-main)' }}>{updateSuccessModal.shop_name}</span>
+              </div>
+              {updateSuccessModal.owner_name && (
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
+                  <span style={{ color: 'var(--text-muted)' }}>Owner:</span>
+                  <span style={{ color: 'var(--text-main)' }}>{updateSuccessModal.owner_name}</span>
+                </div>
+              )}
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span style={{ color: 'var(--text-muted)' }}>Status:</span>
+                <span style={{ color: '#059669', fontWeight: '700' }}>● Updated & Live</span>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <button
+                onClick={() => {
+                  const id = updateSuccessModal.surveyId;
+                  setUpdateSuccessModal(null);
+                  if (onSurveyUpdated) onSurveyUpdated(id);
+                }}
+                className="btn btn-primary"
+                style={{ width: '100%', padding: '0.75rem', fontSize: '0.95rem' }}
+              >
+                <Database size={17} />
+                <span>{lang === 'kn' ? 'ದಾಖಲೆಗಳ ಕೋಷ್ಟಕಕ್ಕೆ ಹಿಂತಿರುಗಿ (Records)' : 'Go to Records Table'}</span>
               </button>
             </div>
 

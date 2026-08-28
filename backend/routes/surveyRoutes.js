@@ -55,8 +55,9 @@ router.get('/surveys/export', requireAdmin, surveyController.exportCSV);
 router.get('/export', requireAdmin, surveyController.exportCSV);
 router.delete('/surveys/:id', requireAdmin, surveyController.deleteSurvey);
 
-// Public / Field Team Routes (Survey Submission, Records List & Details)
+// Public / Field Team Routes (Survey Submission, Records List & Details, Record Update)
 router.post('/surveys', upload.array('images', 5), surveyController.createSurvey);
+router.put('/surveys/:id', upload.array('images', 5), surveyController.updateSurvey);
 router.get('/surveys', surveyController.getAllSurveys);
 router.get('/surveys/:id', surveyController.getSurveyById);
 

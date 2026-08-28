@@ -2,10 +2,10 @@ import React from 'react';
 import {
   X, MapPin, Store, User, Clock, Users, ShoppingBag,
   DollarSign, CheckSquare, Award, Phone, ExternalLink,
-  Calendar, ShieldCheck, AlertTriangle, Image as ImageIcon
+  Calendar, ShieldCheck, AlertTriangle, Image as ImageIcon, Edit3
 } from 'lucide-react';
 
-export default function ShopDetailModal({ survey, onClose }) {
+export default function ShopDetailModal({ survey, onClose, isAdmin = false, onEditSurvey }) {
   if (!survey) return null;
 
   const holidays = Array.isArray(survey.holiday_days) ? survey.holiday_days : [];
@@ -70,11 +70,33 @@ export default function ShopDetailModal({ survey, onClose }) {
 
         {/* Modal Header */}
         <div style={{ marginBottom: '1.5rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem', flexWrap: 'wrap' }}>
             <span className="badge badge-amber">Survey ID: #{survey.id}</span>
             <span style={{ color: 'var(--text-muted)', fontSize: '0.82rem' }}>
               {new Date(survey.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
             </span>
+            {onEditSurvey && (
+              <button
+                onClick={() => { onClose(); onEditSurvey(survey); }}
+                style={{
+                  marginLeft: 'auto',
+                  background: 'linear-gradient(135deg, #d97706, #b45309)',
+                  border: 'none',
+                  color: '#fff',
+                  borderRadius: '8px',
+                  padding: '0.35rem 0.85rem',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  fontSize: '0.82rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.35rem'
+                }}
+                title="Edit this survey record"
+              >
+                <Edit3 size={13} /> Edit Record
+              </button>
+            )}
           </div>
           <h2 style={{ fontSize: '1.6rem', fontWeight: '800', color: 'var(--text-main)', marginBottom: '0.35rem' }}>
             {survey.shop_name}
