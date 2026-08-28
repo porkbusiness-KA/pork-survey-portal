@@ -246,23 +246,14 @@ export default function Navbar({
           </div>
         </div>
 
-        {/* Navigation Tabs (Full width scrollable on mobile) */}
-        <div style={{ width: '100%', overflowX: 'auto', paddingBottom: '2px' }}>
-          <nav style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            background: 'var(--bg-card-subtle)',
-            border: '1px solid var(--border-color)',
-            borderRadius: '12px',
-            padding: '3px',
-            gap: '3px',
-            minWidth: 'max-content'
-          }}>
+        {/* Navigation Tabs (Responsive grid on mobile, inline-flex on desktop) */}
+        <div className="nav-tabs-wrapper">
+          <nav className="nav-tabs-container">
             <button
               onClick={() => setActiveTab('form')}
-              className="btn"
+              className="btn nav-tab-btn"
               style={{
-                padding: '0.45rem 0.9rem',
+                padding: '0.45rem 0.85rem',
                 fontSize: '0.82rem',
                 borderRadius: '9px',
                 border: 'none',
@@ -270,10 +261,13 @@ export default function Navbar({
                 color: activeTab === 'form' ? '#fff' : 'var(--text-muted)',
                 boxShadow: activeTab === 'form' ? '0 4px 10px rgba(217, 119, 6, 0.25)' : 'none',
                 cursor: 'pointer',
-                whiteSpace: 'nowrap'
+                whiteSpace: 'nowrap',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.35rem'
               }}
             >
-              <PlusCircle size={15} />
+              <PlusCircle size={15} style={{ flexShrink: 0 }} />
               <span>{t.newSurveyTab}</span>
             </button>
 
@@ -281,9 +275,9 @@ export default function Navbar({
             {isAdmin && (
               <button
                 onClick={() => setActiveTab('dashboard')}
-                className="btn"
+                className="btn nav-tab-btn"
                 style={{
-                  padding: '0.45rem 0.9rem',
+                  padding: '0.45rem 0.85rem',
                   fontSize: '0.82rem',
                   borderRadius: '9px',
                   border: 'none',
@@ -291,19 +285,22 @@ export default function Navbar({
                   color: activeTab === 'dashboard' ? '#fff' : 'var(--text-muted)',
                   boxShadow: activeTab === 'dashboard' ? '0 4px 10px rgba(217, 119, 6, 0.25)' : 'none',
                   cursor: 'pointer',
-                  whiteSpace: 'nowrap'
+                  whiteSpace: 'nowrap',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.35rem'
                 }}
               >
-                <LayoutDashboard size={15} />
+                <LayoutDashboard size={15} style={{ flexShrink: 0 }} />
                 <span>{t.dashboardTab}</span>
               </button>
             )}
 
             <button
               onClick={() => setActiveTab('records')}
-              className="btn"
+              className="btn nav-tab-btn"
               style={{
-                padding: '0.45rem 0.9rem',
+                padding: '0.45rem 0.85rem',
                 fontSize: '0.82rem',
                 borderRadius: '9px',
                 border: 'none',
@@ -311,18 +308,23 @@ export default function Navbar({
                 color: activeTab === 'records' ? '#fff' : 'var(--text-muted)',
                 boxShadow: activeTab === 'records' ? '0 4px 10px rgba(217, 119, 6, 0.25)' : 'none',
                 cursor: 'pointer',
-                whiteSpace: 'nowrap'
+                whiteSpace: 'nowrap',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.35rem'
               }}
             >
-              <Database size={15} />
-              <span>{t.recordsTab} <span className="badge badge-emerald" style={{ marginLeft: '4px', padding: '1px 5px', fontSize: '0.7rem' }}>{totalCount}</span></span>
+              <Database size={15} style={{ flexShrink: 0 }} />
+              <span>
+                {t.recordsTab} <span className="badge badge-emerald" style={{ marginLeft: '2px', padding: '1px 5px', fontSize: '0.68rem' }}>{totalCount}</span>
+              </span>
             </button>
 
             <button
               onClick={() => setActiveTab('print')}
-              className="btn"
+              className="btn nav-tab-btn"
               style={{
-                padding: '0.45rem 0.9rem',
+                padding: '0.45rem 0.85rem',
                 fontSize: '0.82rem',
                 borderRadius: '9px',
                 border: 'none',
@@ -330,10 +332,13 @@ export default function Navbar({
                 color: activeTab === 'print' ? '#fff' : 'var(--text-muted)',
                 boxShadow: activeTab === 'print' ? '0 4px 10px rgba(217, 119, 6, 0.25)' : 'none',
                 cursor: 'pointer',
-                whiteSpace: 'nowrap'
+                whiteSpace: 'nowrap',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.35rem'
               }}
             >
-              <Printer size={15} />
+              <Printer size={15} style={{ flexShrink: 0 }} />
               <span>{t.physicalFormTab}</span>
             </button>
           </nav>

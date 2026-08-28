@@ -325,6 +325,29 @@ h1, h2, h3, h4, h5, h6 {
   display: none;
 }
 
+/* Responsive Nav Tabs */
+.nav-tabs-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+.nav-tabs-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.nav-tabs-container {
+  display: inline-flex;
+  align-items: center;
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 3px;
+  gap: 3px;
+  min-width: max-content;
+}
+
 /* MOBILE & RESPONSIVE BREAKPOINTS */
 @media (max-width: 768px) {
   .desktop-table-view {
@@ -334,6 +357,23 @@ h1, h2, h3, h4, h5, h6 {
     display: flex !important;
     flex-direction: column;
     gap: 0.85rem;
+  }
+
+  .nav-tabs-container {
+    display: flex !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    gap: 2px !important;
+    padding: 2px !important;
+  }
+
+  .nav-tab-btn {
+    flex: 1 1 0px !important;
+    min-width: 0 !important;
+    padding: 0.42rem 0.25rem !important;
+    font-size: 0.76rem !important;
+    justify-content: center !important;
+    gap: 0.25rem !important;
   }
 
   h1 { font-size: 1.5rem !important; }
@@ -357,5 +397,10 @@ h1, h2, h3, h4, h5, h6 {
 
   .glass-card {
     padding: 1rem !important;
+  }
+
+  .nav-tab-btn {
+    padding: 0.4rem 0.15rem !important;
+    font-size: 0.72rem !important;
   }
 }
